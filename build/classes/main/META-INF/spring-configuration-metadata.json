@@ -1,0 +1,124 @@
+{
+  "hints": [],
+  "groups": [
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo",
+      "type": "net.slipp.fifth.kotlin.configuration.ApplicationProperties"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.paths",
+      "type": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.scheduler",
+      "type": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Scheduler"
+    }
+  ],
+  "properties": [
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.application-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.application-version",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.db-backup-file-name",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.home-dir",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.home-property-key",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.identifier",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties",
+      "name": "yo.max-upload-file-size",
+      "description": "AttacheFile max UploadFile size",
+      "type": "java.lang.Long"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path",
+      "name": "yo.paths.ha",
+      "description": "ha Path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path",
+      "name": "yo.paths.license",
+      "description": "Inno Quartz license key path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path",
+      "name": "yo.paths.persistence",
+      "description": "AttacheFile default persistence Path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path",
+      "name": "yo.paths.plugins",
+      "description": "plugins Path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path",
+      "name": "yo.paths.profiles",
+      "description": "Member's profile image storepath",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path",
+      "name": "yo.paths.projects",
+      "description": "Path of {@link Project}",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path",
+      "name": "yo.paths.restore",
+      "description": "uploaded backup file for restore",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Path",
+      "name": "yo.paths.temporary",
+      "description": "Attache default Temporary Path",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Scheduler",
+      "name": "yo.scheduler.cron-expression",
+      "description": "use Quartz Scheculer CronTrigger cronExpression",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Scheduler",
+      "name": "yo.scheduler.group-name",
+      "description": "use Quartz Scheduler groupName",
+      "type": "java.lang.String"
+    },
+    {
+      "sourceType": "net.slipp.fifth.kotlin.configuration.ApplicationProperties$Scheduler",
+      "name": "yo.scheduler.name",
+      "description": "use QuartzScheduler name",
+      "type": "java.lang.String"
+    }
+  ]
+}

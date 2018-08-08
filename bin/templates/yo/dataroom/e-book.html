@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">전자정보/연속간행물/e-book</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">자료실</li>
+                                <li class="breadcrumb-item active">e-book</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" th:action="@{'/dataroom/save/' + ${ebookLog.pDate}}" >
+               	<input type="hidden" id="id" th:value="${ebookLog.id}" />
+               	<input type="hidden" id="pYear" th:value="${ebookLog.pYear}" />
+               	
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+                                <input type="text" id="pDate" name="pDate" placeholder="yyyy-mm-dd" th:value="${ebookLog.pDate}">
+                                
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+                                </div>
+                                <div class="form-actions">
+				            		<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 3 and result.updateYn}">
+				                	<button type="button" class="btn btn-success btnPdsLogSave"> <i class="fa fa-check"></i> 저장</button>
+				                	<button type="button" class="btn btn-danger btnPdsLogDelete"> <i class="fa fa-check"></i> 삭제</button>
+				                </th:block>
+				                <button type="button" class="btn btn-inverse btn-infobtnCancel" onClick="history.go(-1); return false;"> 목록</button>
+				                
+				                <th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 3 and result.printYn}">
+				                <!-- <button type="button" class="btn btn-inverse">출력</button>  -->	
+				                </th:block>
+				            		</div>
+				            		<div class="col-md-7 align-self-center text-right">	
+                        				<div class="d-flex justify-content-end align-items-center">
+										<span  th:text="${'도서관 개관일 : ' + openDays}" ></span>
+                        				</div>
+                        			</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">1. 전자정보/연송간행물 이용자 현황</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UserStaticTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th rowspan="2" colspan="3" >구분</th>
+												<th colspan="2">어린이 </th>
+												<th colspan="2">청소년</th>
+												<th colspan="2">일반</th>
+											</tr>
+                                        	<tr class="table-active">
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr>
+												<th rowspan="6">관내</th>
+												<th>인터넷</th>
+												<th>일계</th>
+												<td class="UserInBoyInternet">[[${ebookLog.UserInBoyInternet}]]</td>
+	                                            <td class="UserInGirlInternet">[[${ebookLog.UserInGirlInternet}]]</td>
+												<td class="UserInYouthBoyInternet">[[${ebookLog.UserInYouthBoyInternet}]]</td>
+	                                            <td class="UserInYouthGirlInternet">[[${ebookLog.UserInYouthGirlInternet}]]</td>
+												<td class="UserInManInternet">[[${ebookLog.UserInManInternet}]]</td>
+	                                            <td class="UserInWomanInternet">[[${ebookLog.UserInWomanInternet}]]</td>
+											</tr>
+											<tr>
+												<th>Dvd</th>
+												<th>일계</th>
+												<td class="UserInBoyDvd">[[${ebookLog.UserInBoyDvd}]]</td>
+	                                            <td class="UserInGirlDvd">[[${ebookLog.UserInGirlDvd}]]</td>
+												<td class="UserInYouthBoyDvd">[[${ebookLog.UserInYouthBoyDvd}]]</td>
+	                                            <td class="UserInYouthGirlDvd">[[${ebookLog.UserInYouthGirlDvd}]]</td>
+												<td class="UserInManDvd">[[${ebookLog.UserInManDvd}]]</td>
+	                                            <td class="UserInWomanDvd">[[${ebookLog.UserInWomanDvd}]]</td>
+											</tr>
+											<tr>
+												<th>노트북</th>
+												<th>일계</th>
+												<td class="UserInBoyNoteBook">[[${ebookLog.UserInBoyNoteBook}]]</td>
+	                                            <td class="UserInGirlNoteBook">[[${ebookLog.UserInGirlNoteBook}]]</td>
+												<td class="UserInYouthBoyNoteBook">[[${ebookLog.UserInYouthBoyNoteBook}]]</td>
+	                                            <td class="UserInYouthGirlNoteBook">[[${ebookLog.UserInYouthGirlNoteBook}]]</td>
+												<td class="UserInManNoteBook">[[${ebookLog.UserInManNoteBook}]]</td>
+	                                            <td class="UserInWomanNoteBook">[[${ebookLog.UserInWomanNoteBook}]]</td>
+											</tr>
+											<tr>
+												<th>원문검색</th>
+												<th>일계</th>
+												<td class="UserInBoyText">[[${ebookLog.UserInBoyText}]]</td>
+	                                            <td class="UserInGirlText">[[${ebookLog.UserInGirlText}]]</td>
+												<td class="UserInYouthBoyText">[[${ebookLog.UserInYouthBoyText}]]</td>
+	                                            <td class="UserInYouthGirlText">[[${ebookLog.UserInYouthGirlText}]]</td>
+												<td class="UserInManText">[[${ebookLog.UserInManText}]]</td>
+	                                            <td class="UserInWomanText">[[${ebookLog.UserInWomanText}]]</td>
+											</tr>
+											<tr>
+												<th>신문</th>
+												<th>일계</th>
+												<td class="UserInBoyNewsPaper">[[${ebookLog.UserInBoyNewsPaper}]]</td>
+	                                            <td class="UserInGirlNewsPaper">[[${ebookLog.UserInGirlNewsPaper}]]</td>
+												<td class="UserInYouthBoyNewsPaper">[[${ebookLog.UserInYouthBoyNewsPaper}]]</td>
+	                                            <td class="UserInYouthGirlNewsPaper">[[${ebookLog.UserInYouthGirlNewsPaper}]]</td>
+												<td class="UserInManNewsPaper">[[${ebookLog.UserInManNewsPaper}]]</td>
+	                                            <td class="UserInWomanNewsPaper">[[${ebookLog.UserInWomanNewsPaper}]]</td>
+											</tr>
+											<tr>
+												<th>잡지</th>
+												<th>일계</th>
+												<td class="UserInBoyMagazine">[[${ebookLog.UserInBoyMagazine}]]</td>
+	                                            <td class="UserInGirlMagazine">[[${ebookLog.UserInGirlMagazine}]]</td>
+												<td class="UserInYouthBoyMagazine">[[${ebookLog.UserInYouthBoyMagazine}]]</td>
+	                                            <td class="UserInYouthGirlMagazine">[[${ebookLog.UserInYouthGirlMagazine}]]</td>
+												<td class="UserInManMagazine">[[${ebookLog.UserInManMagazine}]]</td>
+	                                            <td class="UserInWomanMagazine">[[${ebookLog.UserInWomanMagazine}]]</td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">2. 연속간행물 자료이용 현황 </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UseStaticMagazineTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th colspan="3" >구분</th>
+												<th >신문 </th>
+												<th >잡지</th>
+											</tr>
+                                        <tbody>
+											<tr>
+												<th rowspan="3">관내</th>
+												<th>어린이</th>
+												<th>일계</th>
+												<td class="UseInChildNewsPaper">[[${ebookLog.UseInChildNewsPaper}]]</td>
+	                                            <td class="UseInChildMagazine">[[${ebookLog.UseInChildMagazine}]]</td>
+											</tr>
+											<tr>
+												<th>청소년</th>
+												<th>일계</th>
+												<td class="UseInYouthNewsPaper">[[${ebookLog.UseInYouthNewsPaper}]]</td>
+	                                            <td class="UseInYouthMagazine">[[${ebookLog.UseInYouthMagazine}]]</td>
+											</tr>
+											<tr>
+												<th>일반</th>
+												<th>일계</th>
+												<td class="UseInNewsPaper">[[${ebookLog.UseInNewsPaper}]]</td>
+	                                            <td class="UseInMagazine">[[${ebookLog.UseInMagazine}]]</td>
+											</tr>
+										</tbody>
+									</table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">3. E-book 운영현황 </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UserStaticEBookTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th >구분</th>
+												<th>E-book사이트 이용자(접속자) 수</th>
+												<th>E-book총 대출권수</th>
+											</tr>
+										</thead>
+                                        <tbody>
+                                        	<tr>
+												<th>일계</th>
+												<td class="UseEBookConnection">[[${ebookLog.UseEBookConnection}]]</td>
+												<td class="UseEBookRent">[[${ebookLog.UseEBookRent}]]</td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">4. 기타사항</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="RobotStaticTB" class="table editable-table table-bordered  m-b-0" align="center" >
+                                    	<tbody>
+											<td><textarea class="form-control" id="EtcInform" name="EtcInform" row="5" >[[${ebookLog.etcInform}]]</textarea></td>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <!--/form body-->
+                <div class="col-12">
+					<div class="card">
+ 						<div class="card-body">
+ 							<div class="form-actions">
+				            	<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 3 and result.updateYn}">
+				                	<button type="submit" class="btn btn-success btnPdsLogSave" > <i class="fa fa-check"></i> 저장</button>
+				                	<button type="button" class="btn btn-danger btnPdsLogDelete"> <i class="fa fa-check"></i> 삭제</button>
+				                </th:block>
+				                <button type="button" class="btn btn-inverse btn-infobtnCancel" onClick="history.go(-1); return false;"> 목록</button>
+				                
+				                <th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 3 and result.printYn}">
+				                	<!-- <button type="button" class="btn btn-inverse">출력</button>  -->
+				                </th:block>
+				            </div>
+						</div>
+					</div>
+                </div>
+                 
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!-- Date picker plugins css -->
+    <link href="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    
+    
+    <!-- Editable -->
+    <script src="/elite/assets/node_modules/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="/elite/assets/node_modules/datatables/dataTables.bootstrap.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    <script>
+    
+    $('#UserStaticTB').editableTableWidget().numericInputExample().find('td:first').focus();
+    $('#UseStaticMagazineTB').editableTableWidget().numericInputExample().find('td:first').focus();
+    $('#UserStaticEBookTB').editableTableWidget().numericInputExample().find('td:first').focus();
+
+    
+    $(document).ready(function() {
+        $('#editable-datatable').DataTable();
+        pDateChange();
+        
+        var cDate  = new Date();
+		var pDate = new Date( $("#pDate").val() );
+		if(pDate.withoutTime() >= cDate.withoutTime()){
+			alert("근무일지는 현재일 이전에만 작성 할 수 있습니다.");
+			history.back(-1);
+		}
+        
+    });
+    
+    $('#pDate').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'kr'
+    });
+    $(".btnCancel").click(function () {
+		location.href = "/dataroom/e-book";
+	});
+    
+   $(".btnPdsLogDelete").click(function () {
+    	
+	   if($("#id").val() == "") {
+		   alert("대상이 존재 하지 않습니다.");
+		   return;
+	   }
+    	if(confirm("근무 일지를 삭제하시겠습니까?")){
+    		var eventData = {id:$("#id").val()}
+    		$.ajax({
+    			url : "/dataroom/e-book/delete/",
+    			method : "put",
+    			data:eventData,
+    			success : function(result) {
+    				alert("삭제되었습니다.");
+    				location.href="/dataroom/e-book";
+    			},
+    			error : function(data) {
+    				console.error("Update snapshot", data);
+    			}
+    	    });
+    	}else{
+
+    	}
+	});
+    
+	$(".btnPdsLogSave").click(function () {
+        	var arrData=[];
+        	var eventData = {id:$("#id").val(), pYear:$("#pYear").val(),  pDate:$("#pDate").val() }; 
+      		   	$("#UserStaticTB tr").each(function(index){
+      			   var currentRow = $(this).closest("tr");
+      			   if(index==2){ //3line
+						eventData.UserInBoyInternet 			= currentRow.find(".UserInBoyInternet").text();
+						eventData.UserInGirlInternet 			= currentRow.find(".UserInGirlInternet").text();
+       					eventData.UserInYouthBoyInternet = currentRow.find(".UserInYouthBoyInternet").text();
+       					eventData.UserInYouthGirlInternet = currentRow.find(".UserInYouthGirlInternet").text();
+       					eventData.UserInManInternet 			= currentRow.find(".UserInManInternet").text();
+       					eventData.UserInWomanInternet	= currentRow.find(".UserInWomanInternet").text();
+      			   }
+      			   
+      			 if(index==3){ //3line
+      				eventData.UserInBoyDvd 			= currentRow.find(".UserInBoyDvd").text();
+					eventData.UserInGirlDvd 			= currentRow.find(".UserInGirlDvd").text();
+   					eventData.UserInYouthBoyDvd = currentRow.find(".UserInYouthBoyDvd").text();
+   					eventData.UserInYouthGirlDvd = currentRow.find(".UserInYouthGirlDvd").text();
+   					eventData.UserInManDvd 			= currentRow.find(".UserInManDvd").text();
+   					eventData.UserInWomanDvd	= currentRow.find(".UserInWomanDvd").text();
+       			   }
+       	   	
+      		   	
+      		  if(index==4){ 
+    				eventData.UserInBoyNoteBook 			= currentRow.find(".UserInBoyNoteBook").text();
+					eventData.UserInGirlNoteBook 			= currentRow.find(".UserInGirlNoteBook").text();
+ 					eventData.UserInYouthBoyNoteBook = currentRow.find(".UserInYouthBoyNoteBook").text();
+ 					eventData.UserInYouthGirlNoteBook = currentRow.find(".UserInYouthGirlNoteBook").text();
+ 					eventData.UserInManNoteBook 			= currentRow.find(".UserInManNoteBook").text();
+ 					eventData.UserInWomanNoteBook	= currentRow.find(".UserInWomanNoteBook").text();
+     			   }
+        
+		  if(index==5){ 
+				eventData.UserInBoyText 			= currentRow.find(".UserInBoyText").text();
+				eventData.UserInGirlText 			= currentRow.find(".UserInGirlText").text();
+				eventData.UserInYouthBoyText = currentRow.find(".UserInYouthBoyText").text();
+				eventData.UserInYouthGirlText = currentRow.find(".UserInYouthGirlText").text();
+				eventData.UserInManText 			= currentRow.find(".UserInManText").text();
+				eventData.UserInWomanText	= currentRow.find(".UserInWomanText").text();
+			   }
+      		   	
+    		  if(index==6){ 
+  				eventData.UserInBoyNewsPaper 			= currentRow.find(".UserInBoyNewsPaper").text();
+					eventData.UserInGirlNewsPaper 			= currentRow.find(".UserInGirlNewsPaper").text();
+					eventData.UserInYouthBoyNewsPaper = currentRow.find(".UserInYouthBoyNewsPaper").text();
+					eventData.UserInYouthGirlNewsPaper = currentRow.find(".UserInYouthGirlNewsPaper").text();
+					eventData.UserInManNewsPaper 			= currentRow.find(".UserInManNewsPaper").text();
+					eventData.UserInWomanNewsPaper	= currentRow.find(".UserInWomanNewsPaper").text();
+   			   }
+      		   	
+    		  if(index==7){ 
+  				eventData.UserInBoyMagazine 			= currentRow.find(".UserInBoyMagazine").text();
+					eventData.UserInGirlMagazine 			= currentRow.find(".UserInGirlMagazine").text();
+					eventData.UserInYouthBoyMagazine = currentRow.find(".UserInYouthBoyMagazine").text();
+					eventData.UserInYouthGirlMagazine = currentRow.find(".UserInYouthGirlMagazine").text();
+					eventData.UserInManMagazine 			= currentRow.find(".UserInManMagazine").text();
+					eventData.UserInWomanMagazine	= currentRow.find(".UserInWomanMagazine").text();
+   			   }
+   		});
+      		   
+				$("#UseStaticMagazineTB tr").each(function(index){
+    			   var currentRow = $(this).closest("tr");
+    			   if(index==1){
+	     				eventData.UseInChildNewsPaper = currentRow.find(".UseInChildNewsPaper").text();
+	     				eventData.UseInChildMagazine = currentRow.find(".UseInChildMagazine").text();
+    			   }
+    			   
+    			   if(index==2){
+    				   eventData.UseInYouthNewsPaper = currentRow.find(".UseInYouthNewsPaper").text();
+	     				eventData.UseInYouthMagazine = currentRow.find(".UseInYouthMagazine").text();
+   			  	 }
+    			   
+    			   if(index==3){
+    				   eventData.UseInNewsPaper = currentRow.find(".UseInNewsPaper").text();
+	     				eventData.UseInMagazine = currentRow.find(".UseInMagazine").text();
+   			  	 }
+    			   
+     	   		});
+    			   
+				$("#UserStaticEBookTB tr").each(function(index){
+   			   		var currentRow = $(this).closest("tr");
+	    			if(index==1){
+	    				eventData.UseEBookConnection 		= $(".UseEBookConnection").text();
+	    				eventData.UseEBookRent 	= $(".UseEBookRent").text();
+	    			}
+				});
+				
+			eventData.EtcInform= $("#EtcInform").val();
+				
+       		$.ajax({
+				url : "/dataroom/e-book/create",
+				data: eventData,
+				method : "put",
+				success : function(result) {
+					alert("등록되었습니다.");
+					location.href="/dataroom/e-book";
+				},
+				error : function(data) {
+					console.error("Update snapshot", data);
+				}
+		    });
+        });
+    
+    var pDateChange = function(){
+    	
+		var date = $('#pDate').datepicker('getDate');
+    	
+		if(isEqCurrentDate(date)){
+			date.setDate(date.getDate() - 1);
+			$('#pDate').datepicker("setDate", date);
+		}
+		
+    	$("#pDate").change(function(){
+			location.href="/dataroom/e-book/view/"+$("#pDate").val();
+    	});
+    }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	@page {
+      size: A4;
+      margin: 0;
+    }
+    
+    @media print {
+      html, body  {
+      	float: none !important;	 
+        max-height: 100% !important;
+        overflow: hidden !important;
+        page-break-after: always;
+        position:absolute;
+      }
+    }
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">자료실 집계표</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">자료실</li>
+                                <li class="breadcrumb-item active">집계표</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" >
+               	<input type="hidden" id="searchType"  value=""  th:value="${searchType}" />
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+								<div class="input-group-append">
+								<input type="text" class="form-control" id="fromDt" name="fromDt" placeholder="yyyy-mm-dd" th:value="${pdsLog.fromDt}">
+								<span class="input-group-text"><i class="icon-calender"></i></span>
+                                <span class="input-group-text"> - </span>
+                                <input type="text" class="form-control" id="toDt" name="toDt" placeholder="yyyy-mm-dd" th:value="${pdsLog.toDt}">
+                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+                                </div>
+                                <button type="button" id="btnSearch" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnSearchDay" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색 (일계)</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnSearchYear" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색 (연계)</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnPrint" class="btn btn-success"><i class="fa fa-print"></i> 출력</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnViewLog" class="btn btn-success"  data-toggle="modal" data-target="#responsive-modal"  onClick="javascript:reModal();"><i class="fa fa-print"></i> 조회기록열람 </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               	
+               	<div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">1. 장서 현황(확충)</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UseStaticTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th colspan="2">구분</th>
+                                                <th>000</th>
+                                                <th>100</th>
+                                                <th>200</th>
+                                                <th>300</th>
+                                                <th>400</th>
+                                                <th>500</th>
+                                                <th>600</th>
+                                                <th>700</th>
+                                                <th>800</th>
+                                                <th>900</th>
+                                            </tr>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr>
+                                                <th>어린이실</th>
+                                                <th th:text="${searchType}"></th>
+                                                <td class="type000">[[${ #numbers.formatInteger(bookChidStatisticDto.type000,0,"COMMA")  }]]</td>
+                                                <td class="type100">[[${ #numbers.formatInteger(bookChidStatisticDto.type100,0,"COMMA")  }]]</td>
+                                                <td class="type200">[[${ #numbers.formatInteger(bookChidStatisticDto.type200,0,"COMMA")  }]]</td>
+                                                <td class="type300">[[${ #numbers.formatInteger(bookChidStatisticDto.type300,0,"COMMA")  }]]</td>
+                                                <td class="type400">[[${ #numbers.formatInteger(bookChidStatisticDto.type400,0,"COMMA")  }]]</td>
+                                                <td class="type500">[[${ #numbers.formatInteger(bookChidStatisticDto.type500,0,"COMMA")  }]]</td>
+                                                <td class="type600">[[${ #numbers.formatInteger(bookChidStatisticDto.type600,0,"COMMA")  }]]</td>
+                                                <td class="type700">[[${ #numbers.formatInteger(bookChidStatisticDto.type700,0,"COMMA")  }]]</td>
+                                                <td class="type800">[[${ #numbers.formatInteger(bookChidStatisticDto.type800,0,"COMMA")  }]]</td>
+                                                <td class="type900">[[${ #numbers.formatInteger(bookChidStatisticDto.type900,0,"COMMA")  }]]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>종합자료실</th>
+                                                <th th:text="${searchType}"></th>
+                                                <td class="type000">[[${ #numbers.formatInteger(bookPdsStatisticDto.type000,0,"COMMA")  }]]</td>
+                                                <td class="type100">[[${ #numbers.formatInteger(bookPdsStatisticDto.type100,0,"COMMA")  }]]</td>
+                                                <td class="type200">[[${ #numbers.formatInteger(bookPdsStatisticDto.type200,0,"COMMA")  }]]</td>
+                                                <td class="type300">[[${ #numbers.formatInteger(bookPdsStatisticDto.type300,0,"COMMA")  }]]</td>
+                                                <td class="type400">[[${ #numbers.formatInteger(bookPdsStatisticDto.type400,0,"COMMA")  }]]</td>
+                                                <td class="type500">[[${ #numbers.formatInteger(bookPdsStatisticDto.type500,0,"COMMA")  }]]</td>
+                                                <td class="type600">[[${ #numbers.formatInteger(bookPdsStatisticDto.type600,0,"COMMA")  }]]</td>
+                                                <td class="type700">[[${ #numbers.formatInteger(bookPdsStatisticDto.type700,0,"COMMA")  }]]</td>
+                                                <td class="type800">[[${ #numbers.formatInteger(bookPdsStatisticDto.type800,0,"COMMA")  }]]</td>
+                                                <td class="type900">[[${ #numbers.formatInteger(bookPdsStatisticDto.type900,0,"COMMA")  }]]</td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 
+                 
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">2. 이용자 현황</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UserStaticTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th rowspan="2" colspan="2" >구분</th>
+												<th rowspan="3">관내</th>
+												<th colspan="2">어린이 </th>
+												<th colspan="2">청소년</th>
+												<th colspan="2">일반</th>
+											</tr>
+                                        	<tr class="table-active">
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+											</tr>
+										</thead>
+                                        <tbody>
+                                        	<tr>
+												<th rowspan="8">관내</th>
+												<th>어린이실</th>
+                                                <th th:text="${searchType}"></th>
+												<td class="UserInBoy">[[${  #numbers.formatInteger(childLog.UserInBoy,0,"COMMA")  }]]</td>
+	                                            <td class="UserInGirl">[[${  #numbers.formatInteger(childLog.UserInGirl,0,"COMMA")  }]]</td>
+												<td class="UserInYouthBoy">-</td>
+	                                            <td class="UserInYouthGirl">-</td>
+												<td class="UserInMan">[[${  #numbers.formatInteger(childLog.UserInMan,0,"COMMA")  }]]</td>
+	                                            <td class="UserInWoman">[[${  #numbers.formatInteger(childLog.UserInWoman,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>종합자료실</th>
+                                                <th th:text="${searchType}"></th>
+												<td class="UserInBoy">-</td>
+	                                            <td class="UserInGirl">-</td>
+												<td class="UserInYouthBoy">[[${  #numbers.formatInteger(pdsLog.UserInYouthBoy,0,"COMMA")  }]]</td>
+	                                            <td class="UserInYouthGirl">[[${  #numbers.formatInteger(pdsLog.UserInYouthGirl,0,"COMMA")  }]]</td>
+												<td class="UserInMan">[[${  #numbers.formatInteger(pdsLog.UserInMan,0,"COMMA")  }]]</td>
+	                                            <td class="UserInWoman">[[${  #numbers.formatInteger(pdsLog.UserInWoman,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>인터넷</th>
+												<th th:text="${searchType}"></th>
+												<td class="UserInBoyInternet">[[${ #numbers.formatInteger(ebookLog.UserInBoyInternet,0,"COMMA")  }]]</td>
+	                                            <td class="UserInGirlInternet">[[${ #numbers.formatInteger(ebookLog.UserInGirlInternet,0,"COMMA")  }]]</td>
+												<td class="UserInYouthBoyInternet">[[${ #numbers.formatInteger(ebookLog.UserInYouthBoyInternet,0,"COMMA")  }]]</td>
+	                                            <td class="UserInYouthGirlInternet">[[${ #numbers.formatInteger(ebookLog.UserInYouthGirlInternet,0,"COMMA")  }]]</td>
+												<td class="UserInManInternet">[[${ #numbers.formatInteger(ebookLog.UserInManInternet,0,"COMMA")  }]]</td>
+	                                            <td class="UserInWomanInternet">[[${ #numbers.formatInteger(ebookLog.UserInWomanInternet,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>Dvd</th>
+												<th th:text="${searchType}"></th>
+												<td class="UserInBoyDvd">[[${ #numbers.formatInteger(ebookLog.UserInBoyDvd,0,"COMMA")  }]]</td>
+	                                            <td class="UserInGirlDvd">[[${ #numbers.formatInteger(ebookLog.UserInGirlDvd,0,"COMMA")  }]]</td>
+												<td class="UserInYouthBoyDvd">[[${ #numbers.formatInteger(ebookLog.UserInYouthBoyDvd,0,"COMMA")  }]]</td>
+	                                            <td class="UserInYouthGirlDvd">[[${ #numbers.formatInteger(ebookLog.UserInYouthGirlDvd,0,"COMMA")  }]]</td>
+												<td class="UserInManDvd">[[${ #numbers.formatInteger(ebookLog.UserInManDvd,0,"COMMA")  }]]</td>
+	                                            <td class="UserInWomanDvd">[[${ #numbers.formatInteger(ebookLog.UserInWomanDvd,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>노트북</th>
+												<th th:text="${searchType}"></th>
+												<td class="UserInBoyNoteBook">[[${ #numbers.formatInteger(ebookLog.UserInBoyNoteBook,0,"COMMA")  }]]</td>
+	                                            <td class="UserInGirlNoteBook">[[${ #numbers.formatInteger(ebookLog.UserInGirlNoteBook,0,"COMMA")  }]]</td>
+												<td class="UserInYouthBoyNoteBook">[[${ #numbers.formatInteger(ebookLog.UserInYouthBoyNoteBook,0,"COMMA")  }]]</td>
+	                                            <td class="UserInYouthGirlNoteBook">[[${ #numbers.formatInteger(ebookLog.UserInYouthGirlNoteBook,0,"COMMA")  }]]</td>
+												<td class="UserInManNoteBook">[[${ #numbers.formatInteger(ebookLog.UserInManNoteBook,0,"COMMA")  }]]</td>
+	                                            <td class="UserInWomanNoteBook">[[${ #numbers.formatInteger(ebookLog.UserInWomanNoteBook,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>원문검색</th>
+												<th th:text="${searchType}"></th>
+												<td class="UserInBoyText">[[${ #numbers.formatInteger(ebookLog.UserInBoyText,0,"COMMA")  }]]</td>
+	                                            <td class="UserInGirlText">[[${ #numbers.formatInteger(ebookLog.UserInGirlText,0,"COMMA")  }]]</td>
+												<td class="UserInYouthBoyText">[[${ #numbers.formatInteger(ebookLog.UserInYouthBoyText,0,"COMMA")  }]]</td>
+	                                            <td class="UserInYouthGirlText">[[${ #numbers.formatInteger(ebookLog.UserInYouthGirlText,0,"COMMA")  }]]</td>
+												<td class="UserInManText">[[${ #numbers.formatInteger(ebookLog.UserInManText,0,"COMMA")  }]]</td>
+	                                            <td class="UserInWomanText">[[${ #numbers.formatInteger(ebookLog.UserInWomanText,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>신문</th>
+												<th th:text="${searchType}"></th>
+												<td class="UserInBoyNewsPaper">[[${ #numbers.formatInteger(ebookLog.UserInBoyNewsPaper,0,"COMMA")  }]]</td>
+	                                            <td class="UserInGirlNewsPaper">[[${ #numbers.formatInteger(ebookLog.UserInGirlNewsPaper,0,"COMMA")  }]]</td>
+												<td class="UserInYouthBoyNewsPaper">[[${ #numbers.formatInteger(ebookLog.UserInYouthBoyNewsPaper,0,"COMMA")  }]]</td>
+	                                            <td class="UserInYouthGirlNewsPaper">[[${ #numbers.formatInteger(ebookLog.UserInYouthGirlNewsPaper,0,"COMMA")  }]]</td>
+												<td class="UserInManNewsPaper">[[${ #numbers.formatInteger(ebookLog.UserInManNewsPaper,0,"COMMA")  }]]</td>
+	                                            <td class="UserInWomanNewsPaper">[[${ #numbers.formatInteger(ebookLog.UserInWomanNewsPaper,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>잡지</th>
+												<th th:text="${searchType}"></th>
+												<td class="UserInBoyMagazine">[[${ #numbers.formatInteger(ebookLog.UserInBoyMagazine,0,"COMMA")  }]]</td>
+	                                            <td class="UserInGirlMagazine">[[${ #numbers.formatInteger(ebookLog.UserInGirlMagazine,0,"COMMA")  }]]</td>
+												<td class="UserInYouthBoyMagazine">[[${ #numbers.formatInteger(ebookLog.UserInYouthBoyMagazine,0,"COMMA")  }]]</td>
+	                                            <td class="UserInYouthGirlMagazine">[[${ #numbers.formatInteger(ebookLog.UserInYouthGirlMagazine,0,"COMMA")  }]]</td>
+												<td class="UserInManMagazine">[[${ #numbers.formatInteger(ebookLog.UserInManMagazine,0,"COMMA")  }]]</td>
+	                                            <td class="UserInWomanMagazine">[[${ #numbers.formatInteger(ebookLog.UserInWomanMagazine,0,"COMMA")  }]]</td>
+											</tr>
+											
+											<tr>
+												<th rowspan="2">관외</th>
+												<th>어린이실</th>
+												<th th:text="${searchType}"></th>
+												<td class="UserOutBoy">[[${  #numbers.formatInteger(childLog.UserOutBoy,0,"COMMA")  }]]</td>
+	                                            <td class="UserOutGirl">[[${  #numbers.formatInteger(childLog.UserOutGirl,0,"COMMA")  }]]</td>
+	                                            <td class="UserOutYouthBoy">-</td>
+	                                            <td class="UserOutYouthGirl">-</td>
+												<td class="UserOutMan">[[${  #numbers.formatInteger(childLog.UserOutMan,0,"COMMA")  }]]</td>
+	                                            <td class="UserOutWoman">[[${  #numbers.formatInteger(childLog.UserOutWoman,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>종합자료실</th>
+												<th th:text="${searchType}"></th>
+												<td class="UserOutPdsBoy">-</td>
+	                                            <td class="UserOutPdsGirl">-</td>
+	                                            <td class="UserOutPdsBoy">[[${  #numbers.formatInteger(pdsLog.UserOutYouthBoy,0,"COMMA")  }]]</td>
+	                                            <td class="UserOutPdsGirl">[[${  #numbers.formatInteger(pdsLog.UserOutYouthGirl,0,"COMMA")  }]]</td>
+												<td class="UserOutPdsMan">[[${  #numbers.formatInteger(pdsLog.UserOutMan,0,"COMMA")  }]]</td>
+	                                            <td class="UserOutPdsWoman">[[${  #numbers.formatInteger(pdsLog.UserOutWoman ,0,"COMMA")  }]]</td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">3. 자료이용현황</h>
+                                <h6 class="card-subtitle">가. 도서(DVD 포함, 어린이실+종합자료실)</h6>
+                                <div class="table-responsive">
+                                    <table id="UseStaticTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th colspan="3">구분</th>
+                                                <th>000</th>
+                                                <th>100</th>
+                                                <th>200</th>
+                                                <th>300</th>
+                                                <th>400</th>
+                                                <th>500</th>
+                                                <th>600</th>
+                                                <th>700</th>
+                                                <th>800</th>
+                                                <th>900</th>
+                                            </tr>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr>
+                                                <th rowspan="3">관내</th>
+                                                <th>어린이</th>
+                                                <th th:text="${searchType}"></th>
+                                                <td class="UseInChild000">[[${  #numbers.formatInteger(childLog.UseInChildSums[0],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild100">[[${  #numbers.formatInteger(childLog.UseInChildSums[1],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild200">[[${  #numbers.formatInteger(childLog.UseInChildSums[2],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild300">[[${  #numbers.formatInteger(childLog.UseInChildSums[3],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild400">[[${  #numbers.formatInteger(childLog.UseInChildSums[4],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild500">[[${  #numbers.formatInteger(childLog.UseInChildSums[5],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild600">[[${  #numbers.formatInteger(childLog.UseInChildSums[6],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild700">[[${  #numbers.formatInteger(childLog.UseInChildSums[7],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild800">[[${  #numbers.formatInteger(childLog.UseInChildSums[8],0,"COMMA")  }]]</td>
+                                                <td class="UseInChild900">[[${  #numbers.formatInteger(childLog.UseInChildSums[9],0,"COMMA")  }]]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>청소년</th>
+                                                <th th:text="${searchType}"></th>
+                                                <td class="UseInYouth000">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[0],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth100">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[1],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth200">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[2],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth300">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[3],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth400">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[4],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth500">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[5],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth600">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[6],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth700">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[7],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth800">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[8],0,"COMMA")  }]]</td>
+                                                <td class="UseInYouth900">[[${  #numbers.formatInteger(pdsLog.UseInYouthSums[9],0,"COMMA")  }]]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>일반</th>
+                                                <th th:text="${searchType}"></th>
+                                                <td class="UseIn000">[[${  #numbers.formatInteger(childLog.UseInSums[0] + pdsLog.UseInSums[0],0,"COMMA")  }]]</td>
+                                                <td class="UseIn100">[[${  #numbers.formatInteger(childLog.UseInSums[1] + pdsLog.UseInSums[1],0,"COMMA")  }]]</td>
+                                                <td class="UseIn200">[[${  #numbers.formatInteger(childLog.UseInSums[2] + pdsLog.UseInSums[2],0,"COMMA")  }]]</td>
+                                                <td class="UseIn300">[[${  #numbers.formatInteger(childLog.UseInSums[3] + pdsLog.UseInSums[3],0,"COMMA")  }]]</td>
+                                                <td class="UseIn400">[[${  #numbers.formatInteger(childLog.UseInSums[4] + pdsLog.UseInSums[4],0,"COMMA")  }]]</td>
+                                                <td class="UseIn500">[[${  #numbers.formatInteger(childLog.UseInSums[5] + pdsLog.UseInSums[5],0,"COMMA")  }]]</td>
+                                                <td class="UseIn600">[[${  #numbers.formatInteger(childLog.UseInSums[6] + pdsLog.UseInSums[6],0,"COMMA")  }]]</td>
+                                                <td class="UseIn700">[[${  #numbers.formatInteger(childLog.UseInSums[7] + pdsLog.UseInSums[7],0,"COMMA")  }]]</td>
+                                                <td class="UseIn800">[[${  #numbers.formatInteger(childLog.UseInSums[8] + pdsLog.UseInSums[8],0,"COMMA")  }]]</td>
+                                                <td class="UseIn900">[[${  #numbers.formatInteger(childLog.UseInSums[9] + pdsLog.UseInSums[9],0,"COMMA")  }]]</td>
+                                            </tr>
+                                            
+                                            <tr>
+                                                <th rowspan="3">관외</th>
+                                                <th>어린이</th>
+                                                <th th:text="${searchType}"></th>
+                                                <td class="UseOutChild000">[[${  #numbers.formatInteger(childLog.UseOutChildSums[0],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild100">[[${  #numbers.formatInteger(childLog.UseOutChildSums[1],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild200">[[${  #numbers.formatInteger(childLog.UseOutChildSums[2],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild300">[[${  #numbers.formatInteger(childLog.UseOutChildSums[3],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild400">[[${  #numbers.formatInteger(childLog.UseOutChildSums[4],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild500">[[${  #numbers.formatInteger(childLog.UseOutChildSums[5],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild600">[[${  #numbers.formatInteger(childLog.UseOutChildSums[6],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild700">[[${  #numbers.formatInteger(childLog.UseOutChildSums[7],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild800">[[${  #numbers.formatInteger(childLog.UseOutChildSums[8],0,"COMMA")  }]]</td>
+                                                <td class="UseOutChild900">[[${  #numbers.formatInteger(childLog.UseOutChildSums[9],0,"COMMA")  }]]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>청소년</th>
+                                                <th th:text="${searchType}"></th>
+                                                <td class="UseOutYouth000">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[0],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth100">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[1],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth200">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[2],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth300">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[3],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth400">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[4],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth500">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[5],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth600">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[6],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth700">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[7],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth800">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[8],0,"COMMA")  }]]</td>
+                                                <td class="UseOutYouth900">[[${  #numbers.formatInteger(pdsLog.UseOutYouthSums[9],0,"COMMA")  }]]</td>
+                                            </tr>
+                                            <tr>
+                                                <th>일반</th>
+                                                <th th:text="${searchType}"></th>
+                                                <td class="UseOut000">[[${  #numbers.formatInteger(childLog.UseOutSums[0] + pdsLog.UseOutSums[0],0,"COMMA")  }]]</td>
+                                                <td class="UseOut100">[[${  #numbers.formatInteger(childLog.UseOutSums[1] + pdsLog.UseOutSums[1],0,"COMMA")  }]]</td>
+                                                <td class="UseOut200">[[${  #numbers.formatInteger(childLog.UseOutSums[2] + pdsLog.UseOutSums[2],0,"COMMA")  }]]</td>
+                                                <td class="UseOut300">[[${  #numbers.formatInteger(childLog.UseOutSums[3] + pdsLog.UseOutSums[3],0,"COMMA")  }]]</td>
+                                                <td class="UseOut400">[[${  #numbers.formatInteger(childLog.UseOutSums[4] + pdsLog.UseOutSums[4],0,"COMMA")  }]]</td>
+                                                <td class="UseOut500">[[${  #numbers.formatInteger(childLog.UseOutSums[5] + pdsLog.UseOutSums[5],0,"COMMA")  }]]</td>
+                                                <td class="UseOut600">[[${  #numbers.formatInteger(childLog.UseOutSums[6] + pdsLog.UseOutSums[6],0,"COMMA")  }]]</td>
+                                                <td class="UseOut700">[[${  #numbers.formatInteger(childLog.UseOutSums[7] + pdsLog.UseOutSums[7],0,"COMMA")  }]]</td>
+                                                <td class="UseOut800">[[${  #numbers.formatInteger(childLog.UseOutSums[8] + pdsLog.UseOutSums[8],0,"COMMA")  }]]</td>
+                                                <td class="UseOut900">[[${  #numbers.formatInteger(childLog.UseOutSums[9] + pdsLog.UseOutSums[9],0,"COMMA")  }]]</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                           		<h4 class="card-title">&nbsp;</h>
+                           		<h6 class="card-subtitle">나. 전자정보/연속간행물</h6>
+                           		  <div class="table-responsive">
+                           			<table id="UseStaticMagazineTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th colspan="3" >구분</th>
+												<th >신문 </th>
+												<th >잡지</th>
+											</tr>
+                                        <tbody>
+											<tr>
+												<th rowspan="3">관내</th>
+												<th>어린이</th>
+												<th>일계</th>
+												<td class="UseInChildNewsPaper">[[${ #numbers.formatInteger(ebookLog.UseInChildNewsPaper,0,"COMMA")  }]]</td>
+	                                            <td class="UseInChildMagazine">[[${ #numbers.formatInteger(ebookLog.UseInChildMagazine,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>청소년</th>
+												<th>일계</th>
+												<td class="UseInYouthNewsPaper">[[${ #numbers.formatInteger(ebookLog.UseInYouthNewsPaper,0,"COMMA")  }]]</td>
+	                                            <td class="UseInYouthMagazine">[[${ #numbers.formatInteger(ebookLog.UseInYouthMagazine,0,"COMMA")  }]]</td>
+											</tr>
+											<tr>
+												<th>일반</th>
+												<th>일계</th>
+												<td class="UseInNewsPaper">[[${  #numbers.formatInteger(ebookLog.UseInNewsPaper,0,"COMMA")  }]]</td>
+	                                            <td class="UseInMagazine">[[${  #numbers.formatInteger(ebookLog.UseInMagazine,0,"COMMA")  }]]</td>
+											</tr>
+										</tbody>
+									</table>
+									</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">4. E-book 운영현황 </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UserStaticTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th>구분</th>
+												<th>E-book사이트 이용자(접속자) 수</th>
+												<th>E-book총 대출권수</th>
+											</tr>
+										</thead>
+                                        <tbody>
+                                        		<tr >
+												<th th:text="${searchType}"></th>
+												<td class="UseEBookConnection">[[${ #numbers.formatInteger(ebookLog.UseEBookConnection,0,"COMMA")  }]]</td>
+												<td class="UseEBookRent">[[${ #numbers.formatInteger(ebookLog.UseEBookRent,0,"COMMA")  }]]</td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">5. 회원등록 현황</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="JoinStaticTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th rowspan="2" colspan="2" >구분</th>
+												<th colspan="2">어린이</th>
+												<th colspan="2">청소년</th>
+												<th colspan="2">일반</th>
+											</tr>
+                                        	<tr class="table-active">
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr>
+												<th>관외</th>
+												<th th:text="${searchType}"></th>
+												<td class="JoinOutBoy">[[${  #numbers.formatInteger(childLog.JoinOutBoy,0,"COMMA")  }]]</td>
+		                                       	<td class="JoinOutGirl">[[${  #numbers.formatInteger(childLog.JoinOutGirl,0,"COMMA")  }]]</td>
+												<td class="JoinOutYouthBoy">[[${  #numbers.formatInteger(pdsLog.JoinOutYouthBoy,0,"COMMA")  }]]</td>
+		                                       	<td class="JoinOutYouthGirl">[[${  #numbers.formatInteger(pdsLog.JoinOutYouthGirl,0,"COMMA")  }]]</td>
+												<td class="JoinOutMan">[[${  #numbers.formatInteger(pdsLog.JoinOutMan,0,"COMMA")  }]]</td>
+		                                       	<td class="JoinOutWoman">[[${  #numbers.formatInteger(pdsLog.JoinOutWoman,0,"COMMA")  }]]</td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+	              <div class="row">
+	                    <div class="col-12">
+	                        <div class="card">
+	                            <div class="card-body">
+	                                <h4 class="card-title">6. 자원봉사 현황</h>
+	                                <h6 class="card-subtitle"></h6>
+	                                <div class="table-responsive">
+	                                    <table id="UserStaticTB" class="table editable-table table-bordered m-b-0">
+	                                        <thead>
+	                                            <tr class="table-active">
+													<th rowspan="2" >구분</th>
+													<th colspan="2">청소년</th>
+													<th colspan="2">일반</th>
+												</tr>
+												<tr class="table-active">
+													<th>남</th>
+													<th>여</th>
+													<th>남</th>
+													<th>여</th>
+												</tr>
+											</thead>
+	                                        <tbody>
+												<tr>
+													<th th:text="${searchType}"></th>
+													<td class="UserYouthBoyVolunteer">[[${volunteerLog.UserYouthBoyVolunteer}]]</td>
+		                                            <td class="UserYouthGirlVolunteer">[[${volunteerLog.UserYouthGirlVolunteer}]]</td>
+													<td class="UserManVolunteer">[[${volunteerLog.UserManVolunteer}]]</td>
+		                                            <td class="UserWomanVolunteer">[[${volunteerLog.UserWomanVolunteer}]]</td>
+												</tr>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                </div>
+              
+              
+                </form>
+                <!--/form body-->
+                
+                <!-- modal start  -->
+               <div id="responsive-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                     <div class="modal-dialog">
+                         <div class="modal-content">
+                             <div class="modal-header">                             
+                                 <h4 class="modal-title">조회 기록</h4>
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                             </div>
+                             <div class="modal-body">
+                                 <form id="modalForm" name="modalForm">
+                                   	<div class="row">
+					                    <div class="col-12">
+					                        <div class="card">
+					                            <div class="input-group">
+					                               <table id="example20" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" >
+				                                        <thead>
+				                                            <tr class="table-active">
+																<th style="width:200px">이름</th>
+																<th>조회일자 </th>
+															</tr>
+														</thead>
+				                                        <tbody>
+															 <tr th:each="page: ${PdsStaticLogs}"  data-toggle="modal" data-target="#responsive-modal"  >
+																<td th:text="${page.MemberNm}"></td>
+																<td class="text-center" th:text="${page.viewDateTime}"></td>
+															</tr>
+				                                        </tbody>
+				                                    </table>
+					                            </div>
+					                        </div>
+					                    </div>
+					                </div>
+                                 </form>
+                             </div>
+                             <div class="modal-footer">
+                                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">창닫기</button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+               <!--  modal end  -->
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!-- Date picker plugins css -->
+	<script th:src="@{/js/printThis.js}" src="js/printThis.js"></script>
+    
+    <script type="text/javascript">
+    
+    $(document).ready(function() {
+    	btnSearch();
+    });
+    
+    $('#fromDt').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'kr'
+    });
+    
+    $('#toDt').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'kr'
+    });
+    
+    var btnSearch = function (){
+    	  $("#btnSearch").click(function () {
+    		location.href="/dataroom/pds-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=기간";
+    	  })
+    	  
+    	   $("#btnSearchDay").click(function () {
+    		location.href="/dataroom/pds-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=일계";
+    	  })
+    	  
+    	   $("#btnSearchYear").click(function () {
+    		location.href="/dataroom/pds-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=연계";
+    	  })
+    	  
+    	  $("#btnPrint").click(function () {
+  			$("#mainForm").printThis();
+  		});
+    }
+   
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">연속간행물</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                               <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">도서/연속간행물</li>
+                                <li class="breadcrumb-item active">연속간행물</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm">
+               		<input type="hidden" id="id" name="id" th:value="${result.id}" />
+               	
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title"></h4>
+                                <h6 class="card-subtitle">연속간행물 등록</h6>
+                                <div class="table-responsive">
+                                    <table id="mainTable1" class="table editable-table table-bordered m-b-0">
+                                    	<thead>
+										</thead>
+                                        <tbody>
+                                            <tr>
+												<th>구분</th>
+												<th>
+													<select class="form-control" id="journalType">
+					                                 	<option value="BUY" th:selected="(${result.journalType} eq 'BUY')" >구입</option>
+					                                 	<option value="DONATE" th:selected="(${result.journalType} eq 'DONATE')" >기증</option>
+					                                 	<option value="DEACCESSION" th:selected="(${result.journalType} eq 'DEACCESSION')" >제적</option>
+					                                 </select>
+												</th>
+											</tr>
+											<tr>
+												<th>차수</th>
+												<td id="journalSeq" th:text="${result.journalSeq}"></td>
+											</tr>
+											<tr>
+												<th>품명</th>
+												<td colspan="11" id="itemTitle" th:text="${result.itemTitle}"></td>
+											</tr>
+											<tr>
+												<th>일자</th>
+												<th colspan="11">
+													<div class="input-group">
+														<input type="text" class="form-control" id="registDate" name="registDate" placeholder="yyyy-mm-dd" th:value="${result.registDateStr}">
+						                                <div class="input-group-append">
+						                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+						                                </div>
+					                                </div>
+												</th>
+											</tr>
+										</tbody>
+                                    </table>
+                                </div>
+                                
+                                <br>
+                                <h6 class="card-subtitle">등록내용</h6>
+                                <div class="table-responsive">
+                                    <table id="mainTable2" class="table editable-table table-bordered m-b-0">
+                                    	<thead>
+                                    		<tr>
+												<th colspan="2" rowspan="2">구분</th>
+												<th>일간</th>
+												<th>주2회간</th>
+												<th>주간</th>	
+												<th>격주간</th>
+											</tr>
+											<tr>
+												<th>종</th>
+												<th>종</th>
+												<th>종</th>	
+												<th>종</th>
+											</tr>
+										</thead>
+                                        <tbody>
+                                            <tr>
+												<th>신문</th>
+												<th>일계</th>
+												<td id="paperDay" th:text="${result.paperDay}">0</td>
+												<td id="paperHalfWeek" th:text="${result.paperHalfWeek}">0</td>
+												<td id="paperWeek" th:text="${result.paperWeek}">0</td>
+												<td id="paperTwoWeek" th:text="${result.paperTwoWeek}">0</td>
+											</tr>
+										</tbody>
+                                    </table>
+                                </div>
+                                
+                                <br>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="mainTable3" class="table editable-table table-bordered m-b-0">
+                                    	<thead>
+                                    		<tr>
+												<th colspan="2" rowspan="2">등록자료</th>
+												<th>주간</th>
+												<th>격주간</th>
+												<th>월간</th>	
+												<th>격월간</th>
+												<th>계간</th>
+												<th>반년간</th>
+											</tr>
+											<tr>
+												<th>종</th>
+												<th>종</th>
+												<th>종</th>	
+												<th>종</th>
+												<th>종</th>	
+												<th>종</th>
+											</tr>
+										</thead>
+                                        <tbody>
+                                            <tr>
+												<th>잡지</th>
+												<th>일계</th>
+												<td id="magazineWeek" th:text="${result.magazineWeek}">0</td>
+												<td id="magazineTwoWeek" th:text="${result.magazineTwoWeek}">0</td>
+												<td id="magazineMonth" th:text="${result.magazineMonth}">0</td>
+												<td id="magazineTwoMonth" th:text="${result.magazineTwoMonth}">0</td>
+												<td id="magazineFourMonth" th:text="${result.magazineFourMonth}">0</td>
+												<td id="magazineHalfMonth" th:text="${result.magazineHalfMonth}">0</td>
+											</tr>
+										</tbody>
+                                    </table>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </form>
+                <!--/form body-->
+                <div class="form-actions">
+                	<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 20 and result.updateYn}">
+                    	<button type="button" class="btn btn-success" id="btnSave"> <i class="fa fa-check"></i>저장</button>
+                    </th:block>
+                    <button type="button" class="btn btn-inverse" id="btnCancel">목록</button>
+                    <!-- <button type="button" class="btn btn-inverse" id="btnPrint">출력</button> -->
+                </div>
+                 
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    
+    <!-- Editable -->
+    <script src="/elite/assets/node_modules/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="/elite/assets/node_modules/datatables/dataTables.bootstrap.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    
+    <script th:src="@{/js/ujblib/journal.js}" src="js/ujblib/journal.js"></script>
+    
+</body>
+
+</html>

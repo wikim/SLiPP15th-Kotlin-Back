@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">도서인계인수</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">도서/연속간행물</li>
+                                <li class="breadcrumb-item active">도서인계인수</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	
+               	<form method="post" id="mainForm" name="mainForm">
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                            	<div class="row">
+                            		<div class="col-sm-6">
+                            			<div class="dataTables_info" role="status" aria-live="polite">
+	                            			<div class="input-group">
+	                            				<input type="text" class="form-control" id="cDate" name="cDate" placeholder="yyyy-mm" th:value="${cDate}">
+				                                <div class="input-group-append">
+				                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+				                                </div>
+			                                </div>
+                            			</div>
+                            		</div>
+                            		<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 18 and result.createYn}">
+	                            		<div class="col-sm-6">
+	                            			<div class="align-self-center text-right">
+	                            				<button type="button" id="btnCreate" class="btn btn-info m-l-15" ><i class="fa fa-plus-circle"></i> 신규 추가</button>
+	                            			</div>
+	                            		</div>
+                            		</th:block>
+                            	</div>
+                                
+                               <div class="table-responsive m-t-0">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                            	<th class="text-center">등록구분</th>
+                                            	<th class="text-center">구분</th>
+                                                <th class="text-center">품명</th>
+                                                <th class="text-center">등록일자</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <tr th:each="data, index : ${results}" >
+                                            	<td class="text-center"> <a href="transfer.html" th:href="@{'/book/transfer/' + ${data.id}}" ><span th:text="${data.bookCodeStr}"></span></a></td>
+                                            	<td class="text-center"> <a href="transfer.html" th:href="@{'/book/transfer/' + ${data.id}}" ><span th:text="${data.incomeType.value}"></span></a></td>
+                                            	<td class="text-center"> <a href="transfer.html" th:href="@{'/book/transfer/' + ${data.id}}" ><span th:text="${data.itemTitle}"></span></a></td>
+                                            	<td class="text-center"> <a href="transfer.html" th:href="@{'/book/transfer/' + ${data.id}}" ><span th:text="${data.pDate}"></span></a></td>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <!--/form body-->
+               
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <script th:src="@{/js/ujblib/transfer-list.js}" src="js/ujblib/transfer-list.js"></script>
+    
+</body>
+
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta th:include="common/head :: common_css"></meta>
+     <link href="/elite/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">Yo  admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+       	<!-- Top Header -->
+	    <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+	    
+        <!-- ============================================================== -->
+        <!-- Page wrapper  -->
+        <!-- ============================================================== -->
+        <div class="page-wrapper">
+            <!-- ============================================================== -->
+            <!-- Container fluid  -->
+            <!-- ============================================================== -->
+            <div class="container-fluid">
+                <!-- ============================================================== -->
+                <!-- Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">Dashboard</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item active">Dashboard </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End Bread crumb and right sidebar toggle -->
+                <!-- ============================================================== -->
+                <!-- ============================================================== -->
+                <!-- Info box -->
+                <!-- ============================================================== -->
+               
+                    
+                <!-- ============================================================== -->
+                <!-- End Info box -->
+                <!-- ============================================================== -->
+               
+            </div>
+            <!-- ============================================================== -->
+            <!-- End Container fluid  -->
+            <!-- ============================================================== -->
+        </div>
+        <!-- ============================================================== -->
+        <!-- End Page wrapper  -->
+        <!-- ============================================================== -->
+        <!-- ============================================================== -->
+        <!-- footer -->
+        <!-- ============================================================== -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        <!-- ============================================================== -->
+        <!-- End footer -->
+        <!-- ============================================================== -->
+    </div>
+    <!-- ============================================================== -->
+    <!-- End Wrapper -->
+    <!-- ============================================================== -->
+    <!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="/elite/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+    <!-- Bootstrap popper Core JavaScript -->
+    <script src="/elite/assets/node_modules/popper/popper.min.js"></script>
+    <script src="/elite/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <!-- slimscrollbar scrollbar JavaScript -->
+    <script src="/elite/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="/elite/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/elite/dist/js/sidebarmenu.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/elite/dist/js/custom.min.js"></script>
+    <!-- ============================================================== -->
+    <!-- This page plugins -->
+    <!-- ============================================================== -->
+    <!--morris JavaScript -->
+    <script src="/elite/assets/node_modules/raphael/raphael-min.js"></script>
+    <script src="/elite/assets/node_modules/morrisjs/morris.min.js"></script>
+    <script src="/elite/dist/js/pages/morris-data.js"></script>
+    
+    
+    <!-- Popup message jquery -->
+    <script src="/elite/assets/node_modules/toast-master/js/jquery.toast.js"></script>
+    <script th:src="@{/js/yo/menu-header.js}" src="js/yo/menu-header.js"></script>
+    
+    <script type="text/javascript">
+    
+  
+	</script>
+        
+</body>	
+
+</html>

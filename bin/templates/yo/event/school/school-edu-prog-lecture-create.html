@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='도서관행사')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important; 
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">학교지원  프로그램</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">도서관행사</li>
+                                <li class="breadcrumb-item active">평생교육 강좌 신규생성</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" th:action="@{'/event/school-edu-lecture-save'}"   th:object="${programs}">
+               	<input type="hidden" id="id" name="id"  th:value="${programs.id}" />
+               	<input type="hidden" id="ProgType"  name="ProgType"  th:value="LIFE_EDU" />
+               	
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">평생교육강좌등록 (도서관공공이터항목, 필수 입력 )</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="EduLifeTB" class="table table-bordered m-b-0">
+                                        <tbody>
+                                            <tr >
+												<th class="table-active" style="width:200px">연도</th>
+												<td class="ProgYear"><input type="text" class="form-control"  id="ProgYear" name="ProgYear" th:value="${programs.ProgYear}" value=""/> </td>
+												<th style="width:200px" > </th>
+											</tr>
+											<tr >
+												<th class="table-active" >구분 </th>
+												<td>
+													<div class="custom-control custom-radio"  style="margin-left:10px; float:left;">
+                                                        		<input type="radio" id="HalfTypeF" name="HalfType" class="custom-control-input" value="상반기" />
+                                                        		<label class="custom-control-label" for="HalfTypeF">상반기</label>
+													</div>
+													<div class="custom-control custom-radio" style="margin-left:10px; float:left;">
+                                                       			<input type="radio" id="HalfTypeS" name="HalfType" class="custom-control-input" value="하반기">
+                                                        		<label class="custom-control-label" for="HalfTypeS">하반기</label>
+													</div>
+												</td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >학교명</th>
+												<td class="SchoolNm"><input type="text" class="form-control"  id="SchoolNm" name="SchoolNm" th:value="${programs.SchoolNm}" /> </td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >강좌명</th>
+												<td class="ProgNm"><input type="text" class="form-control"  id="ProgNm" name="ProgNm" th:value="${programs.ProgNm}" /> </td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >강사명</th>
+												<td class="TeacherNm"><input type="text" class="form-control"  id="TeacherNm" name="TeacherNm" th:value="${programs.TeacherNm}" /> </td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >교육시작일</th>
+												<td class="EduStartDt"><input type="date" class="form-control"  id="EduStartDt" name="EduStartDt" th:value="${programs.EduStartDt}" th:placeholder="2018-06-01"
+												/></td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >교육 종료일</th>
+												<td class="EduEndDt"><input type=""date"" class="form-control"  id="EduEndDt" name="EduEndDt" th:value="${programs.EduEndDt}" th:placeholder="2018-06-31" /></td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >교육시작시각 </th>
+												<td class="EduStartTime"><input type="datetime-local" class="form-control"  id="EduStartTime" name="EduStartTime" th:value="${programs.EduStartTime}"   /></td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >교육종료시각</th>
+												<td  class="EduEndTime"><input type="datetime-local" class="form-control"  id="EduEndTime" name="EduEndTime" th:value="${programs.EduEndTime}"  /></td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >강좌내용</th>
+												<td  class="Contents">
+													<textarea class="form-control" id="Contents" name="Contents" row="10" th:value="${programs.Contents}"></textarea></td>
+												</td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >교육대상구분 </th>
+												<td  class="StudentTarget"><input type="text" class="form-control"  id="StudentTarget" name="StudentTarget" th:value="${programs.StudentTarget}"/></td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >교육방법구분 </th>
+												<td>
+													<div class="custom-control custom-radio"  style="margin-left:10px; float:left;">
+                                                        		<input type="radio" id="EduTypeY" name="EduType" class="custom-control-input" value="INTERNET" />
+                                                        		<label class="custom-control-label" for="EduTypeY">인터넷</label>
+													</div>
+													<div class="custom-control custom-radio" style="margin-left:10px; float:left;">
+                                                       			<input type="radio" id="EduTypeN" name="EduType" class="custom-control-input" value="VISIT">
+                                                        		<label class="custom-control-label" for="EduTypeN">방문접수</label>
+													</div>
+												</td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >운영요일 </th>
+												<td  class="OpWeek"><input type="text" class="form-control"  id="OpWeek" name="OpWeek" th:value="${programs.OpWeek}"  th:placeholder="수요일" /></td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >교육장소 </th>
+												<td  class="EduRoom"><input type="text" class="form-control"  id="EduRoom" name="EduRoom" th:value="${programs.EduRoom}" th:placeholder="다목적강의실" /> </td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >강좌정원수 </th>
+												<td  class="LimitStudentCount"><input type="number" class="form-control"  id="LimitStudentCount" name="LimitStudentCount" th:value="${programs.LimitStudentCount}"/></td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >수강료</th>
+												<td class="Price"><input type="number" class="form-control"  id="Price" name="Price" th:value="${programs.Price}"/></td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >교육장도로명주소</th>
+												<td class="Address"><input type="text" class="form-control"  id="Address" name="Address" th:value="${programs.Address}" /> </td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >운영기관명 </th>
+												<td class="OrgNm"><input type="text" class="form-control"  id="OrgNm" name="OrgNm" th:value="${programs.OrgNm}"  /></td>
+												<th>  </th>
+											</tr>
+											<tr >
+												<th class="table-active" >운영기관전화번호 </th>
+												<td class="OrgTelNo"><input type="text" class="form-control"  id="OrgTelNo" name="OrgTelNo" th:value="${programs.OrgTelNo}"  th:placeholder="013-836-9506"  /></td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >접수시작일자</th>
+												<td class="ReceiveStartDt" ><input type="text" class="form-control"  id="ReceiveStartDt" name="ReceiveStartDt" th:value="${programs.ReceiveStartDt}"  th:placeholder="yyyy-MM-dd"/>i</td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >접수종료일자</th>
+												<td class="ReceiveEndDt"><input type="date" class="form-control"  id="ReceiveEndDt" name="ReceiveEndDt" th:value="${programs.ReceiveEndDt}" th:placeholder="yyyy-MM-dd"/></td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >접수 방법 구분 </th>
+												<td class="ReceiveType">
+													<div class="custom-control custom-radio" style="margin-left:10px; float:left;">
+                                                        		<input type="radio" id="ReceiveTypeY" name="ReceiveType" class="custom-control-input" value="INTERNET" />
+                                                        		<label class="custom-control-label" for="ReceiveTypeY">인터넷</label>
+													</div>
+													<div class="custom-control custom-radio"  style="margin-left:10px; float:left;">
+                                                       			<input type="radio" id="ReceiveTypeN" name="ReceiveType" class="custom-control-input" value="VISIT">
+                                                        		<label class="custom-control-label" for="ReceiveTypeN">방문접수</label>
+													</div>
+												</td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >선정방법구분 </th>
+												<td class="SelectionType"><input type="text" class="form-control"  id="SelectionType" name="SelectionType" th:value="${programs.SelectionType}"  /></td>
+												<th>  </th>
+											</tr>
+											<tr >
+												<th class="table-active" >홈페이지주소 </th>
+												<td class="HomePage"><input type="text" class="form-control"  id="HomePage" name="HomePage" th:value="${programs.HomePage}" th:placeholder="www.ujblib.or.kr" /> </th>
+											</tr>
+											<tr >
+												<th class="table-active">직업능력개발훈련비 지원강좌여부 </th>
+												<td class="PriceSupportYN"><input type="text" class="form-control"  id="PriceSupportYN" name="PriceSupportYN" th:value="${programs.PriceSupportYN}"/>
+												
+													<div class="custom-control custom-radio" style="margin-left:10px; float:left;">
+                                                        		<input type="radio" id="PriceSupportY" name="PriceSupportYN" class="custom-control-input" value="Y"  th:checked="${null != programs.PriceSupportYN and (programs.PriceSupportYN == 'Y')}"/>
+                                                        		<label class="custom-control-label" for="PriceSupportY">Y</label>
+													</div>
+													<div class="custom-control custom-radio"  style="margin-left:10px; float:left;">
+                                                       			<input type="radio" id="PriceSupportN" name="PriceSupportYN" class="custom-control-input" value="N"  th:checked="${null != programs.PriceSupportYN and (programs.PriceSupportYN == 'N')}"/>
+                                                        		<label class="custom-control-label" for="PriceSupportN">N</label>
+													</div>
+												
+												
+												</td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >학접은행제평가(학점)인정여부</th>
+												<td class="CreditBankYN">
+													<div class="custom-control custom-radio" style="margin-left:10px; float:left;">
+                                                        		<input type="radio" id="CreditBankY" name="CreditBankYN" class="custom-control-input" value="Y"  th:checked="${null != programs.CreditBankYN and (programs.CreditBankYN == 'Y')}"/>
+                                                        		<label class="custom-control-label" for="CreditBankY">Y</label>
+													</div>
+													<div class="custom-control custom-radio"  style="margin-left:10px; float:left;">
+                                                       			<input type="radio" id="CreditBankN" name="CreditBankYN" class="custom-control-input" value="N"  th:checked="${null != programs.CreditBankYN and (programs.CreditBankYN == 'N')}"/>
+                                                        		<label class="custom-control-label" for="CreditBankN">N</label>
+													</div>
+												</td>
+												<th> </th>
+											</tr>
+											<tr >
+												<th class="table-active" >평생학습계좌평가인정여부 </th>
+												<td class="LifeEduRecordApprovalYN">
+													
+													<div class="custom-control custom-radio" style="margin-left:10px; float:left;">
+                                                        		<input type="radio" id="LifeEduRecordApprovalY" name="LifeEduRecordApprovalYN" class="custom-control-input" value="Y"  th:checked="${null != programs.LifeEduRecordApprovalYN and (programs.LifeEduRecordApprovalYN == 'Y')}"/>
+                                                        		<label class="custom-control-label" for="LifeEduRecordApprovalY">Y</label>
+													</div>
+													<div class="custom-control custom-radio"  style="margin-left:10px; float:left;">
+                                                       			<input type="radio" id="LifeEduRecordApprovalN" name="LifeEduRecordApprovalYN" class="custom-control-input" value="N"  th:checked="${null != programs.LifeEduRecordApprovalYN and (programs.LifeEduRecordApprovalYN == 'N')}"/>
+                                                        		<label class="custom-control-label" for="LifeEduRecordApprovalN">N</label>
+													</div>
+													
+												</td>
+												<th></th>
+											</tr>
+											<tr >
+												<th class="table-active" >데이터기준일자 </th>
+												<td class="LegalDate"><input type="date" class="form-control"  id="LegalDate" name="LegalDate" th:value="${programs.LegalDate}"/></td>
+												<th>yyyy-mm-dd </th>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/form body-->
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-success" id="btnSave"> <i class="fa fa-check"></i> Save</button>
+                    <button type="button" class="btn btn-inverse">목록 </button>
+                </div>
+                </form>
+                
+                 
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    
+    <!-- Editable -->
+    <script src="/elite/assets/node_modules/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="/elite/assets/node_modules/datatables/dataTables.bootstrap.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    <script>
+    $(document).ready(function() {
+    	
+    });
+    
+    $('#cDate').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'ko'
+    });
+    </script>
+</body>
+
+</html>

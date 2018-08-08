@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+  <section th:fragment="sign-js">
+	<!--/* JQuery */-->
+    <script src="/elite/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+	
+	<!--/* Bootstrap */-->
+	<script src="/elite/assets/node_modules/popper/popper.min.js"></script>
+    <script src="/elite/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+   
+	
+	<!--/* formsubmit */-->
+	<script th:src="@{/js/jquery.form.min.js}" src="js/jquery.form.min.js"></script>
+	<script th:src="@{/js/jquery.cookie.js}" src="js/jquery.cookie.js"></script>
+	<script th:src="@{/js/yo/sign-common.js}" src="js/yo/sign-common.js"></script>
+
+	<script th:src="@{/js/yo/menu-header.js}" src="js/yo/menu-header.js"></script>
+
+  </section>
+  
+  <section th:fragment="js">
+	<!--/* JQuery */-->
+    <script src="/elite/assets/node_modules/jquery/jquery-3.2.1.min.js"></script>
+	
+	<!--/* Bootstrap */-->
+	<script src="/elite/assets/node_modules/popper/popper.min.js"></script>
+    <script src="/elite/assets/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+   
+	
+	<!--/* formsubmit */-->
+	<script th:src="@{/js/jquery.form.min.js}" src="js/jquery.form.min.js"></script>
+	<script th:src="@{/js/jquery.cookie.js}" src="js/jquery.cookie.js"></script>
+
+	<!-- ============================================================== -->
+    <!-- All Jquery -->
+    <!-- ============================================================== -->
+    <script src="/elite/dist/js/perfect-scrollbar.jquery.min.js"></script>
+    <!--Wave Effects -->
+    <script src="/elite/dist/js/waves.js"></script>
+    <!--Menu sidebar -->
+    <script src="/elite/dist/js/sidebarmenu.js"></script>
+    <!--stickey kit -->
+    <script src="/elite/assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="/elite/assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/elite/dist/js/custom.min.js"></script>
+    <!-- This is data table -->
+    <script src="/elite/assets/node_modules/datatables/jquery.dataTables.min.js"></script>
+    <script src="/elite/assets/node_modules/datatables/dataTables.buttons.min.js"></script>
+    <script src="/elite/assets/node_modules/datatables/jszip.min.js"></script>
+    <script src="/elite/assets/node_modules/datatables/buttons.html5.min.js"></script>
+    <script src="/elite/assets/node_modules/datatables/buttons.print.min.js"></script>
+    
+    <!-- Date picker plugins css -->
+    <link href="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.css" rel="stylesheet" type="text/css" />
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.js"></script>
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/ko.js"></script>
+    
+    <script th:src="@{/js/yo/menu-header.js}" src="js/yo/menu-header.js"></script>
+    
+    <script type="text/javascript">
+
+    $(document).ready(function() {
+        /* document.body.style.webkitTransform = "scale(0.85, 0.85)";
+        document.body.style.webkitTransformOrigin = "50% 0";
+    	window.resizeTo(800,600); */
+    });
+    
+    function isEqCurrentDate(dateTime){
+    	
+       var datePick 		= dateTime.getFullYear() 		+ 	"-"	+m2d( dateTime.getMonth() )  +"-"+ dateTime.getDate() ;
+    	var currentDate 	= new Date().getFullYear()	+	"-"	+m2d(new Date().getMonth())+"-"+new Date().getDate()  ;
+         
+    	if(  datePick.toString() >=  currentDate.toString()){
+	    	 return true;
+	     }
+    	return false;
+    }
+    
+    function m2d (m){
+    	return m < 9 ? "0" + (m+1) : m+1;
+    }
+    
+    //표준 테이블 
+    $('#example23').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+           'excel', 'print'
+        ],
+        "order": []
+    });
+    
+    Date.prototype.withoutTime = function () {
+        var d = new Date(this);
+        d.setHours(0, 0, 0, 0);
+        return d;
+    }
+    
+    function dateDiff(_date1, _date2) {
+        var diffDate_1 = _date1 instanceof Date ? _date1 : new Date(_date1);
+        var diffDate_2 = _date2 instanceof Date ? _date2 : new Date(_date2);
+     
+        diffDate_1 = new Date(diffDate_1.getFullYear(), diffDate_1.getMonth()+1, diffDate_1.getDate());
+        diffDate_2 = new Date(diffDate_2.getFullYear(), diffDate_2.getMonth()+1, diffDate_2.getDate());
+     
+        var diff = Math.abs(diffDate_2.getTime() - diffDate_1.getTime());
+        diff = Math.ceil(diff / (1000 * 3600 * 24));
+     
+        return diff;
+    }
+    
+    jQuery.fn.dataTable.Api.register( 'sum()', function ( ) {
+    	return this.flatten().reduce( function ( a, b ) {
+    		if ( typeof a === 'string' ) {
+    			a = a.replace(/[^\d.-]/g, '') * 1;
+    		}
+    		if ( typeof b === 'string' ) {
+    			b = b.replace(/[^\d.-]/g, '') * 1;
+    		}
+
+    		return a + b;
+    	}, 0 );
+    } );
+    </script>
+  </section>
+  
+  
+  
+</body>
+
+</html>

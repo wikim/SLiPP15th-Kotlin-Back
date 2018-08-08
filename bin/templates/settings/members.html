@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta th:include="common/head :: common_css(title='Members')"></meta>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+       	<!-- Top Header -->
+	    <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+            	<div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">사용자관리</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item active">관리자</li>
+                                <li class="breadcrumb-item active">사용자관리</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                
+                 <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                            	<div class="row">
+                            		<div class="col-sm-6">
+                            			<div class="dataTables_info" role="status" aria-live="polite">
+                            				<h4 class="card-title">도서관 사용자 관리 </h4>
+                            			</div>
+                            		</div>
+                            		<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 22 and result.createYn}">
+	                            		<div class="col-sm-6">
+	                            			<div class="align-self-center text-right">
+	                            				<button type="button" id="btnMemberCreate" class="btn btn-info m-l-15" ><i class="fa fa-plus-circle"></i> 사용자 추가</button>
+	                            			</div>
+	                            		</div>
+                            		</th:block>
+                            	</div>
+                                
+                                
+                                <div class="table-responsive m-t-0">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">상태</th>
+                                                <th class="text-center">권한 </th>
+                                                <th class="text-center">아이디  </th>
+                                                <th class="text-center">이름  </th>
+                                                <!-- <th class="text-center">직책 </th> -->
+                                                <th class="text-center">전화번호</th>
+                                                <th class="text-center">내선번호</th>
+                                                <th class="text-center">패스워드</th>
+                                                <th class="text-center" id="menu-th">메뉴권한</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <tr th:each="mem, index : ${page.contents}">
+                                            	<td class="text-center"><span class="label label-round label-info" th:classappend="(${null != mem.status} ? ${mem.status.code == 'active' ? 'bg-primary' : mem.status.code == 'stop' ? 'bg-danger' : mem.status.code == 'disapproval' ? 'bg-warning' : 'bg-info'} : '')" th:text="${null != mem.status ? 'Active' : 'Stop'}">Active</span></td>
+                                            <td class="text-center"><div th:each="auth : ${mem.authorities}"><span th:text="${auth.key}">-</span></div></td>
+                                            <td class="text-center"><a href="member_modify.html" th:href="@{'/settings/members/' + ${mem.id}}"><span th:text="${mem.signinId}">-</span></a></td>
+                                            <td class="text-center"><a href="member_modify.html" th:href="@{'/settings/members/' + ${mem.id}}"><span th:text="${mem.name}">-</span></a></td>
+                                            	<!-- <td class="text-left" th:text="${mem.gradeNm}">-</td> -->
+                                            	<td class="text-center" th:text="${mem.cellPhoneNumber}">-</td>
+                                            	<td class="text-center" th:text="${mem.inPhoneNumber}">-</td>
+                                            	<td class="text-center" >
+                                            		<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 22 and result.updateYn}">
+														<button type="button" class="btn btn-success"  th:id="'btn'+ ${mem.id}" name="btnModal" data-toggle="modal" data-target="#responsive-modal"  th:value="${mem.id}" th:onClick="'javascript:tryBtn(\''+${mem.id}+'\');'"> 초기화 </button>
+													</th:block>
+                                            	</td>
+                                            	<td class="text-center" >
+                                            		<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 22 and result.updateYn}">
+														<button type="button" class="btn btn-warning"  th:id="'btnMenu'+ ${mem.id}" th:value="${mem.id}">설정</button>
+													</th:block>
+                                            	</td>
+                                            </tr>
+                                            
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="responsive-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	             		<input type="hidden" id="id" value="" >                             
+	                    <h4 class="modal-title">패스워드 변경</h4>
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                </div>
+	                <div class="modal-body">
+	                    <form>
+	                        <div class="form-group">
+	                            <label for="message-text" class="control-label"> 변경 할 패스워드 (ujblib123!1)</label>
+	                           	<input type="password" class="form-control" id="password" name="password" value="ujblib123!1" readonly >
+	                        </div>
+	                        <div class="form-group">
+	                            <label for="message-text" class="control-label"> 패스워드 확인 </label>
+	                            <input type="password" class="form-control" id="password_1" name="password_1"  value="ujblib123!1" readonly>
+	                        </div>
+	                    </form>
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">창닫기</button>
+	                    <button type="button" class="btn btn-success waves-effect waves-light"  id="btnSavePasswd">저장</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+        <!-- } Page Content : End -->
+		<!-- footer -->
+		<footer th:replace="common/footer :: footer" ></footer>
+        
+    </div>
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <script type="text/javascript">
+    $(document).ready(function() {
+    	btnSavePasswd();
+    	btnMemberCreate();
+ //   	modalActive();
+ 
+ 		$("#menu-th").removeClass("sorting");
+ 		
+ 		$(document.body).on("click", ".btn-warning", function () {
+ 			var memberId = $(this).val();
+ 			$.ajax({
+    			url : "/settings/menu-auth/init",
+    			data : { id : memberId },
+    			method : "POST",
+    			success : function(data) {
+    				console.log(data)
+					if(data.result) {
+						location.href = "/settings/menu-auth?id=" + memberId;
+					}
+    			},
+    			error : function(data) {
+    				console.error("error : ", data);
+    			}
+    	    });
+ 		});
+    });
+    
+    function tryBtn(id){
+    	$("#id").val(id);
+    }
+   
+    var btnSavePasswd = function(){
+        $("#btnSavePasswd").click(function () {
+        	var arrData=[];
+        	var eventData = {id:$("#id").val()
+        			, password:$("#password").val()
+        			}; 
+        	$.ajax({
+    			url : "/settings/member/password",
+    			data: eventData,
+    			method : "put",
+    			success : function(result) {
+    				if(result.no==200){
+    					alert("등록되었습니다.");
+    					
+    				}else if(result.no==201){
+    					alert("패스워드가 일치 하지 않습니다..");
+    				}
+    				
+    				$('#responsive-modal').modal('hide');
+    				location.reload();
+
+    			},
+    			error : function(data) {
+    				console.error("Update snapshot", data);
+    			}
+    	    });
+        });
+     }
+    
+   function btnDelete(id){
+		location.href="/event/exp-library-delete/"+$("#progYear option:selected").val();
+    }
+    
+    var btnMemberCreate = function(){
+		$("#btnMemberCreate").click(function () {
+		  location.href = "/settings/member/create";
+		});
+    }
+    
+    </script>
+</body>
+
+</html>

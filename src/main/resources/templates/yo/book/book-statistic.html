@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+    <style>
+td {
+    text-align: center; 
+    vertical-align: middle;
+}
+    </style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">통계(장서)</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">도서/연속간행물</li>
+                                <li class="breadcrumb-item active">통계(장서) </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	
+               	<form method="post" id="mainForm" name="mainForm">
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+								<div class="input-group-append">
+								<input type="text" class="form-control" id="fromDt" name="fromDt" placeholder="yyyy-mm-dd" th:value="${fromDt}">
+								<span class="input-group-text"><i class="icon-calender"></i></span>
+                                <span class="input-group-text"> - </span>
+                                <input type="text" class="form-control" id="toDt" name="toDt" placeholder="yyyy-mm-dd" th:value="${toDt}">
+                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+                                </div>
+								<select class="form-control" id="keyword" name="keyword">
+									<option value="1"  th:selected="${keyword.equals('1')}">구입</option>
+									<option value="2"  th:selected="${keyword.equals('2')}">기증</option>
+									<option value="3"  th:selected="${keyword.equals('3')}">폐기</option>
+									<option value="4"  th:selected="${keyword.equals('4')}">관리전환</option>
+									<option value="5" th:selected="${keyword.equals('5')}">구입+폐기</option>
+									<option value="6" th:selected="${keyword.equals('6')}">전체합산</option>
+								</select>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnSearch" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnSearchDay" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색 (일계)</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnSearchYear" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색 (연계)</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnPrint" class="btn btn-success"><i class="fa fa-print"></i> 출력</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                	<div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">장서 통계 </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UseStaticTB" class="table editable-table table-bordered m-b-0 datatable-multi-row">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th colspan="3">구분</th>
+                                                <th>000</th>
+                                                <th>100</th>
+                                                <th>200</th>
+                                                <th>300</th>
+                                                <th>400</th>
+                                                <th>500</th>
+                                                <th>600</th>
+                                                <th>700</th>
+                                                <th>800</th>
+                                                <th>900</th>
+                                                <th>계</th>
+                                            </tr>
+											</tr>
+										</thead>
+                                        <tbody>
+                                        <th:block  th:each="page, sts : ${bookTransfers}"  >
+                                        		<tr>
+												
+												<th:block th:if="${ !#strings.isEmpty(page.bookCodeTop)  }">
+																<td th:text="${page.divideNm}"
+																	th:rowspan="${page.midCount}"
+																	style="text-align: center; vertical-align: middle;"></td>
+															</th:block>
+												
+												<th:block th:if="${ !#strings.isEmpty(page.bookType)  }">
+													<td  th:text="${page.bookType}" ></td>
+												</th:block>
+												<td  th:text="${page.incomeType}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type000,0,'COMMA') }"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type100,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type200,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type300,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type400,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type500,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type600,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type700,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type800,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type900,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.typeSum,0,'COMMA')}"></td> 
+                                        		</tr>
+                                        		
+                                        	</th:block>	
+                                        	
+                                        	<th:block  th:each="page, sts : ${bookSum}"  >
+                                        		<tr>
+                                        			<th:block th:if="${ sts.count} == 1  ">
+													<td   rowspan="5" colspan="2"   style="text-align:center; vertical-align: middle;" > 합계 </td>
+												</th:block>
+												<td  th:text="${page.incomeType}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type000,0,'COMMA') }"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type100,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type200,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type300,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type400,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type500,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type600,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type700,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type800,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.type900,0,'COMMA')}"></td> 
+												<td  th:text="${ #numbers.formatInteger( page.typeSum,0,'COMMA')}"></td>
+                                        		</tr>
+                                        		
+                                        </tbody>
+                                        <tfoot>
+                                       		
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <!--/form body-->
+               
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <script th:src="@{/js/ujblib/transfer-list.js}" src="js/ujblib/transfer-list.js"></script>
+	<script th:src="@{/js/printThis.js}" src="js/printThis.js"></script>
+    
+    <script type="text/javascript">
+    
+    $(document).ready(function() {
+    	btnSearch();
+    	
+    });
+    
+    $('#fromDt').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'ko'
+    });
+    
+    $('#toDt').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'ko'
+    });
+    
+    
+    var btnSearch = function (){
+  	  $("#btnSearch").click(function () {
+  		location.href="/book/book-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=기간&keyword="+$("#keyword").val();
+  	  })
+  	  
+  	   $("#btnSearchDay").click(function () {
+  		location.href="/book/book-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=일계&keyword="+$("#keyword").val()
+  	  })
+  	  
+  	   $("#btnSearchYear").click(function () {
+  		location.href="/book/book-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=연계&keyword="+$("#keyword").val()
+  	  })
+  	  
+  	  $("#btnPrint").click(function () {
+			$("#mainForm").printThis();
+		});
+  }
+    
+    
+    
+   
+    </script>
+    
+</body>
+
+</html>

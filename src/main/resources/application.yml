@@ -1,0 +1,177 @@
+spring.profiles.active: ${mode:production}
+
+info:
+  app.name: yo 
+  app.description: SLiPP 15th study kotlin project
+  build.name: yo
+  build.version: 1.0.0
+spring: 
+  application.name: Yo Server
+  datasource:
+    name: yo-server
+    hikari:
+      validation-timeout: 3000
+      connection-timeout: 30000
+      minimum-idle: 5
+      idle-timeout: 30000
+      maximum-pool-size: ${maximum-pool-size:30}
+      maxLifetime: 1800000
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+  jpa:
+    database: H2
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+      naming: 
+        physical-strategy: net.slipp.fifth.kotlin.configuration.H2PhysicalNamingStrategy
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans: false
+      javax: 
+        persistence: 
+          sharedCache: 
+            mode: ALL
+  mvc:
+    date-format: yyyy-MM-dd
+    throw-exception-if-no-handler-found: true
+  http:
+    encoding.charset: UTF-8
+    encoding.enabled: true
+    encoding.force: true
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+  thymeleaf:
+    check-template-location: false
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: LEGACYHTML5
+    encoding: UTF-8
+    content-type: text/html;charset=UTF-8
+    cache: false
+  h2:
+    console:
+      enabled: true
+endpoints:
+  enabled: false
+  shutdown: #application shutdown, by HttpMethod POST request. Require authorization(security username, password)    
+    id: app_shutdown
+    enabled: true
+    sensitive: true
+  health:
+    enabled: true
+  metrics:
+    enabled: true  
+  dump:
+    enabled: true
+    sensitive: true  
+server:
+  port: ${port:1580}
+  error:
+    whitelabel:
+      enabled: false 
+  session:
+    timeout: 1800 
+  compression:
+    enabled: true  
+  
+security:
+  user:
+    name: yo-admin
+    password: secret-yo-server
+management:
+  security:
+    enabled: false
+    roles:
+      - ADMIN
+---
+# Profile: production(production mode)
+spring:
+  profiles: production
+  profiles.include: ${logLevel:logging-info}, logging-daily, flyway-h2
+  datasource:
+    initialize: false
+    sql-script-encoding: UTF-8
+    driver-class-name: org.h2.Driver
+    hikari:
+      jdbc-url: jdbc:h2:file:${serverHome:~}/.yo/server/${dbName:yo-db};DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=30000;MVCC=TRUE;
+      username: yo    
+      password: yo
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  messages:
+    cache-seconds: -1
+logging:
+  file: ${logPath:logs}/yo-server.log
+  path: ${logPath:logs}  
+security:
+  headers:
+    cache: false  
+---
+# Profile: local(local environment)
+spring:
+  profiles: local
+  profiles.include: ${logLevel:logging-debug}, flyway-h2
+  datasource:
+    initialize: false
+    sql-script-encoding: UTF-8
+    driver-class-name: org.h2.Driver
+    hikari:
+      jdbc-url: jdbc:h2:file:${serverHome:~}/.yo/server/yo-db;CACHE_SIZE=10240;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=30000;MVCC=TRUE;
+      username: yo    
+      password: yo
+logging:
+  file: ${logPath:logs}/yo-server.log
+  path: ${logPath:logs}  
+
+--- 
+# Profile: production-tcp(production tcp server mode)
+spring:
+  profiles: production-tcp
+  profiles.include: ${logLevel:logging-info}, logging-daily, flyway-h2
+  datasource:
+    initialize: false
+    sql-script-encoding: UTF-8
+    driver-class-name: org.h2.Driver
+    hikari:
+      jdbc-url: jdbc:h2:tcp://localhost:9092/yo-db;AUTO_SERVER=TRUE;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=30000;COMPRESS=TRUE;MVCC=TRUE;
+      username: yo    
+      password: yo
+  jpa:
+    hibernate:
+      ddl-auto: validate
+  messages:
+    cache-seconds: -1
+    
+logging:
+  file: ${logPath:logs}/yo-server.log
+  path: ${logPath:logs}  
+    
+---
+spring.profiles: logging-debug
+logging:
+  level:
+    net.slipp.fifth.kotli.server: DEBUG
+    org.thymeleaf: DEBUG
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.quartz.core: DEBUG
+    org.h2.server.web: DEBUG
+    
+---
+spring.profiles: logging-daily
+logging:
+  config: classpath:logback-spring.xml
+
+---
+spring.profiles: flyway-h2
+flyway:
+  enabled: true
+  locations: db/migration/h2
+  baseline-on-migrate: ${baseline:false}
+  user: sa
+  password:

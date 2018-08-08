@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+
+<div class="p-0 " th:fragment="modal(useMenu)">
+
+	<div th:if="${#strings.contains(useMenu,'HELP')}" class="hide">
+	<!-- 
+	    ===== my-projects_dark =====
+		Draw Item Flag - PTKSC
+		P:Project
+		S:Sycn Button
+		
+		Use Sample : <div th:replace="common/search :: search_dark(${pageStatus}, 'PTKSC')"></div>
+		Add Sample : th:if="${#strings.contains(useMenu,'P')}" or th:class="${#strings.contains(useMenu,'P')} ? '' : 'hide'" 
+	 -->
+	 </div>
+
+	<!-- Common Alert Message Modal Popup : Start -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="modal fade bs-example-modal-md" id="alertModal" tabindex="-1" role="dialog" aria-labelledby="alertModalLabel" aria-hidden="true" style="display:none">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">x</button>
+                            <h4 class="modal-title" id="alertModalLabel" th:text="#{view.label.alert}">Alert</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span id="alertModalMse"></span>
+                         </div>
+                         <div class="modal-footer">
+                            <button type="button" class="btn btn-basic waves-effect text-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Common Alert Message Modal Popup : End -->
+    
+	<!-- Common Notify Message Modal Popup : Start -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="modal fade bs-example-modal-md" id="notifyModal" tabindex="-1" role="dialog" aria-labelledby="notifyModalLabel" aria-hidden="true" style="display:none">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">x</button>
+                            <h4 class="modal-title" id="notifyModalLabel" th:text="#{view.label.notification}">Notification</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span id="notifyModalMse"></span>
+                         </div>
+                         <div class="modal-footer">
+                            <button type="button" class="btn btn-basic waves-effect text-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Common Notify Message Modal Popup : End -->
+    
+    <!-- Common Confirm Message Modal Popup : Start -->
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="modal fade bs-example-modal-md" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel" aria-hidden="true" style="display:none">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">x</button>
+                            <h4 class="modal-title" id="confirmModalLabel" th:text="#{view.label.confirm}">Confirm Message</h4>
+                        </div>
+                        <div class="modal-body">
+                            <span id="confirmModalMse"></span>
+                         </div>
+                         <div class="modal-footer">
+                         	<input type="hidden" id="confirmResult" name="confirmResult" value=false />
+                         	<button type="button" class="btn btn-info waves-effect text-left" style="padding:.8rem 22px;" id="btnSelectConfirm" th:text="#{view.btn.ok}" data-dismiss="modal">OK</button>
+                            <button type="button" class="btn btn-basic waves-effect text-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Common Confirm Message Modal Popup : End -->
+	
+    <div class="row" th:if="${#strings.contains(useMenu,'P')}">
+    	<!-- Select Project Modal Popup : Start -->
+        <div class="col-xs-12">
+            <div class="modal fade bs-example-modal-md" id="selectProjectModal" tabindex="-1" role="dialog" aria-labelledby="selectProjectModalLabel" aria-hidden="true" style="display:none">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">x</button>
+                            <h4 class="modal-title" id="selectProjectModalLabel" th:text="#{view.label.notification}">Notification</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p th:text="#{view.job.label.selectProject}"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-basic waves-effect text-left" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Select Project Modal Popup : End -->
+    </div>
+
+    <div class="row" th:if="${#strings.contains(useMenu,'S')}">
+    	<!-- SyncAdressModal : Start -->
+        <div class="col-xs-12">
+                <div class="modal fade bs-example-modal-lg" id="syncAdressModal" tabindex="-1" role="dialog" aria-labelledby="syncAdressModalLabel" aria-hidden="true" style="display:none">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" aria-hidden="true">x</button>
+                                <h4 class="modal-title" id="syncAdressModalLabel" th:text="#{view.label.notification}">Notification</h4>
+                            </div>
+                            <div class="modal-body">
+                                <p th:text="#{view.agent.syncAddress.tooltip}">
+                                    This function is to Synchronize the Server address in the Agent list with the IP-Address(URI) of the current UJBLib Server. - This is required if the IP-Address(URI) of UJBLib Server has changed.
+                                </p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="btnSyncAddressExecute" class="btn btn-info waves-effect text-left" data-dismiss="modal">Excute</button>
+                                <button type="button" class="btn btn-basic waves-effect text-left" data-dismiss="modal">Close</button>
+                            </div>
+                            <!-- /.modal-content -->
+                        </div>
+                        <!-- /.modal-dialog -->
+                    </div>
+                    <!-- /.modal -->
+                </div>
+        </div>
+    	<!-- SyncAdressModal : End -->
+    </div>
+	 
+	 <script th:inline="javascript" th:if="${#strings.contains(useMenu,'S')}">
+	/*<![CDATA[*/
+		
+		//Sync-Address 버튼 처리
+		var bindBtnSyncAddress = function () {
+			$("#btnSyncAddress").on("click", function () {
+				$("#syncAdressModal").modal("show");
+			});
+	    };
+		
+	  	//Sync-Address 호출
+	    var bindBtnSyncAddressExecute = function () {
+	    	$("#btnSyncAddressExecute").on("click", function () {
+	    		$.ajax({
+	    			url : '/agents/sync-address',
+	    			method : 'post',
+	    			contentType : 'application/json',
+	    			dataType: 'text',
+	    			success : function(result) {
+	    				alertNotifyModal(result);
+	    			},
+	    			error : function(XMLHttpRequest, textStatus, errorThrown) {
+	    				if(XMLHttpRequest.status == 400){
+	    				    alertNotifyModal(XMLHttpRequest.responseText);
+	    				}
+	    				else {
+	    				   	alert("Warnnig - " + XMLHttpRequest.status + ": [" + XMLHttpRequest.responseText + "]");
+	    				}	      
+	    			}
+	    		});     
+	    	});
+	    };
+    
+	    $(document).ready(function () {
+	    	if($("#syncAdressModal") !== undefined && $("#syncAdressModal") != null) bindBtnSyncAddress();
+	    	if($("#syncAdressModal") !== undefined && $("#syncAdressModal") != null) bindBtnSyncAddressExecute();
+	    });
+	    
+	/*]]>*/
+	</script>
+	
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		var alertWarningModal = function (msg) {
+			$("#alertModalMse").html(msg);
+			$("#alertModal").modal("show");
+		};
+		
+		var alertNotifyModal = function (msg) {
+			$("#notifyModalMse").html(msg);
+			$("#notifyModal").modal("show");
+		};
+		
+		var alertConfirmModal = function (msg, callback) {
+			$("#confirmResult").val(false);
+			$("#confirmModalMse").html(msg);
+			//{backdrop: 'static'}
+			$("#confirmModal").modal("show").one('click', '#btnSelectConfirm', function () {
+				$("#confirmResult").val(true);
+				if (callback) callback(true);
+			});
+		};
+	/*]]>*/
+	</script>
+	
+</div>
+
+
+</html>

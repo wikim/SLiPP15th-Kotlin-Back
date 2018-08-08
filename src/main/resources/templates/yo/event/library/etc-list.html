@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='도서관행사')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">기타  행사</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">도서관행사</li>
+                                <li class="breadcrumb-item active">기타 행사 </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <form method="post" id="mainForm" name="mainForm">
+               	<input type="hidden" id="eventType" th:value="ETC" />
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                            	<div class="row">
+                            		<div class="col-sm-6">
+                            			<div class="dataTables_info" role="status" aria-live="polite">
+                            				<select class="form-control" id="pYear" name="pYear">
+			               						<option th:each="y : ${pYears}" th:value="${y}" th:text="${y}" th:selected="${pYear.equals(y)}"></option>
+			               					</select>
+                            			</div>
+                            		</div>
+                            		<div class="col-sm-6">
+                            			<div class="align-self-center text-right">
+                                           
+                            				<button type="button" id="btnCreate" class="btn btn-info m-l-15"  data-toggle="modal" data-target="#responsive-modal"  onClick="javascript:reModal();" ><i class="fa fa-plus-circle" ></i> 일지 작성</button>
+                            			</div>
+                            		</div>
+                            	</div>
+                                
+                               <div class="table-responsive m-t-0">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr class="table-active">
+												<th style="width:400px">프로그램</th>
+												<th >구분 </th>
+												<th >인원</th>
+												<th>기준일</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											 <tr th:each="page: ${page.contents}"  data-toggle="modal" data-target="#responsive-modal"   th:data-id="${page.id}" >
+												<td class="text-center" th:text="${page.ProgNm}"></td>
+												<td class="text-center" th:text="일계" ></td>
+												<td class="text-center" th:text="${page.PeopleNumber}" ></td>
+												<td class="text-center" th:text="${page.PDate}" ></td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <!--/form body-->
+               
+               <!-- modal start  -->
+               <div id="responsive-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                     <div class="modal-dialog">
+                         <div class="modal-content">
+                             <div class="modal-header">                             
+                                 <h4 class="modal-title">기타 행사</h4>
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                             </div>
+                             <div class="modal-body">
+                                 <form id="modalForm" name="modalForm">
+									 <input type="hidden"  id="id" name="id" >
+									 <input type="hidden"  id="EventType" name="EventType" value="ETC">
+									 <div class="row">
+					                    <div class="col-12">
+					                        <div class="card">
+					                            <div class="input-group">
+					                                <input type="text" class="form-control" id="pDate" placeholder="yyyy-mm-dd" th:value="${pDate}">
+					                                <div class="input-group-append">
+					                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+					                                </div>
+					                            </div>
+					                            
+					                        </div>
+					                    </div>
+					                </div>
+                                      <div class="form-group">
+                                         <label for="message-text" class="control-label">행사명:</label>
+                                         <input type="text" class="form-control" id="ProgNm" name="ProgNm">
+                                     </div>
+                                     <div class="form-group">
+                                         <label for="message-text" class="control-label">인원:</label>
+                                         <input type="number" class="form-control" id="PeopleNumber"  name=""PeopleNumber value="0">
+                                     </div>
+                                 </form>
+                             </div>
+                             <div class="modal-footer">
+                                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">창닫기</button>
+                                 <button type="button" class="btn btn-success waves-effect waves-light"  id="btnSave">저장</button>
+                                 <button type="button" class="btn btn-danger waves-effect waves-light" id="btnDelete">삭제</button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+               <!--  modal end  -->
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!-- Editable -->
+    <script>
+    
+    $(document).ready(function() {
+    	btnSave();
+    	changePYear();
+    	btnModify();
+    	btnDelete();
+        
+    	var date = $('#pDate').datepicker('getDate');
+		date.setDate(date.getDate() - 1)
+		$('#pDate').datepicker("setDate", date);
+    });
+    
+    var btnModify = function(e){
+            $('table tbody tr td').on('click', function () {
+                event.preventDefault();
+                var currentRow = $(this).closest('tr');
+                $("#id").val( currentRow.attr("data-id") );
+                $("#ProgNm").val( currentRow.find("td").eq(0).text() );
+                 $("#PeopleNumber").val( currentRow.find("td").eq(2).text() );
+                 $('#pDate').datepicker("setDate", currentRow.find("td").eq(3).text());
+                $("#responsive-modal").modal("show");
+            });
+          
+        }
+    function reModal(){
+    	 $("#id").val("");
+    	 $("#ProgNm").val("");
+    	 $("#PeopleNumber").val(0);
+    }
+    var btnSave = function(){
+        $("#btnSave").click(function () {
+        	var arrData=[];
+        	var eventData = {id:$("#id").val()
+        			 ,pYear:$("#pDate").val().substr(0, 4)
+        			 ,EventType:$("#EventType").val()
+        			, pDate:$("#pDate").val()
+        			, ProgNm:$("#ProgNm").val()
+        			, PeopleNumber:$("#PeopleNumber").val()
+        			}; 
+        	$.ajax({
+    			url : "/event/book/save",
+    			data: eventData,
+    			method : "put",
+    			success : function(result) {
+    				alert("등록되었습니다.");
+    				$('#responsive-modal').modal('hide');
+    				location.reload();
+
+    			},
+    			error : function(data) {
+    				console.error("Update snapshot", data);
+    			}
+    	    });
+        });
+     }
+    
+   var btnDelete = function(){
+	   $("#btnDelete").click(function () {
+		   if(confirm("삭제하시겠습니까?")){
+		   var eventData = {id:$("#id").val()};
+		   $.ajax({
+				url : "/event/book/delete",
+				data: eventData,
+				method : "put",
+				success : function(result) {
+					alert("삭제되었습니다. .");
+					$('#responsive-modal').modal('hide');
+					location.reload();
+
+				},
+				error : function(data) {
+					console.error("Update snapshot", data);
+				}
+		    });
+		   
+		   location.href="/event/library/"+$("#pYear").val();
+		   }
+	   });
+    }
+   
+   var changePYear = function () {
+		$("#pYear").change(function () {
+			location.href="/event/etc/"+$("#pYear").val();
+		});
+	};
+	
+	$('#pDate').datepicker({
+	       autoclose: true,
+	       todayHighlight: true,
+	       format:'yyyy-mm-dd',
+	       language:'ko'
+		
+	   });
+   
+    </script>
+</body>
+
+</html>

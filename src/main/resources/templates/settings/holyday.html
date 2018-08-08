@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta th:include="common/head :: common_css(title='common_css')"></meta>
+
+	<!-- Calendar CSS -->
+    <link href="/elite/assets/node_modules/calendar/dist.2.2.7/fullcalendar.css" rel="stylesheet" />
+    <link href="/elite/assets/node_modules/calendar/dist.2.2.7/fullcalendar.print.css" rel="stylesheet"  media='print' />
+   
+    <style>
+
+	#calendar {
+		max-width: 1280px;
+		margin: 0 auto;
+	}
+
+</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+       	<!-- Top Header -->
+	    <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+            	<div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">어린이실 </h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item active">관리자</li>
+                                <li class="breadcrumb-item active">휴관일관리</li>
+                            </ol>
+                            <th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 23 and result.createYn}">
+                            	<button type="button" id="reset" class="btn btn-info d-none d-lg-block m-l-15" ><i class="fa fa-plus-circle"></i> 휴일초기화</button>
+                            </th:block>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                                <div class="row">
+                                    <div class="col-lg-2">
+                                        <div class="card-body">
+                                            <h4 class="card-title m-t-10">공휴일 구분</h4>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div id="calendar-events" class="">
+                                                        <div class="calendar-events" data-class="bg-success"><i class="fa fa-circle text-success"></i>법정공휴일</div>
+                                                        <div class="calendar-events" data-class="bg-warning"><i class="fa fa-circle text-warning"></i> 휴관일 </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <div class="card-body b-l calender-sidebar">
+                                            <div id="calendar"></div>
+                                        </div>
+                                        <input type="hidden" id="today" th:value="${today}">
+                                        <input type="hidden" id="currentYear" th:value="${currentYear}">
+                                        <input type="hidden" id="holydays" th:value="${holydays}" >
+                                        
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- ============================================================== -->
+                <!-- End PAge Content -->
+                
+            </div>
+        </div>
+        <!-- } Page Content : End -->
+		<!-- footer -->
+		<footer th:replace="common/footer :: footer" ></footer>
+        
+    </div>
+    <!-- } Wrapper : End -->
+   	
+<!-- modal JobLogClean -->
+	              <!-- sample modal content -->
+	              <div id="responsive-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	                  <div class="modal-dialog">
+	                      <div class="modal-content">
+	                          <div class="modal-header">
+	                              <h4 class="modal-title">휴관일 수정</h4>
+	                              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                          </div>
+	                          <div class="modal-body">
+	                              <form>
+	                                  <div class="form-group">
+	                                      <label for="recipient-name" class="control-label">제목:</label>
+	                                      <input type="text" class="form-control" id="title">
+	                                      <input type="hidden" class="form-control" id="id">
+	                                      <input type="hidden" class="form-control" id="date">
+	                                  </div>
+	                                  
+	                              </form>
+	                          </div>
+	                          <div class="modal-footer">
+	                              <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+	                              <button type="button" id="btnHolydayDelete"  class="btn btn-danger waves-effect waves-light">삭제</button>
+	                              <button type="button" id="btnHolydayEdit" class="btn btn-info waves-effect waves-light">저장</button>
+	                              
+	                          </div>
+	                      </div>
+	                  </div>
+	              </div>
+	              <!-- /.modal -->
+    <!-- modal JobLogClean -->    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!--stickey kit -->
+    <script src="/elite/assets/node_modules/sticky-kit-master/dist/sticky-kit.min.js"></script>
+    <script src="/elite/assets/node_modules/sparkline/jquery.sparkline.min.js"></script>
+    <!--Custom JavaScript -->
+    <script src="/elite/dist/js/custom.min.js"></script>
+    
+    <script src="/elite/assets/node_modules/moment/moment.284.js"></script>
+    <script src="/elite/assets/node_modules/calendar/dist.2.2.7/fullcalendar.js"></script>
+	<script src='/elite/assets/node_modules/calendar/dist.2.2.7/lang/ko.js'></script>
+    
+    <script  src="/elite/assets/node_modules/calendar/dist/cal-init.js"></script>
+    <script type="text/javascript">
+    
+    
+    $(document).ready(function() {
+		reset();
+		
+    })
+    
+	$("#btnHolydayEdit").on("click", function (target) {
+		eventEdit(target);
+	});
+    
+    $("#btnHolydayDelete").on("click", function (target) {
+		eventDelete(target);
+	});
+    
+    var eventDelete = function(target){
+    	var id   = $('#id').val();
+    	$("#calendar").fullCalendar('removeEvents', id);
+    	$("#responsive-modal").modal('hide');
+    	$('#id').val("");
+    	
+    	$.ajax({
+    		url : "/settings/holyday/delete",
+			data: { id:id },
+    		method : "put",
+    		success : function() {
+                $('#calendar').fullCalendar('refetchEvents');
+    		},
+    		error : function(data) {
+    			console.error("Update snapshot", data);
+    		}
+    		
+    	});
+    	
+    }
+    
+    var eventEdit = function(target){
+    	
+    		var calEvent = $("#calendar").fullCalendar('clientEvents');
+    		var id   = $('#id').val();
+    		var title=$('#title').val();
+		   	var date = $('#date').val();
+		   	$("#calendar").fullCalendar('removeEvents', id);
+	    	$.ajax({
+	    		url : "/settings/holyday/edit",
+				data: { id:id, title: title, year:$("#currentYear").val(), date: date, type:"CUSTOM" },
+	    		method : "put",
+	    		success : function() {
+	    			
+	    			var s = new Date(date);
+					var start = new Date(moment(s).format('YYYY'), moment(s).format('MM'), moment(s).format('DD'))
+	    			var eventData = {
+	    					id:id,
+    						title: title,
+    						start: s.getMilliseconds(),
+    						date:date,
+    						allDay:true,
+    						type:"CUSTOME",
+    						color:"#fec107"
+    					};
+	    			$('#calendar').fullCalendar('renderEvent', eventData, true);
+					//$('#calendar').fullCalendar('updateEvent', calEvent);
+	                $('#calendar').fullCalendar('refetchEvents');
+	                
+
+	    		},
+	    		error : function(data) {
+	    			console.error("Update snapshot", data);
+	    		}
+	    		
+	    	});
+	    	$('#calendar').fullCalendar('unselect');
+	    	$("#responsive-modal").modal('hide');
+	    	$('#id').val("");
+			$('#title').val("");
+			$('#date').val("");
+    }
+    
+    var reset = function () {
+	  $("#reset").on("click", function (ev) {
+		  var date = $('#calendar').fullCalendar('getDate');
+	   	  var year = moment(date).format('YYYY');
+	      $.ajax({
+	        url: '/settings/holyday/reset/'+year,
+	        method: 'get',
+	        success: function () {
+	        	location.href="/settings/holyday/"+(moment(date).format('YYYY'));
+	        },
+	        error: function (data) {
+	          alert("error");
+	        }
+	      });
+	  });
+	}
+    
+    $('body').on('click', 'button.fc-prev-button', function() {
+    	var date = $('#calendar').fullCalendar('getDate');
+    	location.href="/settings/holyday/"+(moment(date).format('YYYY'));
+    });
+
+   	$('body').on('click', 'button.fc-next-button', function() {
+   		var date = $('#calendar').fullCalendar('getDate');
+   		location.href="/settings/holyday/"+(moment(date).format('YYYY'));   		
+   	});
+   	
+    </script>
+    
+    
+
+</body>
+
+</html>

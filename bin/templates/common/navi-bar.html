@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!--/* 파라미터 작성 규칙
+Parameter : val1, val2 , val3...
+Bean object : DTO 기준
+*/-->
+
+<!--/* dashboard  */-->
+<ol class="breadcrumb" th:fragment="dashboard-main-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li class="active">Dashboard</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="dashboard-resources-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a th:href="@{/dashboard}">Dashboard</a></li>
+  <li class="active">Resources</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="dashboard-search-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li class="active">Search</li>
+</ol>
+
+<!--/* project */-->
+<ol class="breadcrumb" th:fragment="projects-main-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li class="active">Projects</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="projects-setup-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li class="active">project setup for run</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="project-create-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a th:href="@{/projects}">Projects</a></li>
+  <li class="active">Create</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="project-modify-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a th:href="@{/projects}">Projects</a></li>
+  <li class="active">Modify</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="projects-members-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a th:href="@{/projects}">Projects</a></li>
+  <li class="active">Member</li>
+</ol>
+
+<!--/* job */-->
+<ol class="breadcrumb" th:fragment="job-group-list-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{/job}">Job</a></li>
+  <li class="active"><a href="job" th:href="@{/job/job-groups}">Group</a></li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="job-group-create-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{'/jobs?project=' + ${project.id}}">Job List</a></li>
+  <li class="active">Group Create</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="job-group-modify-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{'/jobs?project=' + ${project.id}}">Job List</a></li>
+  <li class="active">Group Modify</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="job-main-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li class="active">Job List</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="job-search-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li class="active">Job Search</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="job-create-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{'/projects/'+${project.id}}"><span th:text="${project.name}"></span></a></li>
+  <li><a href="job" th:href="@{'/jobs?project='+${project.id}}">Job List</a></li>
+  <li class="active">Create</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="job-modify-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{'/projects/'+${project.id}}"><span th:text="${project.name}"></span></a></li>
+  <li><a href="job" th:href="@{'/jobs?project='+${project.id}}">Job List</a></li>
+  <li><span th:text="${job.name}"></span></li>
+  <li class="active">Modify</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="job-history-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{'/jobs?project='+${project.id}}">Job List</a></li>
+  <li><a href="job" th:href="@{'/jobs/' + ${job.id}}" th:text="${job.name}"></a></li>
+  <li class="active"><a href="job" th:href="@{'/jobs/' + ${job.id} + '/detail'}">History</a></li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="job-history-detail-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{'/jobs?project='+${project.id}}">Job List</a></li>
+  <li><a href="job" th:href="@{'/jobs/' + ${job.id}}" th:text="${job.name}"></a></li>
+  <li><span th:text="${history.seqNumber}"></span></li>
+  <li class="active">Detail</li>
+</ol>
+
+<!--/* opertors */-->
+<ol class="breadcrumb" th:fragment="operators-main-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li class="active"><a href="operators" th:href="@{/operators/main}">Operators</a></li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="operators-detail-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="setting" th:href="@{/operators/detail}">Operators</a></li>
+  <li class="active"><span th:text="${member}"></span>Detail</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="operators-modify-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="setting" th:href="@{/operators/modify}">Operators</a></li>
+  <li class="active"><span th:text="${member}"></span>Modify</li>
+</ol>
+
+<!--/* agent */-->
+<ol class="breadcrumb" th:fragment="agent-main-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li class="active"><a href="agents" th:href="@{/agents}">Agents</a></li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="agent-create-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{'/projects/'+${project.id}}"><span th:text="${project.name}"></span></a></li>
+  <li><a href="agents" th:href="@{/agents}">Agents</a></li>
+  <li class="active">Create</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="agent-modify-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="job" th:href="@{'/projects/'+${project.id}}"><span th:text="${project.name}"></span></a></li>
+  <li><a href="agents" th:href="@{/agents}">Agents</a></li>
+  <li class="active"><span>modify</span></li>
+</ol>
+
+
+<!--/* settings */-->
+<ol class="breadcrumb" th:fragment="settings-main-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n">Settings</a></li>
+  <li class="active">System</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="settings-project-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n">Settings</a></li>
+  <li class="active">Project</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="settings-members-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n">Settings</a></li>
+  <li class="active">Members</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="settings-members-create-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a th:href="@{/settings}">Settings</a></li>
+  <li><a th:href="@{/settings/members}">Members</a></li>
+  <li class="active">Create</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="settings-members-modify-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n">Settings</a></li>
+  <li><a th:href="@{/settings/members}">Members</a></li>
+  <li class="active"><span th:text="${member.nickName}"></span> Modify</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="settings-system-mail-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n">Settings</a></li>
+  <li class="active">System mail settings</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="profile-main-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n" th:text="${#authentication.name}"></a></li>
+  <li class="active">Profile</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="profile-joblist-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n" th:text="${#authentication.name}"></a></li>
+  <li class="active">My Jobs</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="profile-notification-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n" th:text="${#authentication.name}"></a></li>
+  <li class="active">Notification</li>
+</ol>
+
+<ol class="breadcrumb" th:fragment="profile-alert-dark">
+  <li><i class="ti-home"></i><a th:href="@{/}"> Home</a></li>
+  <li><a href="#n" th:text="${#authentication.name}"></a></li>
+  <li class="active">SirenAlert</li>
+</ol>
+
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	@page {
+      size: A4;event-statistic
+      margin: 0;
+    }
+    
+    @media print {
+      html, body  {
+      	float: none !important;	 
+        max-height: 100% !important;
+        overflow: hidden !important;
+        page-break-after: always;
+        position:absolute;
+      }
+    }
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">(통계) 도서관 행사</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">도서관행사</li>
+                                <li class="breadcrumb-item active">(통계)도서관행사 </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" >
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+								<div class="input-group-append">
+								<input type="text" class="form-control" id="fromDt" name="fromDt" placeholder="yyyy-mm-dd" th:value="${fromDt}">
+								<span class="input-group-text"><i class="icon-calender"></i></span>
+                                <span class="input-group-text"> - </span>
+                                <input type="text" class="form-control" id="toDt" name="toDt" placeholder="yyyy-mm-dd" th:value="${toDt}">
+                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+                                </div>
+                                <button type="button" id="btnSearch" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnSearchDay" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색 (일계)</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnSearchYear" class="btn btn-info m-l-15"  ><i class="fa fa-search"></i> 검색 (연계)</button>
+                                <span class="input-group-text"> </span>
+                                <button type="button" id="btnPrint" class="btn btn-success"><i class="fa fa-print"></i> 출력</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               	
+               	<div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">1. 평생교육프로그램</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="ProgramTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th >강좌명</th>
+												<th >구분</th>
+												<th >회차</th>
+												<th >어린이<br/>남 </th>
+												<th >어린이<br/>여</th>
+												<th >중고생<br/>남</th>
+												<th >중고생<br/>여</th>
+												<th >일반<br/>남</th>
+												<th >일반<br/>여</th>
+												<th >계</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr th:each="program: ${programs}"  >
+												<td >[[${program.lectureNm}]]</td>
+												<td th:text="${searchType}"></td>
+												<td >[[${program.turnNumber}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useChildBoyNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useChildGirlNum,0,"COMMA") }]]</td>
+												<td >[[${ #numbers.formatInteger(program.useYouthBoyNum,0,"COMMA") }]]</td>
+												<td >[[${ #numbers.formatInteger(program.useYouthGirlNum,0,"COMMA") }]]</td>
+												<td >[[${ #numbers.formatInteger(program.useManNum,0,"COMMA") }]]</td>
+												<td >[[${ #numbers.formatInteger(program.useWomanNum,0,"COMMA") }]]</td>
+												<td >[[${ #numbers.formatInteger(program.useNumSum,0,"COMMA") }]]</td>
+											</tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th ><strong></strong></th>
+                                                <th ><strong> </strong></th>
+                                                <td ><strong>계 </strong></th>
+                                                <th class="UseChildBoyNumSum"></th>
+                                                <th class="UseChildGirlNumSum"></th>
+                                                <th class="UseYouthBoyNumSum"></th>
+                                                <th class="UseYouthGirlNumSum"></th>
+                                                <th class="UseNumManSum"></th>
+                                                <th class="UseNumWomanSum"></th>
+                                                <th class="UseNumTotalSum"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+              
+              	<div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">2. 학교지원프로그램 </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="SchoolTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th >학교명</th>
+												<th >강좌명</th>
+												<th >구분</th>
+												<th >회차</th>
+												<th >어린이<br/>남 </th>
+												<th >어린이<br/>여</th>
+												<th >중고생<br/>남</th>
+												<th >중고생<br/>여</th>
+												<th >일반<br/>남</th>
+												<th >일반<br/>여</th>
+												<th >계</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr th:each="program: ${schools}"  >
+												<td >[[${program.schoolNm}]]</td>
+												<td >[[${program.lectureNm}]]</td>
+												<td th:text="${searchType}"></td>
+												<td >[[${program.turnNumber}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useChildBoyNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useChildGirlNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useYouthBoyNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useYouthGirlNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useManNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useWomanNum,0,"COMMA")}]]</td>
+												<td class="UseNumSum">[[${ #numbers.formatInteger(program.useNumSum,0,"COMMA")}]]</td>
+											</tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th ><strong></strong></th>
+                                                <th ><strong></strong></th>
+                                                <th ><strong></strong></th>
+                                                <th ><strong>계</strong></th>
+                                                <th class="sUseChildBoyNumSum"></th>
+                                                <th class="sUseChildGirlNumSum"></th>
+                                                <th class="sUseYouthBoyNumSum"></th>
+                                                <th class="sUseYouthGirlNumSum"></th>
+                                                <th class="sUseNumManSum"></th>
+                                                <th class="sUseNumWomanSum"></th>
+                                                <th class="sUseNumTotalSum"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">3. 독서회 </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="ReadingTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th >강좌명</th>
+												<th >구분</th>
+												<th >회차</th>
+												<th >어린이<br/>남 </th>
+												<th >어린이<br/>여</th>
+												<th >중고생<br/>남</th>
+												<th >중고생<br/>여</th>
+												<th >일반<br/>남</th>
+												<th >일반<br/>여</th>
+												<th >계</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr th:each="program: ${readings}"  >
+												<td >[[${program.lectureNm}]]</td>
+												<td th:text="${searchType}"></td>
+												<td >[[${program.turnNumber}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useChildBoyNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useChildGirlNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useYouthBoyNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useYouthGirlNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useManNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useWomanNum,0,"COMMA")}]]</td>
+												<td >[[${ #numbers.formatInteger(program.useNumSum,0,"COMMA")}]]</td>
+											</tr>
+                                        </tbody>
+                                         <tfoot>
+                                            <tr>
+                                                <th ><strong></strong></th>
+                                                <th ><strong></strong></th>
+                                                <th ><strong>계</strong></th>
+                                                <th class="rUseChildBoyNumSum"></th>
+                                                <th class="rUseChildGirlNumSum"></th>
+                                                <th class="rUseYouthBoyNumSum"></th>
+                                                <th class="rUseYouthGirlNumSum"></th>
+                                                <th class="rUseNumManSum"></th>
+                                                <th class="rUseNumWomanSum"></th>
+                                                <th class="rUseNumTotalSum"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">4. 도서관 체험 학습  </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="ExpTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th>체험종류</th>
+												<th>구분</th>
+												<th>회차</th>
+												<th>인원</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr th:each="program: ${exps}"  >
+												<td >[[${program.progType}]]</td>
+												<td th:text="${searchType}"></td>
+												<td >[[${program.progNumber}]]</td>
+												<td >[[${program.peopleNumber}]]</td>
+											</tr>
+                                        </tbody>
+                                         <tfoot>
+                                            <tr>
+                                                <th ><strong></strong></th>
+                                                <th ><strong></strong></th>
+                                                <th ><strong>계</strong></th>
+                                                <th class="ePeopleNumber"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">5. 어린이 행사   </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="ChildrenTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th>체험종류</th>
+												<th>구분</th>
+												<th>회차</th>
+												<th>인원</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr th:each="program: ${expChildren}"  >
+												<td >[[${program.progType}]]</td>
+												<td th:text="${searchType}"></td>
+												<td >[[${program.progNumber}]]</td>
+												<td >[[${program.peopleNumber}]]</td>
+											</tr>
+                                        </tbody>
+                                         <tfoot>
+                                            <tr>
+                                                <th ><strong></strong></th>
+                                                <th ><strong></strong></th>
+                                                <th ><strong>계</strong></th>
+                                                <th class="cPeopleNumber"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">6. 도서관 주간   </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="SelfLibTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th>프로그램</th>
+												<th>구분</th>
+												<th>참석인원</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr th:each="program: ${selfLibs}"  >
+												<td >[[${program.progType}]]</td>
+												<td th:text="${searchType}"></td>
+												<td >[[${program.peopleNumber}]]</td>
+											</tr>
+                                        </tbody>
+                                         <tfoot>
+                                            <tr>
+                                                <th ><strong></strong></th>
+                                                <th ><strong>계</strong></th>
+                                                <th class="sPeopleNumber"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">7. 독서의 달   </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="BooksTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th>프로그램</th>
+												<th>구분</th>
+												<th>참석인원</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr th:each="program: ${books}"  >
+												<td >[[${program.progType}]]</td>
+												<td th:text="${searchType}"></td>
+												<td >[[${program.peopleNumber}]]</td>
+											</tr>
+                                        </tbody>
+                                         <tfoot>
+                                            <tr>
+                                                <th ><strong></strong></th>
+                                                <th ><strong>계</strong></th>
+                                                <th class="bPeopleNumber"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">8. 기타행사   </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="EtcTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th>프로그램</th>
+												<th>구분</th>
+												<th>참석인원</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr th:each="program: ${etc}"  >
+												<td >[[${program.progType}]]</td>
+												<td th:text="${searchType}"></td>
+												<td >[[${program.peopleNumber}]]</td>
+											</tr>
+                                        </tbody>
+                                         <tfoot>
+                                            <tr>
+                                                <th ><strong></strong></th>
+                                                <th ><strong>계</strong></th>
+                                                <th class="etcPeopleNumber"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </form>
+                <!--/form body-->
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!-- Date picker plugins css -->
+    <link href="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<script th:src="@{/js/printThis.js}" src="js/printThis.js"></script>
+    
+	<!-- Editable -->
+    <script src="/elite/assets/node_modules/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    
+    <script type="text/javascript">
+    function NumComma(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+
+    $(document).ready(function() {
+    	  var table = $('#ProgramTB').DataTable({
+    			searching: false,
+    		    ordering:  false,
+    			paging: false,
+    			 "bInfo" : false
+    		});
+		
+    	$(".UseChildBoyNumSum").text(NumComma(table.column( 3 ).data().sum()));
+		$(".UseChildGirlNumSum").text(table.column( 4 ).data().sum());
+		$(".UseYouthBoyNumSum").text(table.column( 5).data().sum());
+		$(".UseYouthGirlNumSum").text(table.column( 6).data().sum());
+		$(".UseNumManSum").text(table.column( 7 ).data().sum());
+		$(".UseNumWomanSum").text(table.column( 8 ).data().sum());
+		$(".UseNumTotalSum").text(table.column( 9 ).data().sum());
+		
+		var tableS = $('#SchoolTB').DataTable({
+	    			searching: false,
+	    		    ordering:  false,
+	    			paging: false,
+	    			 "bInfo" : false
+	   	});
+		
+		$(".sUseChildBoyNumSum").text(tableS.column( 4 ).data().sum());
+		$(".sUseChildGirlNumSum").text(tableS.column( 5 ).data().sum());
+		$(".sUseYouthBoyNumSum").text(tableS.column( 6).data().sum());
+		$(".sUseYouthGirlNumSum").text(tableS.column( 7).data().sum());
+		$(".sUseNumManSum").text(tableS.column( 8 ).data().sum());
+		$(".sUseNumWomanSum").text(tableS.column( 9 ).data().sum());
+		$(".sUseNumTotalSum").text(tableS.column( 10 ).data().sum());
+	
+		var tableR = $('#ReadingTB').DataTable({
+		    			searching: false,
+		    		    ordering:  false,
+		    			paging: false,
+		    			 "bInfo" : false
+		 });
+		
+		$(".rUseChildBoyNumSum").text(tableR.column( 3 ).data().sum());
+		$(".rUseChildGirlNumSum").text(tableR.column( 4 ).data().sum());
+		$(".rUseYouthBoyNumSum").text(tableR.column( 5).data().sum());
+		$(".rUseYouthGirlNumSum").text(tableR.column( 6).data().sum());
+		$(".rUseNumManSum").text(tableR.column( 7 ).data().sum());
+		$(".rUseNumWomanSum").text(tableR.column( 8 ).data().sum());
+		$(".rUseNumTotalSum").text(tableR.column( 9 ).data().sum());
+		
+		var tableR = $('#ExpTB').DataTable({
+	    			searching: false,
+	    		    ordering:  false,
+	    			paging: false,
+	    			 "bInfo" : false
+	   	});
+		
+		$(".ePeopleNumber").text(tableR.column( 3 ).data().sum());
+
+		var tableR = $('#ChildrenTB').DataTable({
+	    			searching: false,
+	    		    ordering:  false,
+	    			paging: false,
+	    			 "bInfo" : false
+	   	});
+		
+		$(".cPeopleNumber").text(tableR.column( 3 ).data().sum());
+					
+		var tableR = $('#SelfLibTB').DataTable({
+	    			searching: false,
+	    		    ordering:  false,
+	    			paging: false,
+	    			 "bInfo" : false
+	   	});
+		
+		$(".sPeopleNumber").text(tableR.column( 2 ).data().sum());					
+
+		var tableR = $('#BooksTB').DataTable({
+	    			searching: false,
+	    		    ordering:  false,
+	    			paging: false,
+	    			 "bInfo" : false
+	    });
+		
+		$(".bPeopleNumber").text(tableR.column( 2 ).data().sum());	
+		
+		var tableR = $('#EtcTB').DataTable({
+	    			searching: false,
+	    		    ordering:  false,
+	    			paging: false,
+	    			 "bInfo" : false
+		});
+		
+		$(".etcPeopleNumber").text(tableR.column( 2 ).data().sum());			
+		
+    	btnSearch();
+    	
+    	if(dateDiff($("#fromDt").val(), $("#toDt").val()) <= 1) $(".searchDateType").text("일계");
+    	else if(dateDiff($("#fromDt").val(), $("#toDt").val()) == 364) $(".searchDateType").text("연계");
+    	else $(".searchDateType").text("기간");
+    	
+    });
+    
+    $('#fromDt').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'kr'
+    });
+    
+    $('#toDt').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'ko'
+    });
+    
+    var btnSearch = function (){
+    	  $("#btnSearch").click(function () {
+    		location.href="/event/event-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=기간";
+    	  })
+    	  
+    	   $("#btnSearchDay").click(function () {
+    		location.href="/event/event-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=일계";
+    	  })
+    	  
+    	   $("#btnSearchYear").click(function () {
+    		location.href="/event/event-statistic?fromDt="+$("#fromDt").val()+"&toDt="+$("#toDt").val()+"&searchType=연계";
+    	  })
+    	  
+    	  $("#btnPrint").click(function () {
+  			$("#mainForm").printThis();
+  		});
+    }
+   
+    </script>
+</body>
+
+</html>

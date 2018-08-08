@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">어린이실</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">자료실</li>
+                                <li class="breadcrumb-item active">어린이실 근무일지</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" th:action="@{'/dataroom/save/' + ${childLog.cDate}}" >
+               	<input type="hidden" id="id" th:value="${childLog.id}" />
+               	<input type="hidden" id="AccUserInManSumSrc"	th:value="${childLogSum.AccUserInManSumSrc}"/>
+               	<input type="hidden" id="AccUserInWomanSumSrc" th:value="${childLogSum.AccUserInWomanSumSrc}"/>
+               	<input type="hidden" id="AccUserOutManSumSrc" th:value="${childLogSum.AccUserOutManSumSrc}"/>
+               	<input type="hidden" id="AccUserOutWomanSumSrc" th:value="${childLogSum.AccUserOutWomanSumSrc}"/>
+               	
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="cDate" placeholder="yyyy-mm-dd" th:value="${childLog.cDate}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">1. 자료보유 현황</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="DRStaticTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th>구분</th>
+                                                <th>000</th>
+                                                <th>100</th>
+                                                <th>200</th>
+                                                <th>300</th>
+                                                <th>400</th>
+                                                <th>500</th>
+                                                <th>600</th>
+                                                <th>700</th>
+                                                <th>800</th>
+                                                <th>900</th>
+                                                <th>계</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>관내아동</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                            <tr>
+                                                <th>서양서아동</th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                                <th></th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">2. 이용자현황</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UserStaticTB" class="table editable-table table-bordered  m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th rowspan="2">구분</th>
+                                                <th colspan="3">관내계</th>
+                                                <th colspan="3">관외계</th>
+                                                <th colspan="3">합계</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th>남</th>
+                                                <th>여</th>
+                                                <th>계</th>
+                                                <th>남</th>
+                                                <th>여</th>
+                                                <th>계</th>
+                                                <th>남</th>
+                                                <th>여</th>
+                                                <th>계</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>일계</th>
+                                                <td class="UserInMan">[[${childLog.UserInMan}]]</td>
+                                                <td class="UserInWoman">[[${childLog.UserInWoman}]]</td>
+                                                <th class="table-warning UserInSum">0</th>
+                                                <td class="UserOutMan">[[${childLog.UserOutMan}]]</td>
+                                                <td class="UserOutWoman">[[${childLog.UserOutWoman}]]</td>
+                                                <th class="table-warning UserOutSum">0</th>
+                                                <th class="table-warning UserManSum">0</th>
+                                                <th class="table-warning UserWomanSum">0</th>
+                                                <th class="table-warning UserSum">0</th>
+                                            </tr>
+                                            <tr class="table-warning">
+                                                <th>누계</th>
+                                                <th class="AccUserInManSum">[[${childLogSum.UserInManSum}]]</th>
+                                                <th class="AccUserInWomanSum">[[${childLogSum.UserInWomanSum}]]</th>
+                                                <th class="AccUserInSum">[[${childLogSum.UserInSum}]]</th>
+                                                <th class="AccUserOutManSum">[[${childLogSum.UserOutManSum}]]</th>
+                                                <th class="AccUserOutWomanSum">[[${childLogSum.UserOutWomanSum}]]</th>
+                                                <th class="AccUserOutSum">[[${childLogSum.UserOutSum}]]</th>
+                                                <th class="AccUserManSum">[[${childLogSum.UserManSum}]]</th>
+                                                <th class="AccUserWomanSum">[[${childLogSum.UserWomanSum}]]</th>
+                                                <th class="AccUserSum">[[${childLogSum.UserSum}]]</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">3. 이용자료 현황</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UseDRStaticTB" class="table editable-table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th colspan="2">구분</th>
+                                                <th>000</th>
+                                                <th>100</th>
+                                                <th>200</th>
+                                                <th>300</th>
+                                                <th>400</th>
+                                                <th>500</th>
+                                                <th>600</th>
+                                                <th>700</th>
+                                                <th>800</th>
+                                                <th>900</th>
+                                                <th>계</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th rowspan="2">관내</th>
+                                                <th>일계</th>
+                                                <td class="UseDRIn000">[[${childLog.UseIn000}]]</td>
+                                                <td class="UseDRIn100">[[${childLog.UseIn100}]]</td>
+                                                <td class="UseDRIn200">[[${childLog.UseIn200}]]</td>
+                                                <td class="UseDRIn300">[[${childLog.UseIn300}]]</td>
+                                                <td class="UseDRIn400">[[${childLog.UseIn400}]]</td>
+                                                <td class="UseDRIn500">[[${childLog.UseIn500}]]</td>
+                                                <td class="UseDRIn600">[[${childLog.UseIn600}]]</td>
+                                                <td class="UseDRIn700">[[${childLog.UseIn700}]]</td>
+                                                <td class="UseDRIn800">[[${childLog.UseIn800}]]</td>
+                                                <td class="UseDRIn900">[[${childLog.UseIn900}]]</td>
+                                                <th class="table-warning UseDRInSum">0</th>
+                                            </tr>
+                                            <tr class="table-warning">
+                                                <th>누계</th>
+                                                <td class="AccUseDRIn000">[[${childLogSum.UseInSums[0]}]]</td>
+                                                <td class="AccUseDRIn100">[[${childLogSum.UseInSums[1]}]]</td>
+                                                <td class="AccUseDRIn200">[[${childLogSum.UseInSums[2]}]]</td>
+                                                <td class="AccUseDRIn300">[[${childLogSum.UseInSums[3]}]]</td>
+                                                <td class="AccUseDRIn400">[[${childLogSum.UseInSums[4]}]]</td>
+                                                <td class="AccUseDRIn500">[[${childLogSum.UseInSums[5]}]]</td>
+                                                <td class="AccUseDRIn600">[[${childLogSum.UseInSums[6]}]]</td>
+                                                <td class="AccUseDRIn700">[[${childLogSum.UseInSums[7]}]]</td>
+                                                <td class="AccUseDRIn800">[[${childLogSum.UseInSums[8]}]]</td>
+                                                <td class="AccUseDRIn900">[[${childLogSum.UseInSums[9]}]]</td>
+                                                <th class="table-warning AccUseDRInSum">0</th>
+                                            </tr>
+                                            <tr>
+                                                <th rowspan="2">관외</th>
+                                                <th>일계</th>
+                                                <td class="UseDROut000">[[${childLog.UseOut000}]]</td>
+                                                <td class="UseDROut100">[[${childLog.UseOut100}]]</td>
+                                                <td class="UseDROut200">[[${childLog.UseOut200}]]</td>
+                                                <td class="UseDROut300">[[${childLog.UseOut300}]]</td>
+                                                <td class="UseDROut400">[[${childLog.UseOut400}]]</td>
+                                                <td class="UseDROut500">[[${childLog.UseOut500}]]</td>
+                                                <td class="UseDROut600">[[${childLog.UseOut600}]]</td>
+                                                <td class="UseDROut700">[[${childLog.UseOut700}]]</td>
+                                                <td class="UseDROut800">[[${childLog.UseOut800}]]</td>
+                                                <td class="UseDROut900">[[${childLog.UseOut900}]]</td>
+                                                <th class="table-warning UseDROutSum">0</th>
+                                            </tr>
+                                            <tr class="table-warning">
+                                                <th>누계</th>
+                                                <td class="AccUseDROut000">[[${childLogSum.UseOutSums[0]}]]</td>
+                                                <td class="AccUseDROut100">[[${childLogSum.UseOutSums[1]}]]</td>
+                                                <td class="AccUseDROut200">[[${childLogSum.UseOutSums[2]}]]</td>
+                                                <td class="AccUseDROut300">[[${childLogSum.UseOutSums[3]}]]</td>
+                                                <td class="AccUseDROut400">[[${childLogSum.UseOutSums[4]}]]</td>
+                                                <td class="AccUseDROut500">[[${childLogSum.UseOutSums[5]}]]</td>
+                                                <td class="AccUseDROut600">[[${childLogSum.UseOutSums[6]}]]</td>
+                                                <td class="AccUseDROut700">[[${childLogSum.UseOutSums[7]}]]</td>
+                                                <td class="AccUseDROut800">[[${childLogSum.UseOutSums[8]}]]</td>
+                                                <td class="AccUseDROut900">[[${childLogSum.UseOutSums[9]}]]</td>
+                                                <th class="table-warning AccUseDROutSum">0</th>
+                                            </tr>
+                                            <tr >
+                                                <th rowspan="2">합계</th>
+                                                <th>일계</th>
+                                                <td class="UseDR000Sum">0</td>
+                                                <td class="UseDR100Sum">0</td>
+                                                <td class="UseDR200Sum">0</td>
+                                                <td class="UseDR300Sum">0</td>
+                                                <td class="UseDR400Sum">0</td>
+                                                <td class="UseDR500Sum">0</td>
+                                                <td class="UseDR600Sum">0</td>
+                                                <td class="UseDR700Sum">0</td>
+                                                <td class="UseDR800Sum">0</td>
+                                                <td class="UseDR900Sum">0</td>
+                                                <th class="table-warning UseDRSum">0</th>
+                                            </tr>
+                                            <tr class="table-warning">
+                                                <th>누계</th>
+                                                <td class="AccUseDR000">0</td>
+                                                <td class="AccUseDR100">0</td>
+                                                <td class="AccUseDR200">0</td>
+                                                <td class="AccUseDR300">0</td>
+                                                <td class="AccUseDR400">0</td>
+                                                <td class="AccUseDR500">0</td>
+                                                <td class="AccUseDR600">0</td>
+                                                <td class="AccUseDR700">0</td>
+                                                <td class="AccUseDR800">0</td>
+                                                <td class="AccUseDR900">0</td>
+                                                <th class="table-warning AccUseDRSum">0</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">4. 관외대출회원 가입 및 특별활동 현황</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="SPCStaticTB" class="table editable-table table-bordered  m-b-0" align="center" >
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th rowspan="3">구분</th>
+                                                <th rowspan="2" colspan="3">관외대출회원가입</th>
+                                                <th rowspan="3">회원증</br>재발급</th>
+                                                <th colspan="4">현장학습</th>
+                                                <th colspan="4">자원봉사</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th colspan="2">유치원</th>
+                                                <th colspan="2">초등학교</th>
+                                                <th rowspan="2">중학생</th>
+                                                <th rowspan="2">고등학생</th>
+                                                <th rowspan="2">일반</th>
+                                                <th rowspan="2">계</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th>남</th>
+                                                <th>여</th>
+                                                <th>계</th>
+                                                <th>회차</th>
+                                                <th>명</th>
+                                                <th>회차</th>
+                                                <th>명</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>일계</th>
+                                                <td class="RentMan">[[${childLog.RentMan}]]</td>
+                                                <td class="RentWoman">[[${childLog.RentWoman}]]</td>
+                                                <th class="table-warning RentSum">0</th>
+                                                <td class="RentCard">[[${childLog.RentCard}]]</td>
+                                                <td class="RentUchiTime">[[${childLog.RentUchiTime}]]</td>
+                                                <td class="RentUchiCnt">[[${childLog.RentUchiCnt}]]</td>
+                                                <td class="RentLowTime">[[${childLog.RentLowTime}]]</td>
+                                                <td class="RentLowCnt">[[${childLog.RentLowCnt}]]</td>
+                                                <td class="RentMiddleCnt">[[${childLog.RentMiddleCnt}]]</td>
+                                                <td class="RentHighCnt">[[${childLog.RentHighCnt}]]</td>
+                                                <td class="RentOtherCnt">[[${childLog.RentOtherCnt}]]</td>
+                                                <th class="table-warning RentOtherSum">0</th>
+                                            </tr>
+                                            <tr class="table-warning">
+                                                <th>누계</th>
+                                                <td class="AccRentMan">0</td>
+                                                <td class="AccRentWoman">0</td>
+                                                <th class="AccRentSum">0</th>
+                                                <th class="AccRentCard">0</th>
+                                                <th class="AccRentUchiTime">0</th>
+                                                <th class="AccRentUchiCnt">0</th>
+                                                <th class="AccRentLowTime">0</th>
+                                                <th class="AccRentLowCnt">0</th>
+                                                <th class="AccRentMiddleCnt">0</th>
+                                                <th class="AccRentHighCnt">0</th>
+                                                <th class="AccRentOtherCnt">0</th>
+                                                <th class="AccRentOtherSum">0</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">5. 로봇체험 학습관 현황</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="RobotStaticTB" class="table editable-table table-bordered  m-b-0" align="center" >
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th rowspan="2">구분</th>
+                                                <th colspan="5">단체견학</th>
+                                                <th colspan="4">자유견학</th>
+                                                <th colspan="3">합계</th>
+                                                <th rowspan="4">계</th>
+                                            </tr>
+                                            <tr class="table-active">
+                                                <th>회차</th>
+                                                <th>어린이</th>
+                                                <th>중고생</th>
+                                                <th>일반</th>
+                                                <th>계</th>
+                                                <th>어린이</th>
+                                                <th>중고생</th>
+                                                <th>일반</th>
+                                                <th>계</th>
+                                                <th>어린이</th>
+                                                <th>중고생</th>
+                                                <th>일반</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th>일계</th>
+                                                <td class="RobotTime">[[${childLog.RobotTime}]]</td>
+                                                <td class="RobotGrpLowCnt">[[${childLog.RobotGrpLowCnt}]]</td>
+                                                <td class="RobotGrpHighCnt">[[${childLog.RobotGrpHighCnt}]]</td>
+                                                <td class="RobotGrpOtherCnt">[[${childLog.RobotGrpOtherCnt}]]</td>
+                                                <th class="table-warning">0</th>
+                                                <td class="RobotLowCnt">[[${childLog.RobotLowCnt}]]</td>
+                                                <td class="RobotHighCnt">[[${childLog.RobotHighCnt}]]</td>
+                                                <td class="RobotOtherCnt">[[${childLog.RobotOtherCnt}]]</td>
+                                                <th class="table-warning">0</th>
+                                                <th class="RobotLowSum">0</th>
+                                                <th class="RobotHighSum">0</th>
+                                                <th class="RobotOtherSum">0</th>
+                                                <th class="table-warning">0</th>
+                                            </tr>
+                                            <tr class="table-warning">
+                                                <th>누계</th>
+                                              	<th class="AccRobotTime">0</th>
+                                                <th class="AccRobotGrpLowCnt">0</th>
+                                                <th class="AccRobotGrpHighCnt">0</th>
+                                                <th class="AccRobotGrpOtherCnt">0</th>
+                                                <th class="Acctable-warning">0</th>
+                                                <th class="AccRobotLowCnt">0</th>
+                                                <th class="AccRobotHighCnt">0</th>
+                                                <th class="AccRobotOtherCnt">0</th>
+                                                <th class="Acctable-warning">0</th>
+                                                <th class="AccRobotLowSum">0</th>
+                                                <th class="AccRobotHighSum">0</th>
+                                                <th class="AccRobotOtherSum">0</th>
+                                                <th class="Acctable-warning">0</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">6. 기타사항</h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="RobotStaticTB" class="table editable-table table-bordered  m-b-0" align="center" >
+                                    	<tbody>
+                                            <tr>
+                                                <th >참고 & 질의</th>
+                                                <th ><input type="text" class="form-control" id="EtcQuestion" name="EtcQuestion" ></th>
+                                            </tr>
+                                            <tr>
+                                                <td>기타사항</td>
+                                                <td><textarea class="form-control" id="EtcInform" name="EtcInform" row="5" ></textarea></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <!--/form body-->
+                                    <div class="form-actions">
+                                        <button type="submit" class="btn btn-success" id="btnChildLogSave"> <i class="fa fa-check"></i> Save</button>
+                                        <button type="button" class="btn btn-inverse">Cancel</button>
+                                        <button type="button" class="btn btn-inverse">출력</button>
+                                    </div>
+                 
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <script type="text/javascript">
+    
+ 	var UserInMan 				= 0;
+ 	var UserOutMan 				= 0;
+ 	var UserOutWoman			= 0;
+ 	var AccUserInManSum 		= 0;
+ 	var AccUserInWomanSum		= 0;
+ 	var AccUserOutManSum 		= 0;
+ 	var AccUserOutWomanSum 		= 0;
+ 	var AccUserInManSumSrc 		= 0;
+ 	var AccUserInWomanSumSrc	= 0;
+ 	var AccUserOutManSumSrc		= 0;
+ 	var AccUserOutWomanSumSrc	= 0;
+ 	
+ 	var AccUseDRIn = new Array();
+ 	var AccUseDROut = new Array();
+ 	
+    $(document).ready(function(){
+    	init();
+        btnSave();
+        cDateChange();
+        UserStaticTBChange();
+        setUserStaticTB();
+        UseDRStaticTBChange();
+        setUseDRTB();
+    });
+    
+ 	
+ 	var init = function(){
+ 		AccUserInManSumSrc 		= Number($("#AccUserInManSumSrc").val());
+        AccUserInWomanSumSrc	= Number($("#AccUserInWomanSumSrc").val());
+        AccUserOutManSumSrc 	= Number($("#AccUserOutManSumSrc").val());
+        AccUserOutWomanSumSrc	= Number($("#AccUserOutWomanSumSrc").val());
+ 	}
+ 	
+ 	var setUseDRTB = function(){
+ 		$("#UseDRStaticTB tr").each(function(index){
+			var currentRow = $(this).closest("tr");
+			if(index==1) calDayUseDRSum();
+		  	if(index==2) calDayAccUseDRSum();
+   		});
+ 		
+ 	}
+ 	
+ 	var UseDRStaticTBChange = function(){
+    	$("#UseDRStaticTB td").change(function(){
+    		setUseDRTB();
+    	});
+    };
+    
+    var calDayUseDRSum = function(){
+    	var useDrInSum=0;
+    	for(var i=0; i<10; i++){
+    		useDrInSum += Number($(".UseDRIn"+i+"00").text());
+    	}
+		$(".UseDRInSum").text(useDrInSum);
+		
+		var useDrOutSum=0;
+    	for(var i=0; i<10; i++){
+    		useDrOutSum += Number($(".UseDROut"+i+"00").text());
+    	}
+		$(".UseDROutSum").text(useDrOutSum);
+	}
+    
+    var calDayAccUseDRSum = function(){
+    	getAccSrcAjaxCall();
+    }
+    
+    var getAccSrcAjaxCall = function(){
+    	var eventData ={cDate:$("#cDate").val()};
+    	$.ajax({
+			url : "/dataroom/children/accumulate",
+			data: eventData,
+			method : "get",
+			success : function(result) {
+				setAccSrc(result);	
+				
+			},
+			error : function(data) {
+				console.error("Update snapshot", data);
+			}
+	    });
+    }
+    
+    var setAccSrc = function(result){
+    	var useDrInSum=0;
+    	for(var i=0; i<10; i++){
+    		$(".AccUseDRIn"+i+"00").text( Number(eval("result.AccUseDRIn"+i) ) + Number($(".UseDRIn"+i+"00").text()) );
+    		useDrInSum += Number($(".AccUseDRIn"+i+"00").text());
+    	}
+    	$(".AccUseDRInSum").text(useDrInSum);
+    	
+    	var useDrOutSum=0;
+    	for(var i=0; i<10; i++){
+    		$(".AccUseDROut"+i+"00").text( Number(eval("result.AccUseDROut"+i)) + Number($(".UseDROut"+i+"00").text()) );
+    		useDrOutSum += Number($(".AccUseDROut"+i+"00").text());
+    	}
+    	$(".AccUseDROutSum").text(useDrOutSum);
+    	
+    	UseDRTot();
+    			
+    }
+ 	var UseDRTot = function(){
+ 		
+ 		var useDrIn=0;
+ 		var useDrOut=0;
+ 		var UseDRSum=0;
+    	for(var i=0; i<10; i++){
+    		useDrIn = Number($(".UseDRIn"+i+"00").text());
+    		useDrOut = Number($(".UseDROut"+i+"00").text());
+    		$(".UseDR"+i+"00Sum").text(useDrIn+useDrOut);
+    		UseDRSum += useDrIn+useDrOut
+    	}
+    	$(".UseDRSum").text(UseDRSum);
+    	
+ 		
+ 		var AccUseDrInSum=0;
+ 		var AccUseDrOutSum=0;
+ 		var AccUseDrSum=0;
+    	for(var i=0; i<10; i++){
+    		AccUseDrInSum = Number($(".AccUseDRIn"+i+"00").text());
+    		AccUseDrOutSum = Number($(".AccUseDROut"+i+"00").text());
+    		$(".AccUseDR"+i+"00").text(AccUseDrInSum+AccUseDrOutSum);
+    		AccUseDrSum += AccUseDrInSum+AccUseDrOutSum
+    	}
+    	$(".AccUseDRSum").text(AccUseDrSum);
+    	
+ 	}
+    
+    /** **/
+    var UserStaticTBChange = function(){
+    	$("#UserStaticTB td").change(function(){
+    		setUserStaticTB();
+    	});
+    };
+    
+    var setUserStaticTB = function(){
+    	$("#UserStaticTB tr").each(function(index){
+			var currentRow = $(this).closest("tr");
+			if(index==2) calDaySum(currentRow);
+		  	if(index==3) calAccSum(currentRow);
+   		});
+    }
+    var calDaySum = function(currentRow){
+			UserInMan 	 = Number(currentRow.find(".UserInMan").text());
+			UserInWoman  = Number(currentRow.find(".UserInWoman").text());
+			UserOutMan   = Number(currentRow.find(".UserOutMan").text());
+			UserOutWoman = Number(currentRow.find(".UserOutWoman").text());
+			currentRow.find(".UserInSum").text(UserInMan + UserInWoman);
+			currentRow.find(".UserOutSum").text(UserOutMan + UserOutWoman);
+			currentRow.find(".UserManSum").text(UserInMan  + UserOutMan);
+			currentRow.find(".UserWomanSum").text(UserInWoman + UserOutWoman );
+			currentRow.find(".UserSum").text(UserInMan + UserInWoman + UserOutMan + UserOutWoman);
+    }
+    var calAccSum = function(currentRow){
+		currentRow.find(".AccUserInManSum").text(UserInMan + AccUserInManSumSrc);
+		currentRow.find(".AccUserInWomanSum").text(UserInWoman + AccUserInWomanSumSrc);
+		currentRow.find(".AccUserInSum").text(UserInMan + UserInWoman + AccUserInManSumSrc + AccUserInWomanSumSrc);
+		currentRow.find(".AccUserManSum").text(UserInMan+UserOutMan+AccUserInManSumSrc);
+		currentRow.find(".AccUserOutManSum").text(UserOutMan + AccUserOutManSumSrc);
+		currentRow.find(".AccUserOutWomanSum").text(UserOutWoman + AccUserOutWomanSumSrc);
+		currentRow.find(".AccUserOutSum").text(UserOutMan + UserOutWoman + AccUserOutManSumSrc + AccUserOutWomanSumSrc);
+		currentRow.find(".AccUserWomanSum").text(UserInWoman+UserOutWoman+AccUserInWoman8SumSrc);
+		currentRow.find(".AccUserSum").text(Number(currentRow.find(".AccUserInSum").text())+Number(currentRow.find(".AccUserOutSum").text()));
+    }
+    
+    var cDateChange = function (){
+    	$("#cDate").change(function(){
+    		location.href="/dataroom/children/"+$("#cDate").val();
+    	});
+    };
+    
+    var btnSave = function(){
+        $("#btnChildLogSave").click(function () {
+        	var arrData=[];
+        	var eventData = {id:$("#id").val(), cDate:$("#cDate").val()}; 
+      		   	$("#UserStaticTB tr").each(function(index){
+      			   var currentRow = $(this).closest("tr");
+      			   if(index==2){ //3line
+       				eventData.UserInMan = currentRow.find(".UserInMan").text();
+       				eventData.UserInWoman = currentRow.find(".UserInWoman").text();
+       				eventData.UserOutMan = currentRow.find(".UserOutMan").text();
+       				eventData.UserOutWoman = currentRow.find(".UserOutWoman").text();
+      			   }
+       	   		});
+      		   
+				$("#UseDRStaticTB tr").each(function(index){
+    			   var currentRow = $(this).closest("tr");
+    			   if(index==1){
+	     				eventData.UseIn000 = currentRow.find(".UseDRIn000").text();
+	     				eventData.UseIn100 = currentRow.find(".UseDRIn100").text();
+	     				eventData.UseIn200 = currentRow.find(".UseDRIn200").text();
+	     				eventData.UseIn300 = currentRow.find(".UseDRIn300").text();
+	     				eventData.UseIn400 = currentRow.find(".UseDRIn400").text();
+	     				eventData.UseIn500 = currentRow.find(".UseDRIn500").text();
+	     				eventData.UseIn600 = currentRow.find(".UseDRIn600").text();
+	     				eventData.UseIn700 = currentRow.find(".UseDRIn700").text();
+	     				eventData.UseIn800 = currentRow.find(".UseDRIn800").text();
+	     				eventData.UseIn900 = currentRow.find(".UseDRIn900").text();
+    			   }
+    			   
+    			   if(index==3){ 
+						eventData.UseOut000 = currentRow.find(".UseDROut000").text();
+	     				eventData.UseOut100 = currentRow.find(".UseDROut100").text();
+	     				eventData.UseOut200 = currentRow.find(".UseDROut200").text();
+	     				eventData.UseOut300 = currentRow.find(".UseDROut300").text();
+	     				eventData.UseOut400 = currentRow.find(".UseDROut400").text();
+	     				eventData.UseOut500 = currentRow.find(".UseDROut500").text();
+	     				eventData.UseOut600 = currentRow.find(".UseDROut600").text();
+	     				eventData.UseOut700 = currentRow.find(".UseDROut700").text();
+	     				eventData.UseOut800 = currentRow.find(".UseDROut800").text();
+	     				eventData.UseOut900 = currentRow.find(".UseDROut900").text();
+       			   }
+     	   		});
+				
+				$("#SPCStaticTB tr").each(function(index){
+   			   		var currentRow = $(this).closest("tr");
+	    			if(index==2){
+	    				console.log("RentMan"+$(".RentMan").text());
+	    				
+	    				eventData.RentMan 		= $(".RentMan").text();
+	    				eventData.RentWoman 	= $(".RentWoman").text();
+	    				eventData.RentCard		= $(".RentCard").text();
+	    				eventData.RentUchiTime 	= $(".RentUchiTime").text();
+	    				eventData.RentUchiCnt 	= $(".RentUchiCnt").text();
+	    				eventData.RentLowTime 	= $(".RentLowTime").text();
+	    				eventData.RentLowCnt 	= $(".RentLowCnt").text();
+	    				eventData.RentMiddleCnt = $(".RentMiddleCnt").text();
+	    				eventData.RentHighCnt 	= $(".RentHighCnt").text();
+	    				eventData.RentOtherCnt 	= $(".RentOtherCnt").text();
+	    			}
+				});
+       	   		
+				$("#RobotStaticTB tr").each(function(index){
+   			   		var currentRow = $(this).closest("tr");
+	    			if(index==2){
+	    				
+	    				eventData.RobotTime       	= $(".RobotTime").text();
+	    				eventData.RobotGrpLowCnt  	= $(".RobotGrpLowCnt").text();
+	    				eventData.RobotGrpHighCnt 	= $(".RobotGrpHighCnt").text();
+	    				eventData.RobotGrpOtherCnt	= $(".RobotGrpOtherCnt").text();
+	    				eventData.RobotLowCnt     	= $(".RobotLowCnt").text();
+	    				eventData.RobotHighCnt    	= $(".RobotHighCnt").text();
+	    				eventData.RobotOtherCnt   	= $(".RobotOtherCnt").text();
+	    			}
+				});
+				
+				eventData.EtcQuestion= $("#EtcQuestion").val();
+				eventData.EtcInform= $("#EtcInform").val();
+				
+       		$.ajax({
+				url : "/dataroom/children/create",
+				data: eventData,
+				method : "put",
+				success : function(result) {
+					console.log("등록 ID:"+result.id);
+					$("#id").val(result.id);
+					alert("등록되었습니다.");
+				},
+				error : function(data) {
+					console.error("Update snapshot", data);
+				}
+		    });
+        });
+    }
+    
+    </script>
+   
+    <!-- Date picker plugins css -->
+    <link href="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    
+    
+    <!-- Editable -->
+    <script src="/elite/assets/node_modules/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="/elite/assets/node_modules/datatables/dataTables.bootstrap.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    <script>
+    $('#DRStaticTB').editableTableWidget().numericInputExample().find('td:first').focus();
+    $('#UserStaticTB').editableTableWidget().numericInputExample().find('td:first').focus();
+    $('#UseDRStaticTB').editableTableWidget().numericInputExample().find('td:first').focus();
+    $('#SPCStaticTB').editableTableWidget().numericInputExample().find('td:first').focus();
+    $('#RobotStaticTB').editableTableWidget().numericInputExample().find('td:first').focus();
+    $(document).ready(function() {
+        $('#editable-datatable').DataTable();
+    });
+    
+    $('#cDate').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'ko'
+    });
+    </script>
+</body>
+
+</html>

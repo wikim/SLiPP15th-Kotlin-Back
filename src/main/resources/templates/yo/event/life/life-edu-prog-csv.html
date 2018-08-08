@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='도서관행사')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">평생교육프로그램 </h4>
+                    </div>
+
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" >
+               	
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">  </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                   
+                                    <table id="example231" class="display nowrap table editable-table table-bordered m-b-0" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+												<th class="text-center"> 강좌명</th>
+												<th  class="text-center">강사명</th>
+												<th  class="text-center">교육시작일자</th>
+												<th  class="text-center">교육종료일자</th>
+												<th  class="text-center">교육시작시각</th>
+												<th  class="text-center">교육종료시각</th>
+												<th  class="text-center">강좌내용</th>
+												<th  class="text-center">교육대상구분</th>
+												<th  class="text-center">교육방법구분</th>
+												<th  class="text-center">운영요일</th>
+												<th  class="text-center">교육장소</th>
+												<th  class="text-center">강좌정원수</th>
+												<th  class="text-center">수강료</th>
+												<th  class="text-center">교육장도로명주소</th>
+												<th  class="text-center">운영기관명</th>
+												<th  class="text-center">운영기관전화번호</th>
+												<th  class="text-center">접수시작일자</th>
+												<th  class="text-center">접수종료일자</th>
+												<th  class="text-center">접수방법구분</th>
+												<th  class="text-center">선정방법구분</th>
+												<th  class="text-center">홈페이지주소</th>
+												<th  class="text-center">직업능력개발훈련비지원강좌여부</th>
+												<th  class="text-center">학점은행제평가(학점)인정여부</th>
+												<th  class="text-center">평생학습계좌제평가인정여부</th>
+												<th  class="text-center">데이터기준일자</th>
+                                            </tr>
+                                        </thead>
+                                       <tbody>
+                                            <tr th:each="data, index : ${pages.contents}" >
+                                            		<th role="row"><span th:text="${data.LectureNm}"></span></td>
+												<th role="row"><span th:text="${data.TeacherNm}"></span></td>
+												<th role="row"><span th:text="${data.EduStartDt }"></span></td>
+												<th role="row"><span th:text="${data.EduEndDt  }"></span></td>
+												<th role="row"><span th:text="${data.EduStartTime}"></span></td>
+												<th role="row"><span th:text="${data.EduEndTime  }"></span></td>
+												<th role="row"><span th:text="${data.Contents  }"></span></td>
+												<th role="row"><span th:text="${data.StudentTarget}"></span></td>
+												<th role="row"><span th:text="${data.EduType }"></span></td>
+												<th role="row"><span th:text="${data.OpWeek  }"></span></td>
+												<th role="row"><span th:text="${data.EduRoom  }"></span></td>
+												<th role="row"><span th:text="${data.LimitStudentCount }"></span></td>
+												<th role="row"><span th:text="${data.Price  }"></span></td>
+												<th role="row"><span th:text="${data.Address }"></span></td>
+												<th role="row"><span th:text="${data.OrgNm }"></span></td>
+												<th role="row"><span th:text="${data.OrgTelNo}"></span></td>
+												<th role="row"><span th:text="${data.ReceiveStartDt }"></span></td>
+												<th role="row"><span th:text="${data.ReceiveEndDt}"></span></td>
+												<th role="row"><span th:text="${data.ReceiveType }"></span></td>
+												<th role="row"><span th:text="${data.SelectionType }"></span></td>
+												<th role="row"><span th:text="${data.HomePage  }"></span></td>
+												<th role="row"><span th:text="${data.PriceSupportYN }"></span></td>
+												<th role="row"><span th:text="${data.CreditBankYN}"></span></td>
+												<th role="row"><span th:text="${data.LifeEduRecordApprovalYN}"></span></td>
+												<th role="row"><span th:text="${data.LegalDate}"  ></span></td>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+     <!-- This is data table -->
+    <script type="text/javascript">
+    
+  //표준 테이블 
+    $('#example231').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+           'excel', 'print','csv'
+        ],
+        "order": []
+    });
+    
+    </script>
+</body>
+
+</html>

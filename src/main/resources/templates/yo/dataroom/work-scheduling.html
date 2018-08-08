@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='근무표')"></meta>
+    <style>
+    * {
+		font-size: 15px;
+	}
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">근무표</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">자료실</li>
+                                <li class="breadcrumb-item active">근무표/근무명령부</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form id="mainForm" name="mainForm" th:action="@{'/dataroom/work-scheduling}" >
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="cDate" name="cDate" placeholder="yyyy-mm" th:value="${cDate}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">
+                                		<span id="workTitle" th:text="${cDate} + ' 자료실 근무표'"></span>
+	                                <th:block th:if="${generated == false}">
+	                                	<span th:text="'  -  ' + ${workerInfo}">근무순서</span>
+	                                </th:block>
+	                                <span>  (※ 근무규칙에 의한 <font color="red">예상 근무표입니다. 일정관리용으로만 활용</font>하시기 바랍니다. ) </span>	
+                                </h4>
+                                <h6 class="card-subtitle">
+		                        	<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 6 and result.createYn}">
+			                        	<div class="input-group">
+		                               		<th:block th:if="${generated == false}">
+		                               			<button type="button" id="btnNewCreate" name="btnNewCreate" class="btn btn-info d-none d-lg-block m-l-15"><i class="fa fa-plus-circle"></i> 신규생성</button>
+		                                	</th:block>
+		                               		<button type="button" id="btnReset" name="btnReset" class="btn btn-warning d-none d-lg-block m-l-15"><i class="fa fa-check"></i> 초기화</button>
+				                    	</div>
+		                        	</th:block>
+                                </h6>
+                                <div class="table-responsive">
+                                    <table class="table nowrap table-hover table-striped table-bordered" style="font-size: 12px" id="divContents">
+                                        <thead>
+                                            <tr class="table-active" th:if="${members.size() eq 0}">
+									          <td colspan="15" th:text="#{view.table.nodatatable}"></td>
+									        </tr>
+											<tr>
+												<th:block th:each="member, iter : ${members}">
+													<td colspan="2" th:if="${iter.index} eq 0">구분</td>
+													<td><span th:text="${member.memberName}">이름</span></td>
+												</th:block>
+											</tr>
+										</thead>
+                                        <tbody>
+                                        	<tr role="row" class="even" th:classappend="${data.dayOfWeek eq '토' || data.dayOfWeek eq '일'} ? table-primary : table-active" th:each="data, iter : ${datas}" >
+                                        		<td><span th:text="${data.date}">날짜</span></td>
+                                        		<td><span th:text="${data.dayOfWeek}">요일</span></td>
+                                        		
+                                        		<th:block th:if="${data.holydayType eq 'WEEK'}" >
+                                        			<td th:colspan="${members.size()}">휴관(정기)</td>
+                                        		</th:block>
+                                        		<th:block th:if="${data.holydayType eq 'LEGAL'}" >
+                                        			<td th:colspan="${members.size()}">휴관(공휴일)</td>
+                                        		</th:block>
+                                        		<th:block th:if="${data.holydayType eq 'CUSTOM'}" >
+                                        			<td th:colspan="${members.size()}" th:text="${data.holydayTitle}">휴관(임시)</td>
+                                        		</th:block>
+									          	
+									          	<th:block th:if="${#strings.isEmpty(data.holydayType)}" th:each="member : ${members}" >
+                                       				<th:block th:if="${#lists.isEmpty(data.workers)}">
+                                       					<td class="popupDialog" data-toggle="modal" data-target="#responsive-modal" th:attr="data-id=${data.id}, data-type=new, data-worker=${member.id}"></td>
+                                       				</th:block>
+                                       				
+								          			<th:block th:if="${not #lists.isEmpty(data.workers)}">
+								          				<th:block th:if="${#lists.contains(data.members, member.id)}">
+								          					<td>
+									          					<th:block th:if="${dworker.memberId == member.id}" th:each="dworker : ${data.workers}" >
+									          						<th:block th:switch="${dworker.workType.value}">
+											          					<span th:case="0">0</span>
+																		<span th:case="1"><button type="button" th:id="'btnModal' + ${dworker.id}" name="btnModal" data-toggle="modal" data-target="#responsive-modal" th:value="${dworker.id}" th:attr="data-worktype=${dworker.workType}" class="btn waves-effect waves-light btn-secondary btn-xs btn-circle"><!-- <i class="fa fa-check"></i> -->&#10004;</button></span>
+																		<span th:case="2"><button type="button" th:id="'btnModal' + ${dworker.id}" name="btnModal" data-toggle="modal" data-target="#responsive-modal" th:value="${dworker.id}" th:attr="data-worktype=${dworker.workType}" class="btn waves-effect waves-light btn-rounded btn-xs btn-info">종합</button></span>
+																		<span th:case="3"><button type="button" th:id="'btnModal' + ${dworker.id}" name="btnModal" data-toggle="modal" data-target="#responsive-modal" th:value="${dworker.id}" th:attr="data-worktype=${dworker.workType}" class="btn waves-effect waves-light btn-rounded btn-xs btn-warning">어린이</button></span>
+																		<span th:case="4"><button type="button" th:id="'btnModal' + ${dworker.id}" name="btnModal" data-toggle="modal" data-target="#responsive-modal" th:value="${dworker.id}" th:attr="data-worktype=${dworker.workType}" class="btn waves-effect waves-light btn-rounded btn-xs btn-success">총괄</button></span>
+																	</th:block>
+									          					</th:block>
+									          				</td>
+														</th:block>
+														<th:block th:unless="${#lists.contains(data.members, member.id)}">
+															<td class="popupDialog" data-toggle="modal" data-target="#responsive-modal" th:attr="data-id=${data.id}, data-type=new, data-worker=${member.id}"></td>
+														</th:block>
+								          			</th:block>
+									          	</th:block>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                		<div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">주의 사항 </h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <ol>
+                                    	<li>사고발생 시 : 차기 월 명령 첫 대기 순번으로 대직한다.(사고기준: 본인입원 시에만 인정)</li>   
+										<li>대기 순번자가 사고자와 같은 조에 근무할 경우 : 대직에서 제외하고 후 순위자 순으로 대직한다.</li>   
+										<li>1개월 이상의 휴직, 병가인 경우 : 근무조에서 제외한다.</li>    
+										<li>인사발령의 경우 : 해당보직의 발령자가 대직한다.</li>
+										<li>시간외근무자로 지정 된 이후에 공휴(임시)일로 지정될 시 근무한 것으로 본다.</li>
+										<li>휴일근무의 대체휴무는 본도서관 대체휴무운영규정에 따른다.</li>
+                                    </ol>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </form>
+                <!--/form body-->
+                <div class="form-actions">
+                	<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 6 and result.printYn}">
+                    	<button type="button" id="btnPrint" class="btn btn-success">출력</button>
+                    	<button type="button" id="btnExport" class="btn btn-info">엑셀</button>
+                    </th:block>
+                    <button type="button" id="btnWorkOrder" class="btn btn-inverse">근무명령표</button>
+                </div>
+                 
+            </div>
+        </div>
+    </div>
+    
+     	<div id="responsive-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+	        <div class="modal-dialog">
+	            <div class="modal-content">
+	                <div class="modal-header">
+	                    <h4 class="modal-title">근무표</h4>
+	                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	                </div>
+	                <div class="modal-body">
+	                   <form method="post" id="popupForm" name="popupForm" >
+	                   		<input type="hidden" id="memberId" name="memberId" value="0" />
+	                   		<input type="hidden" id="workId" name="workId" value="0" />
+	                   		<input type="hidden" id="workerId" name="workerId" value="0" />
+	                        
+	                        <div class="form-group">
+	                            <label for="message-text" class="control-label">근무구분</label>
+	                           	<select class="form-control" id="workType" name="workType">
+                                 	<option value="DUTY">당직</option>
+                                 	<option value="REFERENCE">종합</option>
+                                 	<option value="CHILD">어린이 </option>
+                                 	<option value="GENERAL">총괄</option>
+                                 </select>
+	                        </div>
+	                    </form>
+	                </div>
+	                <div class="modal-footer">
+	                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">창닫기</button>
+	                    <button type="button" class="btn btn-success waves-effect waves-light"  id="btnPopupSave">저장</button>
+	                    <button type="button" class="btn btn-danger waves-effect waves-light"  id="btnPopupDelete">삭제</button>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	    
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <script th:src="@{/js/printThis.js}" src="js/printThis.js"></script>
+    <script th:src="@{/js/ujblib/work-schedule.js}" src="js/ujblib/work-schedule.js"></script>
+    
+</body>
+
+</html>

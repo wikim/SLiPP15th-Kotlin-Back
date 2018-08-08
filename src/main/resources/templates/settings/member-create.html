@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta th:include="common/head :: common_css(title='Members')"></meta>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+       	<!-- Top Header -->
+	    <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+            	<div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">사용자관리</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item active">관리자</li>
+                                <li class="breadcrumb-item active">사용자관리</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- Row -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <form method="post" id="mainForm" name="mainForm" th:action="@{'/settings/member/save'}"  th:object="${member}">
+                                    <input type="hidden" id="_method" name="_method" value="put" />
+                                
+                                    <div class="form-body">
+                                        <h3 class="card-title">신규사용자 추가</h3>
+                                        <div class="row p-t-0">
+                                            <div class="col-md-6">
+                                                <div class="form-group has-success" >
+                                                    <label class="control-label">로그인ID</label>
+                                                    <input type="text" id="signinId"  name="signinId" class="form-control" placeholder="" th:value="${member.signinId}">
+                                                    <small class="form-control-feedback"> 3~10자 이하의 한글,영문,숫자로 입력할 수 있습니다.</small> </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group has-success">
+                                                    <label class="control-label">패스워드 기본( ujblib123!1 )</label>
+                                                    <input type="text" id="password" name="password"  class="form-control" placeholder="" th:value="${member.password}"  value="ujblib123!1"  readonly >
+                                                    <small class="form-control-feedback">6~20 이하의 영문,숫자를 입력 하시기 바랍니다.</small> </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        
+                                        <div class="row p-t-0">
+                                            <div class="col-md-6">
+                                                <div class="form-group has-success" >
+                                                    <label class="control-label">이름</label>
+                                                    <input type="text" id="name" name="name" class="form-control" placeholder="" th:value="${member.name}" >
+                                                    <small class="form-control-feedback"> 10자이하의 실명을 적어 주세요. </small> </div>
+                                            </div>
+                                            <!--/span-->
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">상태</label>
+                                                     <select class="form-control" id="status" name="status">
+			                                         	<option value="ACTIVE">사용</option>
+			                                         	<option value="STOP">중지</option>
+			                                         </select>
+                                                    <small class="form-control-feedback"></small> </div>
+                                            </div>
+                                            <!--/span-->
+                                        </div>
+                                        
+                                        <!--/row-->
+                                        <div class="row p-t-0">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="control-label">부서</label>
+                                                    <input type="text" id="departmentNm" name="departmentNm" class="form-control" placeholder="" th:value="${member.departmentNm}">
+                                                    <small class="form-control-feedback"></small> 
+                                                </div>
+                                            </div>
+                                                <div class="col-md-6">
+	                                                <div class="form-group">
+	                                                    <label class="control-label">직급</label>
+	                                                    <select class="form-control" name="gradeNm" style="font-size: 12px">
+						                                 	<option value="문헌정보과장" th:selected="${member.gradeNm == '문헌정보과장'}">문헌정보과장</option>
+						                                 	<option value="학교도서관지원과장" th:selected="${member.gradeNm == '학교도서관지원과장'}" >학교도서관지원과장</option>
+						                                 	<option value="주무관" th:selected="${member.gradeNm == '주무관'}" >주무관</option>
+						                                 	<option value="공익" th:selected="${member.gradeNm == '공익'}" >공익</option>
+						                                 </select>
+	                                                    <small class="form-control-feedback"></small> 
+	                                                 </div>
+                                                </div> 
+                                        </div>
+                                             
+                                        <!--/span-->
+                                        
+                                       
+                                    <!--/form body-->
+                                    <div class="form-actions">
+                                        <button type="submit" id="btnSave" class="btn btn-success"> <i class="fa fa-check"></i> Save</button>
+                                        <button type="button" id="btnCancel" class="btn btn-inverse">Cancel</button>
+                                    </div>
+                            	</form>
+							</div>
+						</div>
+                	</div>
+                </div>
+            </div>
+        </div>
+                <!-- Row -->
+        <!-- } Page Content : End -->
+		<!-- footer -->
+		<footer th:replace="common/footer :: footer" ></footer>
+        
+    </div>
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <script type="text/javascript">
+    $(document).ready(function(){
+    	
+    	$("#btnSave").on("click", function () {
+    		$(this).prop("disabled", true);
+    	    $(this).button('complete');
+    	    $("#mainForm").submit();
+    	});
+    	
+    	$("#btnCancel").on("click", function () {
+    		location.href = "/settings/members";
+    	});
+    });
+    
+    
+    </script>
+</body>
+
+</html>

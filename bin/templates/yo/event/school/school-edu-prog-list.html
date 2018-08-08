@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='도서관행사')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">학교지원  프로그램</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">프로그램</li>
+                                <li class="breadcrumb-item active">학교지원 프로그램</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" >
+               		<input type="hidden" id="pDate" th:value="${pDate}" />
+					<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                            	<div class="row">
+                            		<div class="col-sm-6">
+                            			<div class="dataTables_info" role="status" aria-live="polite">
+                            				<select class="form-control" id="pYear" name="pYear">
+			               						<option th:each="y : ${pYears}" th:value="${y}" th:text="${y}" th:selected="${pYear.equals(y)}"></option>
+			               					</select>
+                            			</div>
+                            		</div>
+                            		<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 9 and result.createYn}">
+	                            		<div class="col-sm-6">
+	                            			<div class="align-self-center text-right">
+	                            				<button type="button" id="btnLectureCreate" class="btn btn-info m-l-15" ><i class="fa fa-plus-circle"></i> 프로그램등록</button>
+	                            				<button type="button" id="btnCreate" class="btn btn-info m-l-15" ><i class="fa fa-plus-circle"></i> 실적등록</button>
+	                            			</div>
+	                            		</div>
+                            		</th:block>
+                            	</div>
+                                
+                               <div class="table-responsive m-t-0">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th rowspan=2>학교명</th>
+                                                <th rowspan=2>강좌명</th>
+												<th rowspan=2>구분</th>
+												<th rowspan=2>등록일</th>
+												<th colspan="2">어린이</th>
+												<th colspan="2">중고생</th>
+												<th colspan="2">일반</th>
+                                            </tr>
+                                            <tr class="table-active">
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+											</tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <tr th:each="data, index : ${page.contents}" >
+                                            	<td class="text-center"><a href=life-edu-prog-create.html th:href="@{'/event/school-edu-prog/modify/' + ${data.id}}" ><span th:text="${data.lecture.schoolNm}"></span></a></td>
+                                            	<td class="text-center"><a href=life-edu-prog-create.html th:href="@{'/event/school-edu-prog/modify/' + ${data.id}}" ><span th:text="${data.lecture.lectureNm}"></span></a></td>
+                                            	<td class="text-center"><span th:text="${data.Lecture.HalfType}"></span></td>
+                                            	<td class="text-center"><span th:text="${data.pDate}"></span></td>
+                                            		<td class="UseChildBoyNum">[[${data.UseChildBoyNum}]]</td>
+												<td class="UseChildGirlNum">[[${data.UseChildGirlNum}]]</td>
+												<td class="UseYouthBoyNum">[[${data.UseYouthBoyNum}]]</td>
+												<td class="UseYouthGirlNum">[[${data.UseYouthGirlNum}]]</td>
+												<td class="UseManNum">[[${data.UseManNum}]]</td>
+												<td class="UseWomanNum">[[${data.UseWomanNum}]]</td>	
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>	
+                </form>
+                <!--/form body-->
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!-- Date picker plugins css -->
+    <link href="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    
+    
+    <!-- Editable -->
+    <script>
+    
+    
+    $(document).ready(function() {
+        $('#editable-datatable').DataTable();
+        btnCreate();
+        changePYear();
+    });
+    
+   
+    var btnCreate = function(){
+		$("#btnCreate").click(function () {
+			var pDate = $("#pDate").val();
+			location.href = "/event/school-edu-prog/create/"+pDate;
+		});
+		
+		$("#btnLectureCreate").click(function () {
+			var pDate = $("#pDate").val();
+			location.href = "/event/school-edu-lecture";
+		});
+    }
+    
+    var changePYear = function () {
+		$("#pYear").change(function () {
+			location.href="/event/school-edu-prog/"+$("#pYear").val();
+		});
+	};
+    
+  
+    </script>
+</body>
+
+</html>

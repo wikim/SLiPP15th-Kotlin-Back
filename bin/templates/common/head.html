@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!-- Thymeleaf -->
+
+<head th:fragment="common_css" th:remove="tag">
+  <meta charset="utf-8" />
+  <title th:text="null == ${title} ? 'UJBLib Duty Record' : 'UJBLib : ' + ${title}">UJBLib Duty Record</title>
+  <meta name="description" content="app, web app, responsive, admin dashboard, admin, flat, flat ui, ui kit, off screen nav" />
+  <meta name="viewport" content="width=device-width, initial-scale=0.8, maximum-scale=0.8" />	
+  <link rel="shortcut icon" th:href="@{/images/favicon.ico}" />
+ 
+  <!-- page css -->
+  <link href="/elite/dist/css/pages/login-register-lock.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link href="/elite/dist/css/style.min.css" rel="stylesheet">
+  
+  <!-- chartist CSS -->
+    <link href="/elite/assets/node_modules/morrisjs/morris.css" rel="stylesheet">
+    <!--Toaster Popup message CSS -->
+    <link href="/elite/assets/node_modules/toast-master/css/jquery.toast.css" rel="stylesheet">
+    <!-- Dashboard 1 Page CSS -->
+    <link href="/elite/dist/css/pages/dashboard1.css" rel="stylesheet">
+    <style>
+	
+	* {
+ 		font-size: 18px;
+	}
+	
+	@-ms-viewport {
+	    width: device-width;
+	    zoom: 0.8;
+	    min-zoom: 0.8;
+	    max-zoom: 0.8;
+	    user-zoom: fixed;
+	}
+	@viewport {
+	    width: device-width;
+	    zoom: 0.8;
+	    min-zoom: 0.8;
+	    max-zoom: 0.8;
+	    user-zoom: fixed;
+	}
+	/* body {
+	    -ms-transform: scale(0.75,0.75); 
+	    -webkit-transform: scale(0.75,0.75);
+	    transform: scale(0.75,0.75); 
+	}    */
+    </style>
+  
+    
+</head>
+
+</html>

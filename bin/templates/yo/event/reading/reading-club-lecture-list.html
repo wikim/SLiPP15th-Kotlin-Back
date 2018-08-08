@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='도서관행사')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">독서회 등록</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">프로그램 </li>
+                                <li class="breadcrumb-item active">독서회 등록 </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm"  >
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+	                            		<div class="col-sm-6">
+	                            			<div class="align-self-center text-right">&nbsp;</div>
+	                            		</div>
+	                                <th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 12 and result.createYn}">
+						               	 <div class="col-sm-6">
+		                            			<div class="align-self-center text-right">
+						                    <button type="button" class="btn btn-success" id="btnCreate"> <i class="fa fa-check"></i> 독서회신규등록</button>
+						                		</div>
+						                	</div>
+						            </th:block>
+                                </div>
+                                
+                                <div class="table-responsive m-t-0">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th class="text-center">구분</th>
+                                                <th class="text-center">강좌명 </th>
+                                                <th class="text-center">교육시작일 </th>
+                                                <th class="text-center">교육종료일</th>
+                                            </tr>
+                                        </thead>
+                                        
+                                        <tbody>
+                                            <tr th:each="data, index : ${page.contents}" >
+                                            	<td class="text-center"><span th:text="${data.HalfType}"></span></td>
+                                            	<td class="text-center"><a href=reading-club-prog-create.html th:href="@{'/event/reading-club-lecture/modify/' + ${data.id}}" ><span th:text="${data.LectureNm}"></span></a></td>
+                                            	
+                                            	<td class="text-center"><span th:text="${data.EduStartDt}"></span></td>
+                                            	<td class="text-center"><span th:text="${data.EduEndDt}"></span></td>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                
+                              
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </form>
+                <!--/form body-->
+               
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!-- Date picker plugins css -->
+    <link href="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    
+    
+    <!-- Editable -->
+    <script src="/elite/assets/node_modules/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="/elite/assets/node_modules/datatables/dataTables.bootstrap.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    <script>
+    
+    $(document).ready(function() {
+        $('#editable-datatable').DataTable();
+        
+        $("#btnCreate").click(function () {
+        	
+			location.href="/event/reading-club-lecture/create";
+        });
+        
+       
+    });
+    
+   function btnDelete(id){
+		location.href="life-edu-lecture-delete/"+id;
+    }
+   
+   
+    $('#ProgYear').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'ko'
+    });
+    </script>
+</body>
+
+</html>

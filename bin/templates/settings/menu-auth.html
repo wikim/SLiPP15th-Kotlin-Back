@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">메뉴권한관리</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                               <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">관리자</li>
+                                <li class="breadcrumb-item active">메뉴권한관리</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm">
+               	
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title"></h4>
+                                <h6 class="card-subtitle">
+                                	<!-- <div class="input-group">
+                                		<button type="button" id="btnAllCheck" name="btnAllCheck" class="btn btn-primary"><i class="fa fa-check"></i> 전체선택</button>&nbsp;&nbsp;
+                                		<button type="button" id="btnAllNonCheck" name="btnAllNonCheck" class="btn btn-secondary"><i class="fa fa-check"></i> 전체해제</button>
+                                	</div> -->
+                                </h6>
+                                <div class="table-responsive">
+                                    <table id="mainTable1" class="table table-bordered m-b-0">
+                                    	<thead>
+                                    		<tr>
+                                    			<th class="text-center" width="10%" rowspan="2">대메뉴</th>
+												<th class="text-center" width="30%" rowspan="2">메뉴</th>
+												<th class="text-center" width="15%" colspan="5">조회</th>
+												<th class="text-center" width="15%" colspan="5">출력</th>	
+												<th class="text-center" width="15%" colspan="5">입력</th>
+												<th class="text-center" width="15%" colspan="5">수정</th>
+											</tr>
+											<tr>
+												<th class="text-center" style="border-right-color: white;"></th>
+	                                        	<th class="text-center" style="border-right-color: white;"></th>
+												<th class="text-center" style="border-right-color: white;">
+													<div class="custom-control custom-checkbox" style="margin-left:15px; float:left;">
+		                                            	<input type="checkbox" class="custom-control-input" id="readYnAll" name="readYnAll" aria-invalid="false" >
+		                                            	<label class="custom-control-label" for="readYnAll"></label>
+		                                        	</div>
+		                                        </th>
+		                                        <th class="text-center" style="border-right-color: white;"></th>
+	                                        	<th class="text-center" style="border-left-color: white;"></th>
+	                                        	
+	                                        	<th class="text-center" style="border-right-color: white;"></th>
+	                                        	<th class="text-center" style="border-right-color: white;"></th>
+												<th class="text-center" style="border-right-color: white;">
+													<div class="custom-control custom-checkbox" style="margin-left:15px; float:left;">
+		                                            	<input type="checkbox" class="custom-control-input" id="printYnAll" name="printYnAll" aria-invalid="false" >
+		                                            	<label class="custom-control-label" for="printYnAll"></label>
+		                                        	</div>
+		                                        </th>	
+		                                        <th class="text-center" style="border-right-color: white;"></th>
+	                                        	<th class="text-center" style="border-left-color: white;"></th>
+	                                        	
+	                                        	<th class="text-center" style="border-right-color: white;"></th>
+	                                        	<th class="text-center" style="border-right-color: white;"></th>
+												<th class="text-center" style="border-right-color: white;">
+													<div class="custom-control custom-checkbox" style="margin-left:15px; float:left;">
+		                                            	<input type="checkbox" class="custom-control-input" id="createYnAll" name="createYnAll" aria-invalid="false" >
+		                                            	<label class="custom-control-label" for="createYnAll"></label>
+		                                        	</div>
+		                                        </th>
+		                                        <th class="text-center" style="border-right-color: white;"></th>
+	                                        	<th class="text-center" style="border-left-color: white;"></th>
+	                                        	
+	                                        	<th class="text-center" style="border-right-color: white;"></th>
+	                                        	<th class="text-center" style="border-right-color: white;"></th>
+												<th class="text-center" style="border-right-color: white;">
+													<div class="custom-control custom-checkbox" style="margin-left:15px; float:left;">
+		                                            	<input type="checkbox" class="custom-control-input" id="updateYnAll" name="updateYnAll" aria-invalid="false" >
+		                                            	<label class="custom-control-label" for="updateYnAll"></label>
+		                                        	</div>
+		                                        </th>
+		                                        <th class="text-center" style="border-right-color: white;"></th>
+	                                        	<th class="text-center" style="border-left-color: white;"></th>
+											</tr>
+										</thead>
+                                        <tbody>
+                                        	<th:block th:each="result, iter : ${menus}">
+	                                        	<tr>
+	                                        		<td class="text-center" th:text="${result.menuName}"></td>
+	                                        		<td class="text-center" th:text="${result.subMenuName}"></td>
+	                                        		
+	                                        		<td class="text-center" style="border-right-color: white;"></td>
+	                                        		<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-right-color: white;">
+														<div class="custom-control custom-checkbox" style="margin-left:15px; float:left;">
+		                                            		<input type="checkbox" class="custom-control-input" th:id="'readYn'+ ${result.id}" name="readYn" th:value="${result.id}" aria-invalid="false" th:checked="${result.readYn}">
+		                                            		<label class="custom-control-label" th:for="'readYn'+ ${result.id}"></label>
+		                                        		</div>
+													</td>
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-left-color: white;"></td>
+													
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-right-color: white;">
+														<div class="custom-control custom-checkbox" style="margin-left:15px; float:left;">
+		                                            		<input type="checkbox" class="custom-control-input" th:id="'printYn'+ ${result.id}" name="printYn" th:value="${result.id}" aria-invalid="false" th:checked="${result.printYn}">
+		                                            		<label class="custom-control-label" th:for="'printYn'+ ${result.id}"></label>
+		                                        		</div>
+													</td>
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-left-color: white;"></td>
+													
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-right-color: white;" >
+														<div class="custom-control custom-checkbox" style="margin-left:15px; float:left;">
+		                                            		<input type="checkbox" class="custom-control-input" th:id="'createYn'+ ${result.id}" name="createYn" th:value="${result.id}" aria-invalid="false" th:checked="${result.createYn}">
+		                                            		<label class="custom-control-label" th:for="'createYn'+ ${result.id}"></label>
+		                                        		</div>
+													</td>
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-left-color: white;"></td>
+													
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-right-color: white;" >
+														<div class="custom-control custom-checkbox" style="margin-left:15px; float:left;">
+		                                            		<input type="checkbox" class="custom-control-input" th:id="'updateYn'+ ${result.id}"  name="updateYn" th:value="${result.id}" aria-invalid="false" th:checked="${result.updateYn}">
+		                                            		<label class="custom-control-label" th:for="'updateYn'+ ${result.id}"></label>
+		                                        		</div>
+													</td>
+													<td class="text-center" style="border-right-color: white;"></td>
+													<td class="text-center" style="border-left-color: white;"></td>
+												</tr>
+                                        	</th:block>
+										</tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </form>
+                <!--/form body-->
+                <div class="form-actions">
+                	<button type="submit" class="btn btn-success waves-effect waves-light" id="btnSave"> <i class="fa fa-check"></i> 저장 </button>
+                    <button type="button" class="btn btn-inverse waves-effect waves-light" onClick="history.go(-1); return false;">취소 </button>
+                </div>
+                 
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <script th:src="@{/js/yo/menu-auth.js}" src="js/yo/menu-auth.js"></script>
+    
+</body>
+
+</html>

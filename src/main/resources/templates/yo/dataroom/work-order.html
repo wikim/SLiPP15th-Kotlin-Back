@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='근무명령부')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	
+    span.red  { color: red; };
+    span.blue { color: blue; }; 
+    span.black { color: black; }; 
+
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">근무명령부</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">자료실</li>
+                                <li class="breadcrumb-item active">근무표/근무명령부</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form id="mainForm" name="mainForm">
+               		<input type="hidden" id="cDate" name="cDate" th:value="${cDate}" />
+               		
+               	<div class="row" id="divContents">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title"><span th:text="${cDate} + ' 근무명령부'"></span></h4>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="MainTable" class="table nowrap table-hover table-striped table-bordered" style="font-size: 12px">
+                                        <thead>
+											<tr>
+												<td rowspan="2">일자</td>
+												<td rowspan="2">요일</td>
+												<td colspan="3">근무자</td>
+												<td rowspan="2">근무시간</td>
+												<td rowspan="2">초과시간</td>
+												<td rowspan="2">근무부서 및 담당업무</td>
+												<td colspan="2">대직자</td>
+												<td>결재</td>
+											</tr>
+											<tr>
+												<td>직책</td>
+												<td>성명</td>
+												<td>서명</td>
+												<td>성명</td>
+												<td>서명</td>
+												<td>과장</td>
+											</tr>
+										</thead>
+                                        <tbody>
+                                        	<th:block th:each="data, iter : ${datas}">
+                                        		<th:block th:if="${#strings.isEmpty(data.holydayType)}" th:each="worker : ${data.workers}" >
+	                                        		<tr role="row" class="even" th:classappend="${data.dayOfWeek eq '토' || data.dayOfWeek eq '일'} ? table-primary : table-active" >
+	                                        			<td><span th:classappend="${data.dayOfWeek eq '토' || data.dayOfWeek eq '일'} ? red : black" th:text="${data.date}">일자</span></td>
+		                                        		<td><span th:classappend="${data.dayOfWeek eq '토' || data.dayOfWeek eq '일'} ? red : black" th:text="${data.dayOfWeek}">요일</span></td>
+		                                        		<td><span th:text="${worker.grade eq '공익' ? '주무관' : worker.grade}">직급</span></td>
+		                                        		<td><span th:text="${worker.name}">성명</span></td>
+		                                        		<td></td>
+		                                        		<th:block th:if="${data.dayOfWeek ne '토' && data.dayOfWeek ne '일'}">
+		                                        			<td>18:00~20:00</td>
+		                                        			<td>1</td>
+		                                        		</th:block>
+		                                        		<th:block th:unless="${data.dayOfWeek ne '토' && data.dayOfWeek ne '일'}">
+		                                        			<td></td>
+		                                        			<td></td>
+		                                        		</th:block>
+		                                        		<th:block th:switch="${worker.workType.value}">
+		                                        			<td>
+		                                        				<span th:case="0">0</span>
+																<span th:case="1"></span>
+																<span th:case="2">종합</span>
+																<span th:case="3">어린이</span>
+																<span th:case="4">총괄</span>
+			                                        		</td>
+														</th:block>
+		                                        		<td></td>
+		                                        		<td></td>
+		                                        		<td></td>
+	                                        		</tr>
+                                        		</th:block>
+											</th:block>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <!--/form body-->
+                <div class="form-actions">
+                	<!-- <th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 6 and result.printYn}">
+                		<button type="button" id="btnPrint" class="btn btn-success">출력</button>
+                    </th:block> -->
+                    <button type="button" id="btnWork" class="btn btn-inverse">자료실 근무표</button>
+                </div>
+                 
+            </div>
+        </div>
+    </div>
+    
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <script th:src="@{/js/printThis.js}" src="js/printThis.js"></script>
+    <script th:src="@{/js/ujblib/work-order.js}" src="js/ujblib/work-order.js"></script>
+    
+	<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 6 and result.printYn}">    
+		<script>
+			$('#MainTable').DataTable({
+			    dom: 'Bfrtip',
+			    buttons: [
+			        'excel', 
+				        {
+				            extend: "print",
+				            customize: function(win) {
+				                var last = null;
+				                var current = null;
+				                var bod = [];
+				                var css = '@page { size: landscape; }', head = win.document.head || win.document.getElementsByTagName('head')[0], style = win.document.createElement('style');
+				                style.type = 'text/css';
+				                style.media = 'print';
+				 
+				                if (style.styleSheet) {
+				                  style.styleSheet.cssText = css;
+				                } else {
+				                  style.appendChild(win.document.createTextNode(css));
+				                }
+				                head.appendChild(style);
+				         	}
+				      	}
+			    	],
+			    paging: false
+			});
+		</script>
+	</th:block>
+	
+</body>
+
+</html>

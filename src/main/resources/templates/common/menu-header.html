@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body> 
+	<header class="topbar" th:fragment="common">
+      <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+          <!-- ============================================================== -->
+          <!-- Logo -->
+          <!-- ============================================================== -->
+          <div>
+              <a class="navbar-brand" href="/">
+                  <!--End Logo icon -->
+                  <!-- Logo text --><span class="hidden-sm-down">
+                   <!-- Light Logo text -->  
+                   <!--   
+                   <img src="/images/logo-textx.png"  alt="배너" onClick="location.href='/' " />
+                    -->
+                   SLiPP 15th Kotlin Yo Admin  console</span> </a>
+          </div>
+          <!-- ============================================================== -->
+          <!-- End Logo -->
+          <!-- ============================================================== -->
+          <div class="navbar-collapse">
+              <!-- ============================================================== -->
+              <!-- toggle and nav items -->
+              <!-- ============================================================== -->
+              <ul class="navbar-nav mr-auto">
+                  <!-- This is  -->
+                  <li class="nav-item"> <a class="nav-link nav-toggler d-block d-md-none waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
+                  <li class="nav-item"> <a class="nav-link sidebartoggler d-none waves-effect waves-dark" href="javascript:void(0)"><i class="icon-menu"></i></a> </li>
+                  <!-- ============================================================== -->
+                  <!-- Search -->
+                  <!-- ============================================================== -->
+                  <!-- 
+                  <li class="nav-item">
+                      <form class="app-search d-none d-md-block d-lg-block">
+                          <input type="text" class="form-control" disabled style="text-align:center" th:value="${'도서관 개관일 : ' + session.openDays}" >
+                      </form>
+                  </li>
+                   -->
+               
+              </ul>
+              <!-- ============================================================== -->
+              <!-- User profile and search -->
+              <!-- ============================================================== -->
+              <ul class="navbar-nav my-lg-0">
+                  
+                  <!-- ============================================================== -->
+                  <!-- User Profile -->
+                  <!-- ============================================================== -->
+                   
+                  <li class="nav-item dropdown u-pro">
+                      <a class="nav-link dropdown-toggle waves-effect waves-dark profile-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <span class="hidden-md-down" th:text="${#authentication.name}">Mark &nbsp;<i class="fa fa-angle-down"></i></span>
+                      </a>
+                      <div class="dropdown-menu dropdown-menu-right animated flipInY">
+                          <a href="" class="dropdown-item" data-toggle="modal" data-target="#password-modal" data-backdrop="false" style="font-size: 12px"><i class="ti-user"></i> 비밀번호변경</a>
+                          <a href="sign-in.html"  class="dropdown-item" th:href="@{'/system/sign-out'}" style="font-size: 12px"><i class="fa fa-power-off"></i> 로그아웃</a>
+                      </div>
+                  </li>
+                  <!-- ============================================================== -->
+                  <!-- End User Profile -->
+                  <!-- ============================================================== -->
+              </ul>
+          </div>
+          
+          <div id="password-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+			        <div class="modal-dialog">
+			            <div class="modal-content">
+			                <div class="modal-header">
+			             		<input type="hidden" id="userId" th:value="${#authentication.name}" >                             
+			                    <h4 class="modal-title">패스워드 변경</h4>
+			                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			                </div>
+			                <div class="modal-body">
+			                    <form>
+			                        <div class="form-group">
+			                            <label for="message-text" class="control-label"> 변경 할 패스워드 </label>
+			                           	<input type="password" class="form-control" id="userPassword" name="userPassword">
+			                        </div>
+			                        <div class="form-group">
+			                            <label for="message-text" class="control-label"> 패스워드 확인 </label>
+			                            <input type="password" class="form-control" id="userPassword_1" name="userPassword_1">
+			                        </div>
+			                    </form>
+			                </div>
+			                <div class="modal-footer">
+			                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">창닫기</button>
+			                    <button type="button" class="btn btn-success waves-effect waves-light"  id="btnChangePasswd">저장</button>
+			                </div>
+			            </div>
+			        </div>
+			    </div>
+      </nav>
+	</header>
+</html>

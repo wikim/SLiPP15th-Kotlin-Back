@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+	<link href="/elite/assets/node_modules/calendar/dist/fullcalendar.css" rel="stylesheet" />
+    <link href="/elite/assets/node_modules/calendar/dist/fullcalendar.print.css" rel="stylesheet"  media='print' />
+    
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">자원봉사</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">자료실</li>
+                                <li class="breadcrumb-item active">자원봉사</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm">
+               	<div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                        		<div class="row">
+									<div class="col-lg-2">
+			                            <div class="card-body">
+				                            	<div class="row">
+				                            			<div class="dataTables_info" role="status" aria-live="polite">
+				                            				<select class="form-control" id="pYear" name="pYear">
+							               						<option th:each="y : ${pYears}" th:value="${y}" th:text="${y}" th:selected="${pYear.equals(y)}"></option>
+														</select>
+				                            			</div>
+				                            		<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 1 and result.createYn}">
+					                            		<div class="col-sm-6">
+					                            			<div class="align-self-center text-right">
+					                            				<button type="button" id="btnCreate" class="btn btn-info m-l-15" ><i class="fa fa-plus-circle"></i> 일지 작성</button>
+					                            			</div>
+					                            		</div>
+				                            		</th:block>
+				                            	</div>
+				                          </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+	                    <div class="col-md-12">
+	                        <div class="card">
+	                        		<div class="row">
+		                            	<div class="col-lg-2">
+                                        <div class="card-body">
+                                            <h4 class="card-title m-t-10">범례 </h4>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div id="calendar-events" class="">
+                                                        <div class="calendar-events" data-class="bg-success"><i class="fa fa-circle" style="color:#00c292"></i>법정공휴일</div>
+                                                        <div class="calendar-events" data-class="bg-warning"><i class="fa fa-circle" style="color:#e46a76"></i> 정기휴관일</div>
+                                                        <div class="calendar-events" data-class="bg-warning"><i class="fa fa-circle" style="color:#fec107"></i>임시휴관일 </div>
+                                                        <div class="calendar-events" data-class="bg-warning"><i class="fa fa-circle text-info" ></i>일지작성 완료 </div>
+                                                    </div>
+                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <div class="card-body b-l calender-sidebar">
+											<div id="calendar"></div>
+                                        
+                                        <input type="hidden"  id="menuType"  th:value="volunteerLog">
+	                                    <input type="hidden"  id="today"  th:value="${pDate}">
+	                                    <input type="hidden"  id="pDate"  th:value="${pDate}">
+	                                    <input type="hidden" id="currentYear" th:value="${pYear}">
+	                                    <input type="hidden" id="work-calendar" th:value="${workDays}" >
+                                    </div>
+                                    </div>
+                            </div>
+                         </div>
+                      </div>
+                 </div>  
+                           
+                </form>
+                <!--/form body-->
+               
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!-- Date picker plugins css -->
+    <link href="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    
+    <!-- Full calendar -->
+    <script src="/elite/assets/node_modules/calendar/jquery-ui.min.js"></script>
+    <script src="/elite/assets/node_modules/moment/moment.js"></script>
+    <script src="/elite/assets/node_modules/calendar/dist/fullcalendar.js"></script>
+	<script src='/elite/assets/node_modules/calendar/dist/locale/ko.js'></script>
+    <script  src="/js/ujblib/data-room/work-calendar-init.js" ></script>
+    <script type="text/javascript">
+    
+    $(document).ready(function() {
+       	var table= $('#example23').DataTable( );
+      	var order = table.order([0, 'desc']).draw();
+      	
+      	btnCreate();
+        changePYear();
+    });
+    
+   
+    var btnCreate = function(){
+		$("#btnCreate").click(function () {
+			
+			var pDate = $("#pDate").val();
+			location.href = "/dataroom/volunteerLog/create/"+pDate;
+		});
+    }
+    
+    var changePYear = function () {
+		$("#pYear").change(function () {
+			location.href="/dataroom/volunteerLog/"+$("#pYear").val();
+		});
+	};
+    </script>
+</body>
+
+</html>

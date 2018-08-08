@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+
+<div class="dataTables_wrap col-sm-12 margin-auto p-0" th:fragment="pagination_dark(page, pageStatus)">
+	<div class="dataTables_paginate paging_simple_numbers float-none text-center" id="myTable_paginate">
+    	<ul class="pagination pagination m-0" th:if="${page.totalPages} gt 0">
+        	<li th:if="not ${page.firstBlock}" style="white-space: normal;">
+              <a href="#" class="paginate_button previous" aria-controls="myTable" data-dt-idx="0" tabindex="0" id="" th:href="@{
+              ${#strings.replace('?pageNumber={pageNumberPosition}', '{pageNumberPosition}', page.firstPageNumber)} + 
+              ${#strings.replace('{pageSize}', '{pageSize}', #strings.isEmpty(pageStatus.pageSize) ? '' :  '&amp;' + 'pageSize=' + pageStatus.pageSize)} + 
+              ${#strings.replace('{queryString}', '{queryString}', #strings.isEmpty(pageStatus.queryString) ? '' : '&amp;' + pageStatus.queryString)} }">
+                <i class="fa fa-angle-double-left"></i>
+              </a>
+        	</li>
+        	<li th:if="${page.prevBlock}" style="white-space: normal;">
+              <a href="#" class="paginate_button previous disabled" aria-controls="myTable" data-dt-idx="0" tabindex="0" id="myTable_previous" th:href="@{
+              ${#strings.replace('?pageNumber={pageNumberPosition}', '{pageNumberPosition}', page.beginPageNumber - 2)} + 
+              ${#strings.replace('{pageSize}', '{pageSize}', #strings.isEmpty(pageStatus.pageSize) ? '' :  '&amp;' + 'pageSize=' + pageStatus.pageSize)} + 
+              ${#strings.replace('{queryString}', '{queryString}', #strings.isEmpty(pageStatus.queryString) ? '' : '&amp;' + pageStatus.queryString)} }">
+                <i class="fa fa-chevron-left"></i>
+              </a>
+        	</li>
+        	<li th:each="number: ${#numbers.sequence(page.beginPageNumber, page.endPageNumber)}" style="white-space: normal;">
+              <a href="#" class="paginate_button" th:classappend="${number} == ${page.currentPageNumber} ? 'current'" aria-controls="myTable" data-dt-idx="1" tabindex="0" th:href="@{
+              ${#strings.replace('?pageNumber={pageNumberPosition}', '{pageNumberPosition}', number > 0 ? number - 1 : number)} + 
+              ${#strings.replace('{pageSize}', '{pageSize}', #strings.isEmpty(pageStatus.pageSize) ? '' :  '&amp;' + 'pageSize=' + pageStatus.pageSize)} + 
+              ${#strings.replace('{queryString}', '{queryString}', #strings.isEmpty(pageStatus.queryString) ? '' : '&amp;' + pageStatus.queryString)} }" th:text="${number}">1</a>
+        	</li>
+        	<li th:if="${page.nextBlock}" style="white-space: normal;">
+              <a href="#" class="paginate_button next" aria-controls="myTable" data-dt-idx="4" tabindex="0" id="myTable_next" th:href="@{
+              ${#strings.replace('?pageNumber={pageNumberPosition}', '{pageNumberPosition}', page.endPageNumber)} + 
+              ${#strings.replace('{pageSize}', '{pageSize}', #strings.isEmpty(pageStatus.pageSize) ? '' :  '&amp;' + 'pageSize=' + pageStatus.pageSize)} + 
+              ${#strings.replace('{queryString}', '{queryString}', #strings.isEmpty(pageStatus.queryString) ? '' : '&amp;' + pageStatus.queryString)} }">
+                <i class="fa fa-chevron-right"></i>
+              </a>
+        	</li>
+        	<li th:if="not ${page.lastBlock}" style="white-space: normal;">
+              <a href="#" class="paginate_button next" aria-controls="myTable" data-dt-idx="5" tabindex="0" id="" th:href="@{
+              ${#strings.replace('?pageNumber={pageNumberPosition}', '{pageNumberPosition}', page.lastPageNumber)} + 
+              ${#strings.replace('{pageSize}', '{pageSize}', #strings.isEmpty(pageStatus.pageSize) ? '' :  '&amp;' + 'pageSize=' + pageStatus.pageSize)} + 
+              ${#strings.replace('{queryString}', '{queryString}', #strings.isEmpty(pageStatus.queryString) ? '' : '&amp;' + pageStatus.queryString)} }">
+                <i class="fa fa-angle-double-right"></i>
+              </a>
+        	</li>
+     	</ul>  
+    </div>  
+</div>
+
+
+</html>

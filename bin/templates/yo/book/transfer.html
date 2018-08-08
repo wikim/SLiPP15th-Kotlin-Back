@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='DataRoom')"></meta>
+    <style>
+    * {
+		font-size: 16px;
+	}
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">도서인계인수</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                               <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">도서/연속간행물</li>
+                                <li class="breadcrumb-item active">도서인계인수</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm">
+               		<input type="hidden" id="id" name="id" th:value="${result.id}" />
+               		<input type="hidden" id="pYear" name="pYear" th:value="${result.pYear}" />
+               		
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="pDate" name="pDate" placeholder="yyyy-mm-dd" th:value="${result.pDate}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">도서인계인수서</h4>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="mainTable" class="table editable-table table-bordered m-b-0">
+                                    	<thead>
+										</thead>
+                                        <tbody id="contentBody">
+                                            <tr>
+												<th colspan="2">구분</th>
+												<th colspan="10">
+													<select class="form-control" id="incomeType">
+					                                 	<option value="BUY" th:selected="(${result.incomeType} eq 'BUY')" >구입</option>
+					                                 	<option value="DONATE" th:selected="(${result.incomeType} eq 'DONATE')" >기증</option>
+					                                 	<option value="DISCARD" th:selected="(${result.incomeType} eq 'DISCARD')" >폐기</option>
+					                                 	<option value="CHANGE" th:selected="(${result.incomeType} eq 'CHANGE')" >관리전환</option>
+					                                </select>
+												</th>
+											</tr>
+											<tr>
+												<th colspan="2">차수</th>
+												<td colspan="10" id="incomeSeq" th:text="${result.incomeSeq}"></td>
+											</tr>
+											<tr>
+												<th colspan="2">등록구분</th>
+												<th colspan="10">
+													<select class="form-control" id="bookCode">
+					                                 	<option value="EM" th:selected="(${result.bookCodeStr} eq 'EM')" >관내일반</option>
+					                                 	<option value="JU" th:selected="(${result.bookCodeStr} eq 'JU')" >관내아동</option>
+					                                 	<option value="WM" th:selected="(${result.bookCodeStr} eq 'WM')" >서양서일반</option>
+					                                 	<option value="WJ" th:selected="(${result.bookCodeStr} eq 'WJ')" >서양서아동</option>
+					                                 	<option value="EB" th:selected="(${result.bookCodeStr} eq 'EB')" >전자책일반</option>
+					                                 	<option value="EC" th:selected="(${result.bookCodeStr} eq 'EC')" >전자책아동</option>
+					                                 	<option value="NB" th:selected="(${result.bookCodeStr} eq 'NB')" >비도서일반</option>
+					                                 	<option value="NC" th:selected="(${result.bookCodeStr} eq 'NC')" >비도서아동</option>
+					                                 	<option value="SM" th:selected="(${result.bookCodeStr} eq 'SM')" >학교도서관지원</option>
+					                                 </select>
+												</th>
+											</tr>
+											<tr>
+												<th colspan="2">등록번호</th>
+												<td colspan="10" id="regDigit" th:text="${result.regDigit}"></td>
+											</tr>
+											<tr>
+												<th colspan="2">품명</th>
+												<td colspan="10" id="itemTitle" th:text="${result.itemTitle}"></td>
+											</tr>
+											<tr>
+												<th colspan="2">인계인수일자</th>
+												<th colspan="10">
+													<div class="input-group">
+														<input type="text" class="form-control" id="transferDate" name="transferDate" placeholder="yyyy-mm-dd" th:value="${result.transferDateStr}">
+						                                <div class="input-group-append">
+						                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+						                                </div>
+					                                </div>
+												</th>
+											</tr>
+											<tr id="bookDataRow">
+												<th colspan="2">구분</th>
+												<th>000</th>
+												<th>100</th>
+												<th>200</th>
+												<th>300</th>
+												<th>400</th>
+												<th>500</th>
+												<th>600</th>
+												<th>700</th>
+												<th>800</th>
+												<th>900</th>
+											</tr>
+											<th:block th:each="item : ${result.transfers}">
+												<tr class="bookType" th:data-id="${item.id}" th:data-value="${item.bookCodeId}">
+													<th class="bookTypeStr" th:text="${item.bookType}">수입구분</th>
+													<th class="incomeType" th:text="${item.incomeType.value}" th:data-value="${item.incomeType}">수입구분</th>
+													<td class="type000" th:text="${item.type000}"></td>
+													<td class="type100" th:text="${item.type100}"></td>
+													<td class="type200" th:text="${item.type200}"></td>
+													<td class="type300" th:text="${item.type300}"></td>
+													<td class="type400" th:text="${item.type400}"></td>
+													<td class="type500" th:text="${item.type500}"></td>
+													<td class="type600" th:text="${item.type600}"></td>
+													<td class="type700" th:text="${item.type700}"></td>
+													<td class="type800" th:text="${item.type800}"></td>
+													<td class="type900" th:text="${item.type900}"></td>
+												</tr>
+											</th:block>
+										</tbody>
+										<tbody>	
+												<tr>
+													<th>인계자</th>
+													<th>성명</th>
+													<td colspan="5" id="fromName" th:text="${result.fromName}"></td>
+													<th colspan="5" style="text-align:left">(인)</th>
+												</tr>
+												<tr>
+													<th>인수자</th>
+													<th>성명</th>
+													<td colspan="5" id="toName" th:text="${result.toName}"></td>
+													<th colspan="5" style="text-align:left">(인)</th>
+												</tr>
+												<tr>
+													<th>확인자</th>
+													<th>성명</th>
+													<td colspan="5" id="confirmName" th:text="${result.confirmName}"></td>
+													<th colspan="5" style="text-align:left">(인)</th>
+												</tr>
+										</tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row hide" id="divContents">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title" align="center">도서인계인수서</h4>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered m-b-0">
+                                        <tbody>
+                                            <tr>
+												<th style="text-align:center" width="30%">수입구분</th>
+												<th style="text-align:center" colspan="11" id="print-incomeType">
+												</th>
+											</tr>
+											<tr>
+												<th style="text-align:center" width="30%">수입차수</th>
+												<th style="text-align:center" colspan="11" id="print-incomeSeq"></th>
+											</tr>
+											<tr>
+												<th style="text-align:center" width="30%">등록구분</th>
+												<th style="text-align:center" colspan="11" id="print-bookCode"></th>
+											</tr>
+											<tr>
+												<th style="text-align:center" width="30%">등록번호</th>
+												<th style="text-align:center" colspan="11" id="print-regDigit"></th>
+											</tr>
+											<tr>
+												<th style="text-align:center" width="30%">품명</th>
+												<th style="text-align:center" colspan="11" id="print-itemTitle"></th>
+											</tr>
+										</tbody>
+                                    </table>
+                                </div>
+                                <br/>
+                                <h6 class="card-subtitle">인계인수내역</h6>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered m-b-0">
+                                        <tbody id=print-contentBody>
+											<tr id="print-bookDataRow">
+												<th style="text-align:center" colspan="2">구분</th>
+												<th style="text-align:center">000</th>
+												<th style="text-align:center">100</th>
+												<th style="text-align:center">200</th>
+												<th style="text-align:center">300</th>
+												<th style="text-align:center">400</th>
+												<th style="text-align:center">500</th>
+												<th style="text-align:center">600</th>
+												<th style="text-align:center">700</th>
+												<th style="text-align:center">800</th>
+												<th style="text-align:center">900</th>
+											</tr>
+										</tbody>
+									</table>
+									<br/>
+									<br/>
+									<br/>
+									<table border="0" width="100%">
+                                        <tbody>	
+                                       		<tr align="center">
+												<th colspan="10"></th>
+											</tr>
+											<tr align="center">
+												<th colspan="10" style="text-align:center;">위의 자료를 이상없이 인수인계 함.</th>
+											</tr>
+											<tr align="center">
+												<th colspan="10"></th>
+											</tr>
+											<tr align="center">
+												<th colspan="10"></th>
+											</tr>
+											<tr align="center">
+												<th colspan="10"></th>
+											</tr>
+											<tr>
+												<th colspan="2" style="text-align:right;">인계자</th>
+												<td></td>
+												<th>성명</th>
+												<th colspan="4" id="print-fromName" style="text-align:left"></th>
+												<th style="text-align:left">(인)</th>
+											</tr>
+											<tr align="center">
+												<th colspan="10"></th>
+											</tr>
+											<tr align="center">
+												<th colspan="10"></th>
+											</tr>
+											<tr>
+												<th colspan="2" style="text-align:right;">인수자</th>
+												<td></td>
+												<th>성명</th>
+												<th colspan="4" id="print-toName" style="text-align:left"></th>
+												<th style="text-align:left">(인)</th>
+											</tr>
+											<tr align="center">
+												<th colspan="10"></th>
+											</tr>
+											<tr align="center">
+												<th colspan="10"></th>
+											</tr>
+											<tr>
+												<th colspan="2" style="text-align:right;">확인자</th>
+												<td></td>
+												<th>성명</th>
+												<th colspan="4" id="print-confirmName" style="text-align:left"></th>
+												<th style="text-align:left">(인)</th>
+											</tr>
+										</tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                </form>
+                <!--/form body-->
+                <div class="form-actions">
+                	<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 18 and result.updateYn}">
+                    	<button type="button" class="btn btn-success" id="btnSave"> <i class="fa fa-check"></i>저장</button>
+                    	<button type="button" class="btn btn-danger" id="btnDelete"> <i class="fa fa-check"></i>삭제</button>
+                    </th:block>
+                    <button type="button" class="btn btn-inverse" id="btnCancel">목록</button>
+                    <th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 18 and result.printYn}">
+                    	<button type="button" class="btn btn-inverse" id="btnPrint">출력</button>
+                    </th:block>
+                </div>
+                 
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    
+    <!-- Editable -->
+    <script src="/elite/assets/node_modules/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="/elite/assets/node_modules/datatables/dataTables.bootstrap.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    
+    <script th:src="@{/js/printThis.js}" src="js/printThis.js"></script>
+    <script th:src="@{/js/ujblib/common/util.js}" src="js/ujblib/common/util.js"></script>
+    <script th:src="@{/js/ujblib/transfer.js}" src="js/ujblib/transfer.js"></script>
+    
+</body>
+
+</html>

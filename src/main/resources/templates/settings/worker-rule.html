@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='관리')"></meta>
+    <style>
+    
+	* {
+		font-size: 16px;
+	}
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">근무자규칙관리</h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">관리자</li>
+                                <li class="breadcrumb-item active">근무자규칙관리 </li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" >
+               	
+               	<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 25 and result.createYn}">
+	               	<div class="row">
+						<div class="col-12">
+							<div class="button-group">
+		                    		<button type="button" class="btn btn-success" id="btnCreate" data-toggle="modal" data-target="#responsive-modal" > <i class="fa fa-check"></i> 근무자추가</button>
+		                		</div>
+	               		 </div>
+	                </div>
+                </th:block>
+                
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">근무자규칙관리</h4>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="mainTable" class="table table-bordered m-b-0"  style="font-size: 12px">
+                                        <thead>
+                                            <tr class="table-active">
+												<th width="6%" class="text-center">직원명</th>
+												<th width="15%" class="text-center">직위/직급</th>
+												<th width="15%" class="text-center">근무조건1<br>(실배치우선)</th>
+												<th width="20%" class="text-center" colspan="3">근무조건2<br>(근무요일)</th>
+												<th width="7%" class="text-center">근무표<br>출력순서</th>
+												<th width="7%" class="text-center">투입시작일</th>
+												<th width="7%" class="text-center">투입종료일</th>
+												<th width="6%" class="text-center">평일근무순서</th>
+												<th width="6%" class="text-center">주말근무순서</th>
+												<th width="5%" class="text-center">비고</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											 <tr th:each="result : ${rules}">
+											 	<input type="hidden" name="id" th:value="${result.id}" />
+											 	
+												<th class="text-center" th:text="${result.memberName}"></th>
+												<th class="text-center">
+													<select class="form-control" name="position" style="font-size: 12px">
+														<option value="NONE" th:selected="${result.position.key.equals('NONE')}">-</option>
+					                                 	<option value="INFOMATION" th:selected="${result.position.key.equals('INFOMATION')}">문헌정보과장</option>
+					                                 	<option value="LIBRARY" th:selected="${result.position.key.equals('LIBRARY')}" >학교도서관지원과장</option>
+					                                 	<option value="OFFICER" th:selected="${result.position.key.equals('OFFICER')}" >주무관</option>
+					                                 	<option value="PUBLIC" th:selected="${result.position.key.equals('PUBLIC')}" >공익</option>
+					                                 </select>
+												</th>
+												<th class="text-center">
+													<div class="custom-control custom-checkbox" style="margin-left:10px; float:left;">
+	                                            		<input type="checkbox" class="custom-control-input" th:id="'reference'+ ${result.id}" name="room" th:value="${result.room}" th:attr="data-id=${result.id}" aria-invalid="false" th:checked="${result.room.key.equals('REFERENCE')}"></input>
+	                                            		<label class="custom-control-label" th:for="'reference'+ ${result.id}">종합</label>
+	                                        		</div>
+	                                        		
+	                                        		<div class="custom-control custom-checkbox" style="margin-left:10px; float:left;">
+	                                            		<input type="checkbox" class="custom-control-input" th:id="'child'+ ${result.id}" name="room" th:value="${result.room}" th:attr="data-id=${result.id}" aria-invalid="false" th:checked="${result.room.key.equals('CHILD')}"></input>
+	                                            		<label class="custom-control-label" th:for="'child'+ ${result.id}">어린이실</label>
+	                                        		</div>
+												</th>
+												<th class="text-center">
+													<div class="custom-control custom-checkbox" style="margin-left:10px; float:left;">
+	                                            		<input type="checkbox" class="custom-control-input" th:id="'satYn'+ ${result.id}" name="satYn" th:value="${result.id}" aria-invalid="false" th:checked="${result.satYn}"></input>
+	                                            		<label class="custom-control-label" th:for="'satYn'+ ${result.id}">토</label>
+	                                        		</div>
+												</th>
+												<th class="text-center">
+													<div class="custom-control custom-checkbox" style="margin-left:10px; float:left;">
+	                                            		<input type="checkbox" class="custom-control-input" th:id="'sunYn'+ ${result.id}" name="sunYn" th:value="${result.id}" aria-invalid="false" th:checked="${result.sunYn}"></input>
+	                                            		<label class="custom-control-label" th:for="'sunYn'+ ${result.id}">일</label>
+	                                        		</div>
+												</th>
+												<th class="text-center">
+													<div class="custom-control custom-checkbox" style="margin-left:10px; float:left;">
+	                                            		<input type="checkbox" class="custom-control-input" th:id="'weekYn'+ ${result.id}" name="weekYn" th:value="${result.id}" aria-invalid="false" th:checked="${result.weekYn}"></input>
+	                                            		<label class="custom-control-label" th:for="'weekYn'+ ${result.id}">평일</label>
+	                                        		</div>
+	                                        	</th>
+												<td class="text-center" id="printSeq">
+													<input type="number" class="form-control" id="printSeq" name="printSeq" style="font-size: 12px" th:value="${result.printSeq}" min="1" max="15">
+												</td>
+												<td class="text-center" >
+													<input type="date" class="form-control" id="startDate" name="startDate" style="font-size: 12px" th:value="${#calendars.format(result.startDate, 'yyyy-MM-dd')}" placeholder="yyyy-MM-dd">
+												</td>
+												<td class="text-center">
+													<input type="date" class="form-control" id="endDate" name="endDate" style="font-size: 12px" th:value="${#calendars.format(result.endDate, 'yyyy-MM-dd')}" placeholder="yyyy-MM-dd">
+												</td>
+												<th class="text-center">
+													<div class="custom-control custom-checkbox" th:if="${result.position.key.equals('OFFICER')}" style="margin-left:10px; float:left;">
+	                                            		<input type="checkbox" class="custom-control-input" th:id="'weekdayYn'+ ${result.id}" name="weekdayYn" th:value="${result.id}" aria-invalid="false" th:checked="${result.weekdayYn}"></input>
+	                                            		<label class="custom-control-label" th:for="'weekdayYn'+ ${result.id}"></label>
+	                                        		</div>
+												</th>
+												<th class="text-center">
+													<div class="custom-control custom-checkbox" style="margin-left:10px; float:left;">
+	                                            		<input type="checkbox" class="custom-control-input" th:id="'weekendYn-' + ${result.position} + ${result.id}" name="weekendYn" th:value="${result.id}" th:attr="data-position=${result.position}" aria-invalid="false" th:checked="${result.weekendYn}"></input>
+	                                            		<label class="custom-control-label" th:for="'weekendYn-' + ${result.position} + ${result.id}"></label>
+	                                        		</div>
+												</th>
+												<th class="text-center">
+													<button type="button" class="btn btn-xs btn-danger"  th:id="'btnDel'+ ${result.id}" th:value="${result.id}">삭제</button>
+												</th>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </form>
+                <!--/form body-->
+                 <div class="form-actions">
+                	<button type="button" class="btn btn-success waves-effect waves-light" id="btnSave"> <i class="fa fa-check"></i> 저장 </button>
+                    <button type="button" class="btn btn-inverse waves-effect waves-light" id="btnCancel">취소 </button>
+                </div>
+               
+               <!-- modal start  -->
+               <div id="responsive-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                     <div class="modal-dialog">
+                         <div class="modal-content">
+                             <div class="modal-header">                             
+                                 <h4 class="modal-title">근무자 추가</h4>
+                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                             </div>
+                             <div class="modal-body">
+                                 <form>
+                                     <div class="form-group">
+                                         <label for="recipient-name" class="control-label">근무자선택</label>
+                                         <select class="form-control" id="selectMember" name="selectMember">
+                                         </select>
+                                     </div>
+                                 </form>
+                             </div>
+                             <div class="modal-footer">
+                                 <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">창닫기</button>
+                                 <button type="button" class="btn btn-success waves-effect waves-light" id="btnSelect">선택</button>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+               <!--  modal end  -->
+            </div>
+        </div>
+    </div>
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+  	<script th:src="@{/js/yo/worker-rule.js}" src="js/yo/worker-rule.js"></script>
+  	
+</body>
+
+</html>

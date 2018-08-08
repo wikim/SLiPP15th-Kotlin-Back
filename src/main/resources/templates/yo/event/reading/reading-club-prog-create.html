@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta th:include="common/head :: common_css(title='도서관행사')"></meta>
+    <style>
+	th {
+	    text-align: center;
+	    vertical-align: middle !important;
+	    
+	}
+	td {
+	    text-align: center;
+	   	vertical-align: middle !important;
+	    
+	}
+	</style>
+</head>
+
+<body class="horizontal-nav boxed skin-megna fixed-layout">
+    <!-- ============================================================== -->
+    <!-- Preloader - style you can find in spinners.css -->
+    <!-- ============================================================== -->
+    <div class="preloader">
+        <div class="loader">
+            <div class="loader__figure"></div>
+            <p class="loader__label">UJBLib admin</p>
+        </div>
+    </div>
+    <!-- ============================================================== -->
+    <!-- Main wrapper - style you can find in pages.scss -->
+    <!-- ============================================================== -->
+    <div id="main-wrapper">
+
+        <!-- Top Header -->
+        <header th:replace="common/menu-header :: common"></header>
+        
+        <!-- Left Menu-->
+        <aside th:replace="common/menu-aside :: common (menuCd1=dashboard, menuCd2=dashboard)"></aside>
+
+        <!-- Page Content : Start { -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row page-titles">
+                    <div class="col-md-5 align-self-center">
+                        <h4 class="text-themecolor">독서회 </h4>
+                    </div>
+                    <div class="col-md-7 align-self-center text-right">
+                        <div class="d-flex justify-content-end align-items-center">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
+                                <li class="breadcrumb-item">도서관행사</li>
+                                <li class="breadcrumb-item active">독서회</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+               	<form method="post" id="mainForm" name="mainForm" th:action="@{'/event/save/' + ${program.pDate}}" >
+               	<input type="hidden" id="id" th:value="${program.id}" />
+               	<input type="hidden" id="pYear" th:value="${program.pYear}" />
+               	<input type="hidden" id="lectureId" th:value="${program.lecture.id}" />
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="pDate" placeholder="yyyy-mm-dd" th:value="${program.pDate}">
+                                <div class="input-group-append">
+                                    <span class="input-group-text"><i class="icon-calender"></i></span>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+               	<div class="row">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">1. 독서회  <button type="button" id="addLecture" class="btn btn-info m-l-15"  data-toggle="modal" data-target="#responsive-modal" ><i class="fa fa-plus-circle"></i> 등록된 독서회  검색</button></h>
+                                <h6 class="card-subtitle"></h6>
+                                <div class="table-responsive">
+                                    <table id="UserTB" class="table table-bordered m-b-0">
+                                        <thead>
+                                            <tr class="table-active">
+												<th rowspan=2>강좌명</th>
+												<th rowspan=2>구분</th>
+												<th colspan="2">어린이</th>
+												<th colspan="2">중고생</th>
+												<th colspan="2">일반</th>
+											</tr>
+											<tr class="table-active">
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+												<th>남</th>
+												<th>여</th>
+											</tr>
+										</thead>
+                                        <tbody>
+											<tr>
+												<td class="LecureNm">[[${program.Lecture.LectureNm}]]</td>
+												<td class="HalfType">[[${program.Lecture.HalfType}]]</td>
+												<td class="UseChildBoyNum">[[${program.UseChildBoyNum}]]</td>
+												<td class="UseChildGirlNum">[[${program.UseChildGirlNum}]]</td>
+												<td class="UseYouthBoyNum">[[${program.UseYouthBoyNum}]]</td>
+												<td class="UseYouthGirlNum">[[${program.UseYouthGirlNum}]]</td>
+												<td class="UseManNum">[[${program.UseManNum}]]</td>
+												<td class="UseWomanNum">[[${program.UseWomanNum}]]</td>
+											</tr>
+                                        </tbody>
+                                    </table>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+	                <div class="col-12">
+	                        <div class="card">
+	                            <div class="card-body">
+	                                <h4 class="card-title">2. 기타사항</h>
+	                                <h6 class="card-subtitle"></h6>
+	                                <div class="table-responsive">
+	                                    <table id="RobotStaticTB" class="table editable-table table-bordered  m-b-0" align="center" >
+	                                    	<tbody>
+												<td><textarea class="form-control" id="EtcInform" name="EtcInform" row="5" >[[${program.EtcInform}]]</textarea></td>
+	                                        </tbody>
+	                                    </table>
+	                                </div>
+	                            </div>
+	                        </div>
+	            		</div>
+	            </div>
+                </form>
+                <!--/form body-->
+                <div class="form-actions">
+                	<th:block th:each="result : ${session.menus}" th:object="${result}" th:if="${result.menuId == 11 and result.updateYn}">
+                		<button type="submit" class="btn btn-warrning" id="btnDelete"> <i class="fa fa-check"></i> 삭제</button>
+                    	<button type="submit" class="btn btn-success" id="btnSave"> <i class="fa fa-check"></i>  저장</button>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+         <!-- modal start  -->
+        <div id="responsive-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+              <div class="modal-dialog">
+                  <div class="modal-content"  style="width:1000px" >
+                      <div class="modal-header">                             
+                          <h4 class="modal-title">독서회 검색</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                      </div>
+                      <div class="modal-body">
+                          <div class="table-responsive m-t-0">
+                                    <table id="example23" class="display nowrap table table-hover table-striped table-bordered" cellspacing="0" width="100%">
+                                        <thead>
+                                            <tr>
+                                                <th  class="text-center">구분</th>
+                                                <th class="text-center">강좌명 </th>
+                                                <th  class="text-center">교육시작일 </th>
+                                                <th  class="text-center">교육종료일</th>
+                                            </tr>
+                                        </thead>
+                                       <tbody>
+                                            <tr th:each="data, index : ${page.contents}" >
+                                            	<td role="row"  class="text-center"><span th:text="${data.HalfType}"></span></td>
+                                            	<td role="row"  class="text-center"><a href='#'  th:onClick="'javascript:insLecture( \''+${data.id}+'\' , \''+${data.LectureNm}+'\' , \''+${data.HalfType}+'\' );'" ><span th:text="${data.LectureNm}"></span></a></td>
+                                            	<td role="row"  class="text-center"><span th:text="${data.EduStartDt}"></span></td>
+                                            	<td role="row"  class="text-center"><span th:text="${data.EduEndDt}"></span></td>
+                                        </tbody>
+                                    </table>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" class="btn btn-default waves-effect" data-dismiss="modal" id="btnClose">창닫기</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+        <!--  modal end  -->
+        <!-- } Page Content : End -->
+        <!-- footer -->
+        <footer th:replace="common/footer :: footer" ></footer>
+        
+    <!-- } Wrapper : End -->
+    
+    <section th:replace="common/js :: js"></section>
+    <section th:replace="common/modal-popup :: modal('TK')"></section>
+    <!-- Date picker plugins css -->
+    <link href="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />
+    <script src="/elite/assets/node_modules/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    
+    
+    <!-- Editable -->
+    <script src="/elite/assets/node_modules/jquery-datatables-editable/jquery.dataTables.js"></script>
+    <script src="/elite/assets/node_modules/datatables/dataTables.bootstrap.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/mindmup-editabletable.js"></script>
+    <script src="/elite/assets/node_modules/tiny-editable/numeric-input-example.js"></script>
+    <script type="text/javascript">
+    
+    $('#UserTB').editableTableWidget().numericInputExample().find('td:first').focus();
+
+    
+    $(document).ready(function() {
+        $('#editable-datatable').DataTable();
+        changePdate();
+        btnSave();
+        btnDelete();
+        var tbody = document.getElementById("example23").tBodies[0];
+  	  	var row = tbody.insertRow(-1);
+  	  	
+    });
+    function insLecture(id, nm, type){
+    	$("#lectureId").val(id);
+    	$(".LecureNm").html(nm);
+    	$(".HalfType").html(type);
+    	$('#responsive-modal').modal('hide');
+    }
+    
+    $('#pDate').datepicker({
+        autoclose: true,
+        todayHighlight: true,
+        format:'yyyy-mm-dd',
+        language:'ko'
+ 	
+    });
+   var btnDelete = function(){
+	   $("#btnDelete").click(function () {
+		   $.ajax({
+ 				url : "/event/reading-club-prog/delete/"+$("#id").val(),
+ 				method : "PUT",
+ 				success : function(result) {
+ 					alert("삭제되었습니다.");
+ 					location.href="/event/reading-club-prog";
+ 				},
+ 				error : function(data) {
+ 					console.error("Update snapshot", data);
+ 				}
+	   });
+	   });
+   }
+    var btnSave = function(){
+        $("#btnSave").click(function () {
+        	
+        	var eventData = {id:$("#id").val(), pYear:$("#pDate").val().substr(0, 4),  pDate:$("#pDate").val(), lectureId:$("#lectureId").val() }; 
+      		   	$("#UserTB tr").each(function(index){
+      			   var currentRow = $(this).closest("tr");
+	      		   if(index==2){ //3line
+							eventData.LecureNm 			= currentRow.find(".LecureNm").text();
+							eventData.HalfType 			= currentRow.find(".HalfType").text();
+	    					eventData.TurnNumber = 0;
+	    					eventData.UseChildBoyNum = currentRow.find(".UseChildBoyNum").text();
+	    					eventData.UseChildGirlNum = currentRow.find(".UseChildGirlNum").text();
+	    					eventData.UseYouthBoyNum 			= currentRow.find(".UseYouthBoyNum").text();
+	    					eventData.UseYouthGirlNum 			= currentRow.find(".UseYouthGirlNum").text();
+	    					eventData.UseManNum	= currentRow.find(".UseManNum").text();
+	    					eventData.UseWomanNum	= currentRow.find(".UseWomanNum").text();
+	   			   }
+      		   	});
+      		   	
+      		  	eventData.EtcInform= $("#EtcInform").val();
+      		  	
+         		$.ajax({
+  				url : "/event/reading-club-prog/save",
+  				data: eventData,
+  				method : "PUT",
+  				success : function(result) {
+  					alert("등록되었습니다.");
+  					location.href="/event/reading-club-prog";
+  				},
+  				error : function(data) {
+  					console.error("Update snapshot", data);
+  				}
+  		    });
+        });
+    }
+	
+    var btnClose = function(){
+   	 $("#btnClose").click(function () {
+   		 $("#example23 > tbody").html("");
+   	 });
+   }
+    
+    var searchLecture = function(){
+        	  $("#addLecture").click(function () {
+        		  
+        		  var tbody = document.getElementById("example23").tBodies[0];
+        		  var row = tbody.insertRow(-1);
+        		  var cell = row.insertCell(-1);
+        		
+        		  
+        		  var eventData = {  pYear:$("#pYear").val() };
+        		  $.ajax({
+        				url : "/event/reading-club-lecture/search",
+        				data: eventData,
+        				method : "put",
+        				success : function(result) {
+        					var tr = "";
+							for(var i=0;i<result.contents.length;i++){
+								var tr =  "<tr><td class='text-center'>"+result.contents[i].HalfType+"</td>"
+								+"<td class='text-center'>"+result.contents[i].LectureNm+"</td>"
+								+"<td class='text-center'>"+result.contents[i].EduStartDt+"</td></tr>";
+								
+								
+								row.innerHTML = tr;
+								row = tbody.insertRow(-1);
+								
+        					}
+        					
+							
+        					 
+        				},
+        				error : function(data) {
+        					console.error("Update snapshot", data);
+        				}
+        	  	});
+        	  });
+        }
+    
+	    var changePdate = function(){
+			var date = $('#pDate').datepicker('getDate');
+			if(isEqCurrentDate(date)){
+				date.setDate(date.getDate() - 1);
+				$('#pDate').datepicker("setDate", date);
+			}
+	    }
+    </script>
+</body>
+
+</html>
